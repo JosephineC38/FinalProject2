@@ -26,7 +26,7 @@ public class UI extends JFrame implements ActionListener  {
     public UI() {
         createUIComponents();
         initializeList();
-        loadQuestion();
+//        loadQuestion();
     }
 
     private void createUIComponents() {
@@ -38,16 +38,16 @@ public class UI extends JFrame implements ActionListener  {
         setVisible(true);
     }
 
-    private void loadQuestion() {
-        String str = list.get(0).getIconSrc();
-        System.out.println(str);
-        try {
-            URL imageURL = new URL(str);
-            BufferedImage image = ImageIO.read(imageURL);
-            ImageIcon icon = new ImageIcon(image);
-            pictureLabel.setIcon(icon);
-        } catch (IOException e) { }
-    }
+//    private void loadQuestion() {
+////        String str = list.get(0).getIconSrc();
+//        System.out.println(str);
+//        try {
+//            URL imageURL = new URL(str);
+//            BufferedImage image = ImageIO.read(imageURL);
+//            ImageIcon icon = new ImageIcon(image);
+//            pictureLabel.setIcon(icon);
+//        } catch (IOException e) { }
+//    }
 
     private void clear() {
         guessField.setText("");
