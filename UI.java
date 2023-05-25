@@ -62,15 +62,7 @@ public class UI extends JFrame implements ActionListener  {
         else {
             characterIndex = (int) (Math.random() * list.size() - 1);
         }
-        currentCharacter = list.get(characterIndex);
-        String str = currentCharacter.getHiddenIcon();
-        System.out.println(str);
-        try {
-            URL imageURL = new URL(str);
-            BufferedImage image = ImageIO.read(imageURL);
-            ImageIcon icon = new ImageIcon(image);
-            pictureLabel.setIcon(icon);
-        } catch (IOException e) { }
+
     }
 
     @Override
