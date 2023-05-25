@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
@@ -32,9 +33,11 @@ public class UI extends JFrame implements ActionListener  {
     private int questionNum;
 
     public UI() {
-        characterIndex = 0;
+        list = new ArrayList<>();
+        questionNum = 1;
         questionsCorrect = 0;
         count = 1;
+        characterIndex = (int) (Math.random() * list.size() - 1);
         createUIComponents();
         initializeList();
         loadQuestion();
@@ -42,6 +45,7 @@ public class UI extends JFrame implements ActionListener  {
     }
 
     private void createUIComponents() {
+        setBackground(Color.BLACK);
         setContentPane(mainPanel);
         setTitle("Guess that character!!!");
         setSize(1000, 700);
@@ -68,6 +72,7 @@ public class UI extends JFrame implements ActionListener  {
             pictureLabel.setIcon(icon);
         } catch (IOException e) { }
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object actionSource = e.getSource();
@@ -89,6 +94,7 @@ public class UI extends JFrame implements ActionListener  {
        count++;
        if (guess.toLowerCase().equals(currentCharacter.getName().toLowerCase())) {
            questionsCorrect++;
+           questionNum++;
            System.out.println("Correct");
            attemptLabel.setText("You are correct");
            questionNumLabel.setText("");
@@ -99,11 +105,10 @@ public class UI extends JFrame implements ActionListener  {
                ImageIcon icon = new ImageIcon(image);
                pictureLabel.setIcon(icon);
            } catch (IOException e) { }
-           characterIndex++;
-
        } else {
            attemptLabel.setText("Attempt " + count + " of of 3");
            if (count == 4) {
+               questionNum++;
                attemptLabel.setText("The correct character is: " + currentCharacter.getName() + ".");
                questionNumLabel.setText("");
                enterButton.setText("Next");
@@ -113,7 +118,6 @@ public class UI extends JFrame implements ActionListener  {
                    ImageIcon icon = new ImageIcon(image);
                    pictureLabel.setIcon(icon);
                } catch (IOException e) { }
-               characterIndex++;
            }
           System.out.println("Incorrect");
 
@@ -137,6 +141,7 @@ public class UI extends JFrame implements ActionListener  {
         count = 1;
         guessField.setText("");
         attemptLabel.setText("Attempt " + count + " of of 3");
+        questionNumLabel.setText("Question " + questionNum + " out of 11 questions");
         }
 
     private void initializeList() {
