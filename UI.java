@@ -45,7 +45,7 @@ public class UI extends JFrame implements ActionListener  {
     }
 
     private void createUIComponents() {
-        setBackground(Color.BLACK);
+        mainPanel.setBackground(Color.PINK);
         setContentPane(mainPanel);
         setTitle("Guess that character!!!");
         setSize(1000, 700);
@@ -57,10 +57,21 @@ public class UI extends JFrame implements ActionListener  {
 
     private void loadQuestion() {
         if (list.size() == 0) {
+            System.out.println(characterIndex);
             endScreen(questionsCorrect);
         }
         else {
             characterIndex = (int) (Math.random() * list.size() - 1);
+            System.out.println(characterIndex);
+            currentCharacter = list.get(characterIndex);
+            String str = currentCharacter.getHiddenIcon();
+            System.out.println(str);
+            try {
+                URL imageURL = new URL(str);
+                BufferedImage image = ImageIO.read(imageURL);
+                ImageIcon icon = new ImageIcon(image);
+                pictureLabel.setIcon(icon);
+            } catch (IOException e) { }
         }
 
     }
