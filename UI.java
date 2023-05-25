@@ -25,8 +25,6 @@ public class UI extends JFrame implements ActionListener  {
 
     private Character currentCharacter;
 
-
-
     public UI() {
         createUIComponents();
         initializeList();
@@ -72,6 +70,55 @@ public class UI extends JFrame implements ActionListener  {
             }
         }
     }
+
+    public void isQuestionCorrect(String guess) {
+       count++;
+       attemptLabel.setText("Attempt " + count + " of of 3");
+       if (guess.toLowerCase().equals(currentCharacter.getName().toLowerCase())) {
+           questionsCorrect++;
+           System.out.println("Correct");
+           attemptLabel.setText("You are correct");
+           enterButton.setText("Next");
+           try {
+               URL imageURL = new URL(currentCharacter.getIcon());
+               BufferedImage image = ImageIO.read(imageURL);
+               ImageIcon icon = new ImageIcon(image);
+               pictureLabel.setIcon(icon);
+           } catch (IOException e) { }
+           characterIndex++;
+
+       } else {
+           if (count == 4) {
+               attemptLabel.setText("The correct character is: " + currentCharacter.getName() + ".");
+               enterButton.setText("Next");
+               try {
+                   URL imageURL = new URL(currentCharacter.getIcon());
+                   BufferedImage image = ImageIO.read(imageURL);
+                   ImageIcon icon = new ImageIcon(image);
+                   pictureLabel.setIcon(icon);
+               } catch (IOException e) { }
+               characterIndex++;
+           }
+          System.out.println("Incorrect");
+       }
+    }
+
+    public void endScreen(int guesses) {
+        switch (guesses) {
+            case 15:
+                attemptLabel.setText("So cool!!! 15/15");
+                break;
+            default:
+                attemptLabel.setText("Mid.");
+                break;
+        }
+    }
+
+    private void clear() {
+        count = 1;
+        guessField.setText("");
+        attemptLabel.setText("Attempt " + count + " of of 3");
+        }
 
     private void initializeList() {
        // String name, String icon, String hiddenIcon
