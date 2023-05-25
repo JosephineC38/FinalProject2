@@ -19,6 +19,9 @@ public class UI extends JFrame implements ActionListener  {
     private JLabel attemptLabel;
     private JLabel pictureLabel;
     private JPanel mainPanel;
+    private int characterIndex;
+    private int questionsCorrect;
+    private int count;
 
     //Creates a list of characters
     private ArrayList<Character> list;
@@ -26,14 +29,17 @@ public class UI extends JFrame implements ActionListener  {
     private Character currentCharacter;
 
     public UI() {
+        characterIndex = 0;
+        questionsCorrect = 0;
+        count = 1;
         createUIComponents();
         initializeList();
-//        loadQuestion();
+        loadQuestion();
     }
 
     private void createUIComponents() {
         setContentPane(mainPanel);
-        setTitle("Guess that character (A game for those one and above)");
+        setTitle("Guess that character!!!");
         setSize(1000, 700);
         setLocation(450, 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -43,7 +49,7 @@ public class UI extends JFrame implements ActionListener  {
 
     private void loadQuestion() {
         if (list.size() == 0) {
-            endScreen(guessesCorrect);
+            endScreen(questionsCorrect);
         }
         currentCharacter = list.get(characterIndex);
         String str = currentCharacter.getHiddenIcon();
@@ -127,7 +133,7 @@ public class UI extends JFrame implements ActionListener  {
        list.add(new Character("Bowser", "https://mario.wiki.gallery/images/thumb/6/6c/MP9_Bowser_Jr_Artwork.png/800px-MP9_Bowser_Jr_Artwork.png", "https://mario.wiki.gallery/images/thumb/7/7d/MSOGT_Bowser.png/300px-MSOGT_Bowser.png"));
        list.add(new Character("Link", "https://www.zeldadungeon.net/wiki/images/thumb/d/d8/Link_-_TotK_key_art_nobg.png/400px-Link_-_TotK_key_art_nobg.png", "https://www.zelda.com/links-awakening/assets/img/home/hero-char.png"));
        list.add(new Character("Phoenix Wright", "https://static.wikia.nocookie.net/aceattorney/images/b/bd/Phoenix_Wright_Portrait_AA6.png/revision/latest?cb=20200120030240", "https://ae01.alicdn.com/kf/S1d09cdfbe7924875aaec669c1e02b85aS/1761-1762-Ace-Attorney-Miles-Edgeworth-Phoenix-Wright-Change-Face-Movable-Joints-Anime-Figure-PVC-Decor.jpg_Q90.jpg_.webp"));
-       list.add(new Character("Sonic", "https://static.wikia.nocookie.net/sonic/images/4/47/TheFrontiersSonic.png/revision/latest?cb=20220725073416", "https://static.wikia.nocookie.net/aceattorney/images/b/bd/Phoenix_Wright_Portrait_AA6.png/revision/latest?cb=20200120030240"));
+       list.add(new Character("Sonic", "https://static.wikia.nocookie.net/sonic/images/4/47/TheFrontiersSonic.png/revision/latest?cb=20220725073416", "https://static.wikia.nocookie.net/character-stats-and-profiles/images/2/27/SFModernSonicRender.png/revision/latest/scale-to-width-down/400?cb=20171007052143"));
        list.add(new Character("Sans", "https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Sans_undertale.jpg/220px-Sans_undertale.jpg", "https://imgs2.goodsmileus.com/image/cache/data/productimages/Plush/AceAttorney_PlushieDoll_PhoenixWright-MilesEdgeworth-MayaFey/01_2303301542021004-1200x1200.jpg"));
        list.add(new Character("Zagreus", "https://static.wikia.nocookie.net/hades_gamepedia_en/images/2/29/Zagreus.png/revision/latest?cb=20181210044005", "https://static.wikia.nocookie.net/vsbattles/images/2/29/Zagreus.png/revision/latest?cb=20210314181850"));
        list.add(new Character("Isabelle", "https://mario.wiki.gallery/images/thumb/2/2b/Isabelle_SSBU.png/1200px-Isabelle_SSBU.png", "https://static.wikia.nocookie.net/animalcrossing/images/9/95/Isabelle_NH.png/revision/latest?cb=20200610024111"));
