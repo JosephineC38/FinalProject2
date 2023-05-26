@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.CardLayout;
 
 public class startUI extends JFrame implements ActionListener {
 
@@ -9,11 +10,19 @@ public class startUI extends JFrame implements ActionListener {
     private JLabel visualNovelLabel;
     private JButton visualNovelButton;
     private JButton quizButton;
-    private JPanel startPanel;
+    private QuizUI quizGamePanel;
+    private VisualNovelUI visualGamePanel;
     private JLabel quizLabel;
+    private CardLayout cards;
 
 
     public startUI() {
+        cards = new CardLayout();
+        startPanel = new JPanel(cards);
+        quizGamePanel = new QuizUI();
+        visualGamePanel = new VisualNovelUI();
+        startPanel.add(visualGamePanel, "Visual");
+        startPanel.add(quizGamePanel, "Quiz");
         createUIComponents();
     }
 
@@ -27,6 +36,7 @@ public class startUI extends JFrame implements ActionListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         visualNovelButton.addActionListener(this);
         quizButton.addActionListener(this);
+        add(startPanel);
         setVisible(true);
     }
 
@@ -36,16 +46,25 @@ public class startUI extends JFrame implements ActionListener {
         if (actionSource instanceof JButton) {
             JButton button = (JButton) actionSource;
             if (button.getText().equals("Visual Novel Start")) {
-                // go to DATING SIM
+                replaceScreen("Visual");
             } else if (button.getText().equals("Quiz Start")) {
-                QuizUI quiz = new QuizUI();
+                replaceScreen("Quiz");
             }
         }
     }
 
+    public void replaceScreen(String screen) {
+        switch (screen) {
+            case "Visual":
+                cards.show(startPanel, "Visual");
+                break;
+            case "Quiz":
+                cards.show(startPanel, "Quiz");
+                break;
+            default:
+                System.out.println("ERROR");
+        }
 
-
-
-
+    }
 }
 

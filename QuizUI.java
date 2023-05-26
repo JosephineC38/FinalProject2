@@ -77,6 +77,7 @@ public class QuizUI extends JFrame implements ActionListener  {
     private ArrayList<Character> list;
 
     public QuizUI() {
+        add(new JLabel("Quiz"));
         list = new ArrayList<>();
         questionNum = 1;
         questionsCorrect = 0;
