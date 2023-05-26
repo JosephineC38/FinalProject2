@@ -1,9 +1,25 @@
 import javax.swing.*;
+import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.CardLayout;
+import java.awt.LayoutManager;
 
-public class VisualNovelUI {
+public class VisualNovelUI extends JFrame   {
+
     private JPanel visualNovelPanel;
+    private JLabel dialogueLabel;
+    private JLabel optionsLabel;
+    private JTextField choiceTextField;
+
+    public VisualNovelUI() {
+        add(new JLabel("Visual"));
+        createUIComponents();
+        setContentPane(visualNovelPanel);
+    }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
+
 }

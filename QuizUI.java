@@ -13,24 +13,68 @@ import java.util.ArrayList;
 
 public class QuizUI extends JFrame implements ActionListener  {
     /*
-    For the GUI
+     * The main Panel.
+     */
+    private JPanel mainPanel;
+
+    /*
+     * Used to enter guesses submitted by the guessField
     */
     private JButton enterButton;
+
+    /*
+     * Used to type in guesses.
+    */
     private JTextField guessField;
+
+    /*
+      * Displays how many attempts the user has left.
+      * Each question will have three attempts.
+   */
     private JLabel attemptLabel;
+
+    /*
+     * Displays both the hidden and true icon of the character
+    */
     private JLabel pictureLabel;
-    private JPanel mainPanel;
+
+    /*
+     * Displays the number of questions left.
+     * There will be eleven questions.
+     */
     private JLabel questionNumLabel;
+
+    /*
+     * Used to get the character index in the list.
+     */
     private int characterIndex;
+
+    /*
+     * Used to get the character index in the list.
+     */
     private int questionsCorrect;
+
+    /*
+     * Keeps track of the number of attempts the user has left.
+     * Displayed to the user in attemptLabel.
+     */
     private int count;
 
-    //Creates a list of characters
-    private ArrayList<Character> list;
-
+    /*
+     * Keeps track of the current character the user must guess.
+     */
     private Character currentCharacter;
 
+    /*
+     * Keeps track of the number of questions the user has left.
+     * Displayed to the user in questionNumLabel.
+     */
     private int questionNum;
+
+    /*
+     * Creates an array list of characters.
+     */
+    private ArrayList<Character> list;
 
     public QuizUI() {
         list = new ArrayList<>();
@@ -84,6 +128,7 @@ public class QuizUI extends JFrame implements ActionListener  {
             if (button.getText().equals("Enter")) {
                 String guess = guessField.getText().toLowerCase();
                 isQuestionCorrect(guess);
+              //When the user has guessed correctly or ran out of attempts.
             } else if (button.getText().equals("Next")) {
                 list.remove(characterIndex);
                 clear();
@@ -93,8 +138,9 @@ public class QuizUI extends JFrame implements ActionListener  {
         }
     }
 
-    public void isQuestionCorrect(String guess) {
+    private void isQuestionCorrect(String guess) {
         count++;
+        //If the user's case-insensitive answer is correct.
         if (guess.toLowerCase().equals(currentCharacter.getName().toLowerCase())) {
             questionsCorrect++;
             questionNum++;
@@ -110,6 +156,7 @@ public class QuizUI extends JFrame implements ActionListener  {
             } catch (IOException e) { }
         } else {
             attemptLabel.setText("Attempt " + count + " of of 3");
+            //If the user ran out of attempts.
             if (count == 4) {
                 questionNum++;
                 attemptLabel.setText("The correct character is: " + currentCharacter.getName() + ".");
@@ -127,8 +174,12 @@ public class QuizUI extends JFrame implements ActionListener  {
         }
     }
 
-    public void endScreen(int guesses) {
+    /*
+     * A helper method that displays the endScreen regardless of whatever or not the user won.
+     */
+    private void endScreen(int guesses) {
         enterButton.setVisible(false);
+        guessField.setVisible(false);
         questionNumLabel.setText("");
         switch (guesses) {
             case 15:
@@ -147,8 +198,11 @@ public class QuizUI extends JFrame implements ActionListener  {
         questionNumLabel.setText("Question " + questionNum + " out of 11 questions");
     }
 
+
+    /*
+     * A helper method used in the constructor. It will create a list containing eleven characters.
+     */
     private void initializeList() {
-        // String name, String icon, String hiddenIcon
         list.add(new Character("Pikachu", "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-blue-version/8/89/Pikachu.jpg", "https://static.wikia.nocookie.net/pokemon/images/6/6c/Char-pikachu.png/revision/latest/scale-to-width/360?cb=20190430034300"));
         list.add(new Character("Bowser", "https://mario.wiki.gallery/images/thumb/6/6c/MP9_Bowser_Jr_Artwork.png/800px-MP9_Bowser_Jr_Artwork.png", "https://mario.wiki.gallery/images/thumb/7/7d/MSOGT_Bowser.png/300px-MSOGT_Bowser.png"));
         list.add(new Character("Link", "https://www.zeldadungeon.net/wiki/images/thumb/d/d8/Link_-_TotK_key_art_nobg.png/400px-Link_-_TotK_key_art_nobg.png", "https://www.zelda.com/links-awakening/assets/img/home/hero-char.png"));

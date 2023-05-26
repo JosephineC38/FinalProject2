@@ -1,3 +1,6 @@
+/*
+ * This class is used in QuizUI.
+ */
 public class Character {
     private String name;
     private String icon;
@@ -9,6 +12,7 @@ public class Character {
         this.hiddenIcon = hiddenIcon;
     }
 
+    //Getter methods
     public String getName() {
         return name;
     }

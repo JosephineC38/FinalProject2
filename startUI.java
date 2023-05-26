@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class startUI extends JFrame implements ActionListener {
+
+    private JPanel startPanel;
     private JLabel visualNovelLabel;
     private JButton visualNovelButton;
     private JButton quizButton;
