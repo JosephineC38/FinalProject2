@@ -45,6 +45,5 @@ public class startUI extends JFrame implements ActionListener {
             }
         }
     }
-    }
-
+}
 

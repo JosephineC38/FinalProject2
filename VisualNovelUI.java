@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.CardLayout;
 import java.awt.LayoutManager;
 
-public class VisualNovelUI extends JFrame   {
+public class VisualNovelUI extends JFrame implements ActionListener{
 
     private JPanel visualNovelPanel;
     private JLabel dialogueLabel;
@@ -22,4 +22,8 @@ public class VisualNovelUI extends JFrame   {
     private void createUIComponents() {
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }
