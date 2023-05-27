@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.CardLayout;
 
 public class startUI extends JFrame implements ActionListener {
 
@@ -13,30 +12,22 @@ public class startUI extends JFrame implements ActionListener {
     private QuizUI quizGamePanel;
     private VisualNovelUI visualGamePanel;
     private JLabel quizLabel;
-    private CardLayout cards;
 
 
     public startUI() {
-        cards = new CardLayout();
-        startPanel = new JPanel(cards);
-        quizGamePanel = new QuizUI();
-        visualGamePanel = new VisualNovelUI();
-        startPanel.add(visualGamePanel, "Visual");
-        startPanel.add(quizGamePanel, "Quiz");
         createUIComponents();
     }
 
     private void createUIComponents() {
-        startPanel.setBackground(Color.BLUE);
-        setContentPane(startPanel);
-        setTitle("Mini-games");
-        startPanel.setBackground(Color.pink);
         setSize(1000, 700);
+        setTitle("Mini-games");
+        add(startPanel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startPanel.setBackground(Color.pink);
+        setContentPane(startPanel);
         setLocation(450, 100);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         visualNovelButton.addActionListener(this);
         quizButton.addActionListener(this);
-        add(startPanel);
         setVisible(true);
     }
 
@@ -46,25 +37,14 @@ public class startUI extends JFrame implements ActionListener {
         if (actionSource instanceof JButton) {
             JButton button = (JButton) actionSource;
             if (button.getText().equals("Visual Novel Start")) {
-                replaceScreen("Visual");
+                visualGamePanel = new VisualNovelUI();
+                this.dispose();
             } else if (button.getText().equals("Quiz Start")) {
-                replaceScreen("Quiz");
+                quizGamePanel = new QuizUI();
+                this.dispose();
             }
         }
     }
-
-    public void replaceScreen(String screen) {
-        switch (screen) {
-            case "Visual":
-                cards.show(startPanel, "Visual");
-                break;
-            case "Quiz":
-                cards.show(startPanel, "Quiz");
-                break;
-            default:
-                System.out.println("ERROR");
-        }
-
     }
-}
+
 
