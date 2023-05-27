@@ -215,6 +215,6 @@ public class QuizUI extends JFrame implements ActionListener  {
         list.add(new Character("Isabelle", "https://ssb.wiki.gallery/images/2/26/Isabelle_AF.png", "https://cdn.discordapp.com/attachments/414922651392540674/1112093684998086746/Isabelle_AF2.png"));
         list.add(new Character("Lady Dimitrescu", "https://www.sideshow.com/cdn-cgi/image/width=500,quality=80,f=auto/https://www.sideshow.com/storage/product-images/911462/lady-dimitrescu_resident-evil_silo_md.png", "https://cdn.discordapp.com/attachments/414922651392540674/1112094332137250948/lady-dimitrescu_resident-evil_silo_md2.png"));
         list.add(new Character("Among Us", "https://static.wikia.nocookie.net/among-us-wiki/images/3/31/Red.png/revision/latest?cb=20230410034616", "https://www.citypng.com/public/uploads/preview/-41605243588a1dgdkbgqx.png"));
-        list.add(new Character("Sephiroth", "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-blue-version/8/89/Pikachu.jpg", "https://static.wikia.nocookie.net/pokemon/images/6/6c/Char-pikachu.png/revision/latest/scale-to-width/360?cb=20190430034300"));
+        list.add(new Character("Sephiroth", "https://cdn.mos.cms.futurecdn.net/URoTVKfVpgMdB2mtFnAY5o-320-80.jpg", "https://m.media-amazon.com/images/I/411M1-mQl6L._SR600%2C315_PIWhiteStrip%2CBottomLeft%2C0%2C35_SCLZZZZZZZ_FMpng_BG255%2C255%2C255.jpg"));
     }
 }
