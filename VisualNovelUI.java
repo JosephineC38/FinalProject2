@@ -212,7 +212,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 System.out.println("Oh no, a code problem");
         }
         repaint();
-
     }
 
 
