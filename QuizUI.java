@@ -98,6 +98,8 @@ public class QuizUI extends JFrame implements ActionListener  {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         enterButton.addActionListener(this);
         setVisible(true);
+        ImageIcon titleIcon = new ImageIcon("piegonIcon.png");
+        setIconImage(titleIcon.getImage());
     }
 
     private void loadQuestion() {
