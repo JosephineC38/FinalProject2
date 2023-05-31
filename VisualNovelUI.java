@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,15 +60,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         changeText();
 
         // Setting the background
-        ImageIcon schoolgrounds = new ImageIcon("testBackground.png");
+        ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
         backgroundPanel = new BackgroundPanel(schoolgrounds.getImage());
+        visualNovelFrame.setContentPane(backgroundPanel);
 
 
         // Setting up Napoleon Sprite
         napoleonSprite = new JLabel();
-        napoleonSprite.setBounds(0,0,474, 627);
-        ImageIcon napoleonSpriteIcon = new ImageIcon("napoleonSprite.jfif");
-        napoleonSprite.setIcon(napoleonSpriteIcon);
+        napoleonSprite.setBounds(0,0,720, 960);
+        setNapoleonSprite("default");
         napoleonSprite.setVisible(false);
         visualNovelFrame.add(napoleonSprite);
 
@@ -86,8 +85,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialoguePanel = new JPanel();
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
         dialogueText = new JLabel(dialogueBoxIcon);
-        dialoguePanel.setBackground(Color.PINK);
-        dialoguePanel.setBounds(0, 700, 1200, 235);
+//        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1500, 235, Image.SCALE_DEFAULT); //change dialouge box here
+//        ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage );
+//        dialogueText = new JLabel(dialogueBoxIconScaled);
+         dialoguePanel.setBackground(Color.PINK);
+//        dialoguePanel.setBounds(0, 700, 1200, 235); //change dialouge box here too
+        dialoguePanel.setBounds(0, 575, 1200, 235);
+
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
         dialoguePanel.add(dialogueText);
@@ -169,16 +173,19 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel3.setVisible(statement);
     }
 
-//    public void switchBackground(String background) {
-//        if(background.equals("schoolgrounds")) {
-//            ImageIcon schoolgrounds = new ImageIcon("testBackground.png");
-//            backgroundPanel.setImage(schoolgrounds.getImage());
-//        } else if (background.equals("hallway")) {
-//            ImageIcon hallway = new ImageIcon("hallwayIcon.webp");
-//            backgroundPanel.setImage(hallway.getImage());
-//            backgroundPanel.repaint();
-//        }
-//    }
+    public void switchBackground(String background) {
+        if(background.equals("schoolgrounds")) {
+            ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
+            backgroundPanel.setImage(schoolgrounds.getImage());
+        } else if (background.equals("hallway")) {
+            ImageIcon hallway = new ImageIcon("hallwayBackground.png");
+            backgroundPanel.setImage(hallway.getImage());
+        } else if (background.equals("classroom")) {
+            ImageIcon classroom = new ImageIcon("classroomBackground.JPG");
+            backgroundPanel.setImage(classroom.getImage());
+        }
+        visualNovelFrame.setContentPane(backgroundPanel);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -198,6 +205,19 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     optionTextField.setText("");
                 }
             }
+        }
+    }
+
+    public void setNapoleonSprite(String emotion) {
+        if(emotion.equals("default")) {
+            ImageIcon napoleonDefaultSprite = new ImageIcon("napoleonDefaultSprite.JPG");
+            napoleonSprite.setIcon(napoleonDefaultSprite);
+        } else if (emotion.equals("happy")) {
+            ImageIcon napoleoHappySprite = new ImageIcon("napoleonHappySprite.JPG");
+            napoleonSprite.setIcon(napoleoHappySprite);
+        } else if (emotion.equals("angry")) {
+            ImageIcon napoleonAngrySprite = new ImageIcon("napoleonAngrySprite.JPG");
+            napoleonSprite.setIcon(napoleonAngrySprite);
         }
     }
 
@@ -223,6 +243,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 5:
                 text = "Napoleon, the transfer student!";
                 napoleonSprite.setVisible(true);
+                setNapoleonSprite("angry");
                 break;
             case 6:
                 text = "O-oh, I'm so sorry! Are you okay?";
@@ -230,6 +251,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 7:
                 speaker = "Napoleon";
                 text = "I'm fine! Look where you're going next time, you fishcake.";
+                setNapoleonSprite("default");
                 break;
             case 8:
                 text = "By the way, I heard we were partners for the history project in Mr. Miller's class.";
@@ -247,6 +269,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 11:
                 speaker = "Napoleon";
                 text = "The French Revolution, of course! What other topic is as majestic as the fall of the monarchy?";
+                setNapoleonSprite("happy");
                 break;
             case 12:
                 speaker = "Yu";
@@ -255,6 +278,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 13:
                 speaker = "Napoleon";
                 text = "But of course, we must head to class. I will not let you ruin my 666-day attendance streak.";
+                setNapoleonSprite("default");
                 break;
             case 14:
                 speaker = "Yu";
@@ -262,7 +286,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 15:
                 // Mr. Miller's classroom
-//                switchBackground("hallway");
+                switchBackground("classroom");
                 speaker = "Mr. Miller";
                 text = "Mr. Miller welcomes the class";
                 break;
@@ -270,6 +294,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "Today, we're gonna start working on our final project of the year!";
                 break;
             case 17:
+                ending();
                 text = "";
                 break;
             default:
@@ -310,6 +335,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     public void ending() {
+        ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
+        backgroundPanel.setImage(goodEnding.getImage());
+        visualNovelFrame.setContentPane(backgroundPanel);
         // ending 1
         // ending 2
     }
