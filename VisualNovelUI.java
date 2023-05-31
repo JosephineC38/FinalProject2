@@ -294,8 +294,86 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "Today, we're gonna start working on our final project of the year!";
                 break;
             case 17:
-                ending();
+                speaker = "Yu";
+                text = "Today's the last day of school... ";
+                break;
+            case 18:
+                text = "Oh, is that Napoleon? He looks angry...";
+                break;
+            case 19:
+                speaker = "Napoleon";
+                text = "Yu!";
+                break;
+            case 20:
+                text = "I can't believe that you gave your chocolate to Louis XVI instead of ME!!!";
+                break;
+            case 21:
+                text = "I thought... I thought the two of us HAD something!!!";
+                break;
+            case 22:
+                speaker = "Yu";
+                text = "What? What chocolate???";
+                break;
+            case 23:
+                speaker = "Napoleon";
+                text = "Do not play coy with me, Yu!!! I know you think of me lower than that sunny speck of GAS!";
+                break;
+            case 24:
+                speaker = "Yu";
+                text = "What??? There must be a misunderstanding, Napoleon!";
+                setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
+                break;
+            case 40:
+                speaker = "Napoleon";
+                text = "Y-you... you WHAT. H-how dare you speak such blasphemy!!!";
+                break;
+            case 41:
+                speaker = "Yu";
+                text = "I'm not lying! I truly do like you, more than bros!";
+                break;
+            case 42:
+                speaker = "Napoleon";
+                text = "Well... I... I guess I like you a little bit as well, Yu...";
+                break;
+            case 43:
+                speaker = "Yu";
+                text = "aight, can we kiss now";
+                count = 48;
+                break;
+            case 48:
+                ending(1);
                 text = "";
+                break;
+            case 50:
+                speaker = "Napoleon";
+                text = "Stop that! Stop sneezing!!!";
+                break;
+            case 51:
+                text = "I've had enough with your rudeness! i'm gonna ghost you fr now";
+                break;
+            case 52:
+                speaker = "Yu";
+                text = "Napoleon!!! Please don't go!!! I'll stop sneezing...!";
+                ending(2);
+                break;
+            case 60:
+                speaker = "Napoleon";
+                text = "YOU'RE W H A T.";
+                break;
+            case 61:
+                text = "How dare you play my feelings like a fiddle you... you...!";
+                break;
+            case 62:
+                text = "My heart... oh, it aches...! Curse you, Yu!!!";
+                break;
+            case 63:
+                speaker = "Yu";
+                text = "Wait, Napoleon! I can explain-!";
+                break;
+            case 64:
+                speaker = "Napoleon";
+                text = "Save your explanation for my BLADE!!!";
+                ending(2);
                 break;
             default:
                 System.out.println("Oh no, a code problem");
@@ -326,7 +404,25 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         System.out.println("LOAD OPTION ERROR 2.");
                 }
                 break;
-            case 4:
+            case 24:
+                switch (choice) {
+                    case 1:
+                        speaker = "Yu";
+                        text = "Napoleon! The truth is... I... I like you!";
+                        this.count = 40;
+                        break;
+                    case 2:
+                        text = "A-ACHOO!!!";
+                        this.count = 50;
+                        break;
+                    case 3:
+                        text = "The truth is... I... I'm dating Louis XVI!!!";
+                        this.count = 60;
+                        break;
+                    default:
+                        System.out.println("LOAD OPTION ERROR 2.");
+                        break;
+                }
                 break;
             default:
                 System.out.println("LOAD OPTION ERROR 1.");
@@ -334,10 +430,22 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         }
     }
 
-    public void ending() {
-        ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
-        backgroundPanel.setImage(goodEnding.getImage());
-        visualNovelFrame.setContentPane(backgroundPanel);
+    public void ending(int ending) {
+        switch (ending) {
+            case 1:
+                ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
+                backgroundPanel.setImage(goodEnding.getImage());
+                visualNovelFrame.setContentPane(backgroundPanel);
+                break;
+            case 2:
+                ImageIcon death = new ImageIcon("DEATH.png");
+                backgroundPanel.setImage(death.getImage());
+                visualNovelFrame.setContentPane(backgroundPanel);
+                break;
+            default:
+                break;
+        }
+
         // ending 1
         // ending 2
     }
