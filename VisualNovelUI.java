@@ -107,11 +107,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionButton.setText("ENTER");
         optionLabel1.setBounds(0, 50, 500, 100);
         optionLabel2.setBounds(0, 150, 500, 100);
-        optionLabel3.setBounds(0, 00, 500, 100);
+        optionLabel3.setBounds(0, 300, 500, 100);
 
         optionButton.setBounds(1450, 460, 250, 100);
         optionButton.addActionListener(this);
-        optionTextField.setBounds(1200, 460, 250, 100);
+        optionTextField.setBounds(1200, 460, 100, 100);
+        optionTextField.setVisible(false);
 
         optionPanel.add(optionLabel1);
         optionPanel.add(optionLabel2);
@@ -146,6 +147,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel1.setText("Option 1: " + o1);
         optionLabel2.setText("Option 2: " + o2);
         optionLabel3.setText("Option 3: " + o3);
+        optionTextField.setVisible(true);
         setOptionsVisible(true);
         nextButton.setVisible(false);
     }
@@ -165,7 +167,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 count++;
                 loadQuestion(count);
             } else if (button.getText().equals("ENTER")) {
-
+                loadOption(count, Integer.parseInt(optionTextField.getText()));
             }
         }
     }
@@ -188,6 +190,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 4:
                 speaker = "Yu";
                 text = "This is...";
+                setUpOptions("TEST1", "TEST2", "TEST3");
                 break;
             case 5:
                 text = "Napoleon, the transfer student";
@@ -214,7 +217,30 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         repaint();
     }
 
-
+    public void loadOption(int count, int choice) {
+        switch (count) {
+            case 1:
+                switch (choice) {
+                    case 1:
+                        text = "drinking orange juice...";
+                        break;
+                    case 2:
+                        text = "combusting...";
+                        break;
+                    case 3:
+                        text = "smiling...";
+                        break;
+                    default:
+                        System.out.println("LOAD OPTION ERROR 2.");
+                }
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("LOAD OPTION ERROR 1.");
+                break;
+        }
+    }
 
 }
 
