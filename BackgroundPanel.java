@@ -1,3 +1,6 @@
+
+//https://tips4java.wordpress.com/2008/10/12/background-panel/ is where I got the code from
+
 import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;

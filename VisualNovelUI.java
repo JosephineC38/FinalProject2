@@ -14,9 +14,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JPanel dialoguePanel;
 
+    private JPanel optionPanel;
+
     private JLabel dialogueText;
 
     private JLabel napoleonSprite;
+
+    private JLabel louisSprite;
 
 
     private JLabel optionLabel1;
@@ -44,16 +48,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     public void createUIComponents() {
+        // setting up variables
         visualNovelFrame = new JFrame();
         count = 0;
         text = "Hi, I'm Yu, a normal high-schooler. One day, I hope to fall in love.";
         speaker = "Yu";
         changeText();
 
-        //Setting the background
-        ImageIcon background = new ImageIcon("testBackground.png");
-        BackgroundPanel backgroundPanel = new BackgroundPanel(background.getImage());
-        visualNovelFrame.setContentPane(backgroundPanel);
+        // Setting the background
+        ImageIcon schoolgrounds = new ImageIcon("testBackground.png");
+        backgroundPanel = new BackgroundPanel(schoolgrounds.getImage());
 
 
         //Setting up Napoleon Sprite
@@ -68,7 +72,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon nextButtonIcon = new ImageIcon("nextButton.png");
         nextButton = new JButton(nextButtonIcon);
         nextButton.setText("NEXT");
-        nextButton.setBounds(1200, 750, 250, 100);
+        nextButton.setBounds(1210, 750, 250, 100);
         nextButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         nextButton.addActionListener(this);
         visualNovelFrame.add(nextButton);
@@ -84,9 +88,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialoguePanel.add(dialogueText);
         visualNovelFrame.add(dialoguePanel);
 
-        // Setting the options
-        JPanel optionPanel = new JPanel();
-
+        // Setting the option panel
+        optionPanel = new JPanel();
         optionPanel.setBackground(Color.PINK);
         optionPanel.setLayout(new BorderLayout());
         visualNovelFrame.add(optionPanel);
@@ -95,18 +98,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.setSize(1000, 700);
         visualNovelFrame.setLocation(450, 100);
 
+        // Setting up th options labels. button and textfield
         optionPanel.setBounds(1200, 60, 500, 400);
         optionLabel1 = new JLabel();
         optionLabel2 = new JLabel();
         optionLabel3 = new JLabel();
         optionButton = new JButton();
         optionTextField = new JTextField();
-        optionLabel1.setBackground(Color.BLUE);
-        optionLabel2.setBackground(Color.RED);
-        optionLabel3.setBackground(Color.GREEN);
         optionButton.setText("ENTER");
         optionLabel1.setBounds(0, 50, 500, 100);
-        optionLabel2.setBounds(0, 150, 500, 100);
+        optionLabel2.setBounds(0, 250, 500, 100);
         optionLabel3.setBounds(0, 300, 500, 100);
 
         optionButton.setBounds(1450, 460, 250, 100);
@@ -125,6 +126,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.setIconImage(titleIcon.getImage());
         visualNovelFrame.setTitle("Win Napoleon's Heart");
         visualNovelFrame.setVisible(true);
+        setOptionsVisible(false);
     }
 
     public void changeText() {
@@ -132,7 +134,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialogueText = new JLabel(dialogueBoxIcon) {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                dialogueText.setFont(new Font("Calibri", Font.PLAIN, 30));
+                dialogueText.setFont(new Font("Calibri", Font.BOLD, 30));
                 g.drawString(text, 100, 150); //these are x and y positions
                 if (speaker.equals("Yu")) {
                     g.drawString("Yu", 50, 37);
@@ -145,18 +147,32 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     public void setUpOptions(String o1, String o2, String o3) {
         optionLabel1.setText("Option 1: " + o1);
-        optionLabel2.setText("Option 2: " + o2);
-        optionLabel3.setText("Option 3: " + o3);
+        optionLabel3.setText("Option 2: " + o2);
+        optionLabel2.setText("Option 3: " + o3);
         optionTextField.setVisible(true);
         setOptionsVisible(true);
         nextButton.setVisible(false);
     }
 
     public void setOptionsVisible(boolean statement) {
+        optionPanel.setVisible(statement);
+        optionButton.setVisible(statement);
+        optionTextField.setVisible(statement);
         optionLabel1.setVisible(statement);
         optionLabel2.setVisible(statement);
         optionLabel3.setVisible(statement);
     }
+
+//    public void switchBackground(String background) {
+//        if(background.equals("schoolgrounds")) {
+//            ImageIcon schoolgrounds = new ImageIcon("testBackground.png");
+//            backgroundPanel.setImage(schoolgrounds.getImage());
+//        } else if (background.equals("hallway")) {
+//            ImageIcon hallway = new ImageIcon("hallwayIcon.webp");
+//            backgroundPanel.setImage(hallway.getImage());
+//            backgroundPanel.repaint();
+//        }
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -209,7 +225,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 9:
                 speaker = "Yu";
                 text = "Partners with Napoleon?";
-
+                setUpOptions("Is this a dream come true?", "You disgusting birch tree.", "Wow, uh, cool...");
                 break;
             default:
                 System.out.println("Oh no, a code problem");
@@ -222,13 +238,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 1:
                 switch (choice) {
                     case 1:
-                        text = "drinking orange juice...";
+                        speaker = "Napoleon";
+                        text = "Of course your dreams have very high standards! Many men and women dream of me!";
                         break;
                     case 2:
-                        text = "combusting...";
+                        speaker = "Napoleon";
+                        text = "Birch tree? You couldn't think of any other insult?";
                         break;
                     case 3:
-                        text = "smiling...";
+                        speaker = "Napoleon";
+                        text = "I see you are in awe of my omniscient knowledge. You are not the first.";
                         break;
                     default:
                         System.out.println("LOAD OPTION ERROR 2.");
