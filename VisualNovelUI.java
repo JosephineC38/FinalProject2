@@ -38,12 +38,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private JTextField optionTextField;
 
+    private JTextField nameTextField;
+
     /*
      * After the user enters their options, this button is used to submit them.
      */
     private JButton optionButton;
 
     private JButton nextButton;
+
+    private JButton enterButton;
 
     /*
      * Used to move the text forward.
@@ -53,6 +57,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     private String text;
 
     private String speaker;
+
+    private String playerName;
 
     private int napoleonAffectionPoints;
 
@@ -81,12 +87,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     private void createUIComponents() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // variables set up
         napoleonAffectionPoints = 0;
+        playerName = "";
         count = 0;
-        text = "Hi, I'm Yu, a normal high-school student. One day, I hope to fall in love.";
-        speaker = "Yu";
+        text = "Hi, I'm " + playerName + ", a normal high-school student. One day, I hope to fall in love.";
+        speaker = playerName;
         changeText();
-
-
 //        File file = new File("schoolbellSound.wav");
 //        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 //        Clip clip = AudioSystem.getClip();
@@ -97,7 +102,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
         backgroundPanel = new BackgroundPanel(schoolgrounds.getImage());
         visualNovelFrame.setContentPane(backgroundPanel);
-
 
         // napoleonSprite
         napoleonSprite = new JLabel();
@@ -119,7 +123,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialoguePanel = new JPanel();
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
         dialogueText = new JLabel(dialogueBoxIcon);
-        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1400, 235, Image.SCALE_DEFAULT); //change dialouge box here
+        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1400, 235, Image.SCALE_DEFAULT); //change dialogue box here
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
@@ -202,7 +206,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     g.drawString("Yu", 50, 37);
                 } else if (speaker.equals("Napoleon")) {
                     g.drawString("Napoleon", 50, 37);
-                } else if (speaker.equals("Mr. Miller")) { //hi there Mr. Miller
+                } else if (speaker.equals("Mr. Miller")) { // hi there Mr. Miller
                     g.drawString("Mr. Miller", 50, 37);
                 }
             }
@@ -250,6 +254,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.setContentPane(backgroundPanel);
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object actionSource = e.getSource();
@@ -259,7 +264,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 count++;
                 loadQuestion(count);
             } else if (button.getText().equals("ENTER")) {
-
                 int option = Integer.parseInt(optionTextField.getText());
                 if (option == 1 || option == 2 || option == 3) {
                     loadOption(count, option);
@@ -267,6 +271,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 } else {
                     optionTextField.setText("");
                 }
+            } else if (button.getText().equals("Enter Name")) {
+                checkName();
             }
         }
     }
@@ -282,7 +288,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that sets napoleonSprite to the selected image.
      */
     private void setNapoleonSprite(String emotion) {
-        if(emotion.equals("default")) {
+        if (emotion.equals("default")) {
             ImageIcon napoleonDefaultSprite = new ImageIcon("napoleonDefaultSprite.JPG");
             napoleonSprite.setIcon(napoleonDefaultSprite);
         } else if (emotion.equals("happy")) {
@@ -333,7 +339,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 9:
                 speaker = "Yu";
                 text = "Partners with Napoleon?";
-                setUpOptions("Is this a dream come true?", "You disgusting birch tree.", "Wow, uh, cool...");
+                setUpOptions("Is this a dream come true?", "You birch tree.", "Wow, uh, cool...");
                 break;
             case 10:
                 speaker = "Yu";
@@ -362,7 +368,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 16:
                 speaker = "Napoleon";
-                text = "Do you dare imply that the revolution is not worth your time. Why, as a youn-";
+                text = "Do you dare imply that the revolution is not worth your time. Why, as a young-";
                 setNapoleonSprite("angry");
                 break;
             case 17:
@@ -376,7 +382,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 19:
                 speaker = "Mr. Miller";
-                text = "Mr. Miller welcomes the class";
+                text = "Hello, everyone, thank God it's Friday!";
                 switchBackground("classroom");
                 break;
             case 20:
@@ -388,7 +394,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 22:
                 speaker = "Mr. Miller";
-                text = "And our first pair is Napoleon and Yu";
+                text = "And our first pair is Napoleon and Yu!";
                 break;
 //            case 23:
 //                text = "Oh, is that Napoleon? He looks angry...";
@@ -508,14 +514,17 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         speaker = "Yu";
                         text = "Napoleon! The truth is... I... I like you!";
                         this.count = 40;
+                        loadQuestion(count);
                         break;
                     case 2:
                         text = "A-ACHOO!!!";
                         this.count = 50;
+                        loadQuestion(count);
                         break;
                     case 3:
                         text = "The truth is... I... I'm dating Louis XVI!!!";
                         this.count = 60;
+                        loadQuestion(count);
                         break;
                     default:
                         System.out.println("LOAD OPTION ERROR 2.");
