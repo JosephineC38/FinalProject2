@@ -24,20 +24,30 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JLabel louisSprite;
 
-
+    /*
+     * The optionLabel for each of the three choices.
+     */
     private JLabel optionLabel1;
 
     private JLabel optionLabel2;
 
     private JLabel optionLabel3;
 
+    /*
+     * The user uses this to input their choices.
+     */
     private JTextField optionTextField;
 
+    /*
+     * After the user enters their options, this button is used to submit them.
+     */
     private JButton optionButton;
-
 
     private JButton nextButton;
 
+    /*
+     * Used to move the text forward.
+     */
     private int count;
 
     private String text;
@@ -46,6 +56,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private int napoleonAffectionPoints;
 
+    /*
+     * Used to change the background of the frame and uses the BackgroundPanel class to do so.
+     */
     private BackgroundPanel backgroundPanel;
 
 
@@ -60,9 +73,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             throw new RuntimeException(e);
         }
     }
-
-    public void createUIComponents() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        // setting up variables
+    /*
+     * A private helper method that sets up and initializes the visualNovelFrame.
+     * It is used in the constructor.
+     */
+    private void createUIComponents() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        // variables set up
         visualNovelFrame = new JFrame();
         napoleonAffectionPoints = 0;
         count = 0;
@@ -77,20 +93,20 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 //        clip.open(audioStream);
 //        clip.start(); //test it works
 
-        // Setting the background
+        // backgroundPanel
         ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
         backgroundPanel = new BackgroundPanel(schoolgrounds.getImage());
         visualNovelFrame.setContentPane(backgroundPanel);
 
 
-        // Setting up Napoleon Sprite
+        // napoleonSprite
         napoleonSprite = new JLabel();
         napoleonSprite.setBounds(0,0,720, 960);
         setNapoleonSprite("default");
         napoleonSprite.setVisible(false);
         visualNovelFrame.add(napoleonSprite);
 
-        // Setting up the next button
+        // nextButton
         ImageIcon nextButtonIcon = new ImageIcon("nextButton.png");
         nextButton = new JButton(nextButtonIcon);
         nextButton.setText("NEXT");
@@ -100,7 +116,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         nextButton.addActionListener(this);
         visualNovelFrame.add(nextButton);
 
-        // Setting up the dialogue
+        // dialoguePanel and dialogueText
         dialoguePanel = new JPanel();
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
         dialogueText = new JLabel(dialogueBoxIcon);
@@ -110,23 +126,19 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialoguePanel.setBackground(Color.PINK);
         //dialoguePanel.setBounds(0, 700, 1300, 235); for school coumpters
         dialoguePanel.setBounds(0, 575, 1300, 235);
-
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
         dialoguePanel.add(dialogueText);
         visualNovelFrame.add(dialoguePanel);
 
-        // Setting the option panel
+        // optionPanel
         optionPanel = new JPanel();
         optionPanel.setBackground(Color.PINK);
         optionPanel.setLayout(new BorderLayout());
         visualNovelFrame.add(optionPanel);
-        visualNovelFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        visualNovelFrame.setLayout(null);
-        visualNovelFrame.setSize(1000, 700);
-        visualNovelFrame.setLocation(450, 100);
 
-        // Setting up th options labels. button and textfield
+
+        // optionPanel, optionLabels, optionButton, and optionTextField
         optionPanel.setBounds(1200, 60, 500, 400);
         optionLabel1 = new JLabel();
         optionLabel2 = new JLabel();
@@ -150,15 +162,22 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.add(optionButton);
         visualNovelFrame.add(optionTextField);
 
-        // Setting up the frame background
+        // visualNovelFrame
         ImageIcon titleIcon = new ImageIcon("napoleonIcon.png");
         visualNovelFrame.setIconImage(titleIcon.getImage());
         visualNovelFrame.setTitle("Win Napoleon's Heart");
         visualNovelFrame.setVisible(true);
         setOptionsVisible(false);
+        visualNovelFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        visualNovelFrame.setLayout(null);
+        visualNovelFrame.setSize(1000, 700);
+        visualNovelFrame.setLocation(450, 100);
     }
 
-    public void changeText() {
+    /*
+     * A private helper method that changes the dialogueText and the speaker
+     */
+    private void changeText() {
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
         Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1300, 235, Image.SCALE_DEFAULT); //change dialouge box here
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
@@ -166,7 +185,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 dialogueText.setFont(new Font("Calibri", Font.BOLD, 30));
-                g.drawString(text, 30, 150); //these are x and y positions
+                g.drawString(text, 30, 150);
                 if (speaker.equals("Yu")) {
                     g.drawString("Yu", 50, 37);
                 } else if (speaker.equals("Napoleon")) {
@@ -191,7 +210,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
-     * A private helper method that changes the option labels, panel and button visibility
+     * A private helper method that changes the option labels, panel and button visibility.
      */
     private void setOptionsVisible(boolean statement) {
         optionPanel.setVisible(statement);
@@ -203,9 +222,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
-     * A private helper method that takes in a String to switch the background
+     * A private helper method that takes in a String to switch the background.
      */
-    public void switchBackground(String background) {
+    private void switchBackground(String background) {
         if(background.equals("schoolgrounds")) {
             ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
             backgroundPanel.setImage(schoolgrounds.getImage());
@@ -241,9 +260,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
-     * A private helper method that sets napoleonSprite to the selected image
+     * A private helper method that sets napoleonSprite to the selected image.
      */
-    public void setNapoleonSprite(String emotion) {
+    private void setNapoleonSprite(String emotion) {
         if(emotion.equals("default")) {
             ImageIcon napoleonDefaultSprite = new ImageIcon("napoleonDefaultSprite.JPG");
             napoleonSprite.setIcon(napoleonDefaultSprite);
@@ -257,7 +276,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
-     * A private helper method that displays the current text
+     * A private helper method that displays the current text.
      */
     public void loadQuestion(int questionNum) {
         switch(questionNum) {
@@ -311,7 +330,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 13:
                 speaker = "Yu";
-                // school hallway
                 text = "You know what, whatever. Maybe we should discuss what our history topic should be.";
                 break;
             case 14:
@@ -338,10 +356,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "But you were only here for two days.";
                 break;
             case 19:
-                // Mr. Miller's classroom
-                switchBackground("classroom");
                 speaker = "Mr. Miller";
                 text = "Mr. Miller welcomes the class";
+                switchBackground("classroom");
                 break;
             case 20:
                 text = "Today, we're gonna start working on our final project of the year!";
@@ -439,11 +456,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         repaint();
     }
 
-    public void loadOption(int count, int choice) {
+    /*
+     * A private helper method that changes the text based on the user's choice.
+     */
+    private void loadOption(int count, int choice) {
         optionTextField.setText("");
         setOptionsVisible(false);
         optionTextField.setVisible(false);
         switch (count) {
+            //Partners with Napoleon?
             case 9:
                 switch (choice) {
                     case 1:
@@ -462,6 +483,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         System.out.println("LOAD OPTION ERROR 2.");
                 }
                 break;
+            //What??? There must be a misunderstanding, Napoleon!
             case 24:
                 switch (choice) {
                     case 1:
@@ -488,7 +510,10 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         }
     }
 
-    public void ending(int ending) {
+    /*
+     * A private helper method that sets up the endings.
+     */
+    private void ending(int ending) {
         switch (ending) {
             // ending 1, good ending
             case 1:

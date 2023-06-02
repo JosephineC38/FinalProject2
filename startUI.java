@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/*
+ * Allows the user to change between the visual novel and quiz games.
+ */
 public class startUI extends JFrame implements ActionListener {
 
     private JPanel startPanel;
