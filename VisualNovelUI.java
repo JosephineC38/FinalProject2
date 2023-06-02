@@ -63,8 +63,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
 
     public VisualNovelUI() {
+        visualNovelFrame = new JFrame();
         try {
-            createUIComponents();
+           createUIComponents();
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -79,7 +80,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private void createUIComponents() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // variables set up
-        visualNovelFrame = new JFrame();
         napoleonAffectionPoints = 0;
         count = 0;
         text = "Hi, I'm Yu, a normal high-school student. One day, I hope to fall in love.";
@@ -110,8 +110,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon nextButtonIcon = new ImageIcon("nextButton.png");
         nextButton = new JButton(nextButtonIcon);
         nextButton.setText("NEXT");
-        nextButton.setBounds(1310, 650, 200, 134);
-//        nextButton.setBounds(1310, 750, 200, 134);
+        nextButton.setBounds(1310, 750, 200, 134);
         nextButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         nextButton.addActionListener(this);
         visualNovelFrame.add(nextButton);
@@ -124,8 +123,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-        //dialoguePanel.setBounds(0, 700, 1300, 235); for school coumpters
-        dialoguePanel.setBounds(0, 575, 1300, 235);
+        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
+        //dialoguePanel.setBounds(0, 575, 1300, 235);
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
         dialoguePanel.add(dialogueText);
@@ -161,17 +160,30 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionPanel.add(optionLabel3);
         visualNovelFrame.add(optionButton);
         visualNovelFrame.add(optionTextField);
+        setOptionsVisible(false);
 
-        // visualNovelFrame
+        // enter name
+        nameTextField = new JTextField();
+        nameTextField.setText("Maximum 9 characters");
+        nameTextField.setBounds(100,150, 400, 135);
+        nameTextField.setVisible(true);
+        visualNovelFrame.add(nameTextField);
+
+        enterButton = new JButton();
+        enterButton.setFont(new Font("Calibri", Font.PLAIN, 24));
+        enterButton.addActionListener(this);
+        enterButton.setText("Enter Name");
+        enterButton.setBounds(550,150, 150, 40);
+        visualNovelFrame.add(enterButton);
+
         ImageIcon titleIcon = new ImageIcon("napoleonIcon.png");
         visualNovelFrame.setIconImage(titleIcon.getImage());
         visualNovelFrame.setTitle("Win Napoleon's Heart");
-        visualNovelFrame.setVisible(true);
-        setOptionsVisible(false);
-        visualNovelFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        visualNovelFrame.setLayout(null);
         visualNovelFrame.setSize(1000, 700);
         visualNovelFrame.setLocation(450, 100);
+        visualNovelFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        visualNovelFrame.setLayout(null);
+        visualNovelFrame.setVisible(true);
     }
 
     /*
@@ -256,6 +268,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     optionTextField.setText("");
                 }
             }
+        }
+    }
+
+    private void checkName() {
+        String enteredName = nameTextField.getText();
+        while(enteredName.length() <= 9) {
+            nameTextField.setText("");
         }
     }
 
@@ -371,28 +390,28 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 speaker = "Mr. Miller";
                 text = "And our first pair is Napoleon and Yu";
                 break;
-//            case 21:
+//            case 23:
 //                text = "Oh, is that Napoleon? He looks angry...";
 //                break;
-//            case 19:
+//            case 24:
 //                speaker = "Napoleon";
 //                text = "Yu!";
 //                break;
-//            case 20:
+//            case 25:
 //                text = "I can't believe that you gave your chocolate to Louis XVI instead of ME!!!";
 //                break;
-//            case 21:
+//            case 26:
 //                text = "I thought... I thought the two of us HAD something!!!";
 //                break;
-//            case 22:
+//            case 27:
 //                speaker = "Yu";
 //                text = "What? What chocolate???";
 //                break;
-//            case 23:
+//            case 28:
 //                speaker = "Napoleon";
 //                text = "Do not play coy with me, Yu!!! I know you think of me lower than that sunny speck of GAS!";
 //                break;
-//            case 24:
+//            case 29:
 //                speaker = "Yu";
 //                text = "What??? There must be a misunderstanding, Napoleon!";
 //                setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
@@ -449,7 +468,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 //                text = "Save your explanation for my BLADE!!!";
 //                ending(2);
 //                break;
-            
             default:
                 System.out.println("Oh no, a code problem");
         }
@@ -484,7 +502,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 }
                 break;
             //What??? There must be a misunderstanding, Napoleon!
-            case 24:
+            case 29:
                 switch (choice) {
                     case 1:
                         speaker = "Yu";
