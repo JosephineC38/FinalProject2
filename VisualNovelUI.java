@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.*;
 
 
 public class VisualNovelUI extends JFrame implements ActionListener {
@@ -47,10 +50,18 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
 
     public VisualNovelUI() {
-        createUIComponents();
+        try {
+            createUIComponents();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void createUIComponents() {
+    public void createUIComponents() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // setting up variables
         visualNovelFrame = new JFrame();
         napoleonAffectionPoints = 0;
@@ -58,6 +69,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         text = "Hi, I'm Yu, a normal high-school student. One day, I hope to fall in love.";
         speaker = "Yu";
         changeText();
+
+
+//        File file = new File("schoolbellSound.wav");
+//        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+//        Clip clip = AudioSystem.getClip();
+//        clip.open(audioStream);
+//        clip.start(); //test it works
 
         // Setting the background
         ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
@@ -76,7 +94,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon nextButtonIcon = new ImageIcon("nextButton.png");
         nextButton = new JButton(nextButtonIcon);
         nextButton.setText("NEXT");
-        nextButton.setBounds(1210, 750, 250, 100);
+        nextButton.setBounds(1310, 650, 200, 134);
+//        nextButton.setBounds(1310, 750, 200, 134);
         nextButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         nextButton.addActionListener(this);
         visualNovelFrame.add(nextButton);
@@ -85,12 +104,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialoguePanel = new JPanel();
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
         dialogueText = new JLabel(dialogueBoxIcon);
-//        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1500, 235, Image.SCALE_DEFAULT); //change dialouge box here
-//        ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage );
-//        dialogueText = new JLabel(dialogueBoxIconScaled);
-         dialoguePanel.setBackground(Color.PINK);
-//        dialoguePanel.setBounds(0, 700, 1200, 235); //change dialouge box here too
-        dialoguePanel.setBounds(0, 575, 1200, 235);
+        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1400, 235, Image.SCALE_DEFAULT); //change dialouge box here
+        ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
+        dialogueText = new JLabel(dialogueBoxIconScaled);
+        dialoguePanel.setBackground(Color.PINK);
+        //dialoguePanel.setBounds(0, 700, 1300, 235); for school coumpters
+        dialoguePanel.setBounds(0, 575, 1300, 235);
 
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
@@ -141,30 +160,40 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     public void changeText() {
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
-        dialogueText = new JLabel(dialogueBoxIcon) {
+        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1300, 235, Image.SCALE_DEFAULT); //change dialouge box here
+        ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
+        dialogueText = new JLabel(dialogueBoxIconScaled) {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 dialogueText.setFont(new Font("Calibri", Font.BOLD, 30));
-                g.drawString(text, 100, 150); //these are x and y positions
+                g.drawString(text, 30, 150); //these are x and y positions
                 if (speaker.equals("Yu")) {
                     g.drawString("Yu", 50, 37);
                 } else if (speaker.equals("Napoleon")) {
                     g.drawString("Napoleon", 50, 37);
+                } else if (speaker.equals("Mr. Miller")) { //hi there Mr. Miller
+                    g.drawString("Mr. Miller", 50, 37);
                 }
             }
         };
     }
 
-    public void setUpOptions(String o1, String o2, String o3) {
+    /*
+     * A private helper method that sets up the options and disables the next buttons.
+     * optionLabels' 2 and 3 being switched is a feature not a bug.
+     */
+    private void setUpOptions(String o1, String o2, String o3) {
         optionLabel1.setText("Option 1: " + o1);
         optionLabel3.setText("Option 2: " + o2);
         optionLabel2.setText("Option 3: " + o3);
-        optionTextField.setVisible(true);
         setOptionsVisible(true);
         nextButton.setVisible(false);
     }
 
-    public void setOptionsVisible(boolean statement) {
+    /*
+     * A private helper method that changes the option labels, panel and button visibility
+     */
+    private void setOptionsVisible(boolean statement) {
         optionPanel.setVisible(statement);
         optionButton.setVisible(statement);
         optionTextField.setVisible(statement);
@@ -173,6 +202,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel3.setVisible(statement);
     }
 
+    /*
+     * A private helper method that takes in a String to switch the background
+     */
     public void switchBackground(String background) {
         if(background.equals("schoolgrounds")) {
             ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
@@ -208,20 +240,25 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         }
     }
 
+    /*
+     * A private helper method that sets napoleonSprite to the selected image
+     */
     public void setNapoleonSprite(String emotion) {
         if(emotion.equals("default")) {
             ImageIcon napoleonDefaultSprite = new ImageIcon("napoleonDefaultSprite.JPG");
             napoleonSprite.setIcon(napoleonDefaultSprite);
         } else if (emotion.equals("happy")) {
-            ImageIcon napoleoHappySprite = new ImageIcon("napoleonHappySprite.JPG");
-            napoleonSprite.setIcon(napoleoHappySprite);
+            ImageIcon napoleonHappySprite = new ImageIcon("napoleonHappySprite.JPG");
+            napoleonSprite.setIcon(napoleonHappySprite);
         } else if (emotion.equals("angry")) {
             ImageIcon napoleonAngrySprite = new ImageIcon("napoleonAngrySprite.JPG");
             napoleonSprite.setIcon(napoleonAngrySprite);
         }
     }
 
-
+    /*
+     * A private helper method that displays the current text
+     */
     public void loadQuestion(int questionNum) {
         switch(questionNum) {
             case 1:
@@ -238,7 +275,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 4:
                 speaker = "Yu";
                 text = "This is...";
-//                setUpOptions("TEST1", "TEST2", "TEST3");
                 break;
             case 5:
                 text = "Napoleon, the transfer student!";
@@ -263,118 +299,140 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 10:
                 speaker = "Yu";
-                // school hallway
-                text = "Anyways, what should our topic be?";
+                text = "But wait, weren't the partners were going to be announced today, how do you already know?";
                 break;
             case 11:
+                speaker = "Napoleon";
+                text = "My persuasive skills are top notch, used to overthrow governments before.";
+                break;
+            case 12:
+                speaker = "Yu";
+                text = "That explains nothing!";
+                break;
+            case 13:
+                speaker = "Yu";
+                // school hallway
+                text = "You know what, whatever. Maybe we should discuss what our history topic should be.";
+                break;
+            case 14:
                 speaker = "Napoleon";
                 text = "The French Revolution, of course! What other topic is as majestic as the fall of the monarchy?";
                 setNapoleonSprite("happy");
                 break;
-            case 12:
+            case 15:
                 speaker = "Yu";
                 text = "...You seen very passionate about this.";
                 break;
-            case 13:
+            case 16:
                 speaker = "Napoleon";
-                text = "But of course, we must head to class. I will not let you ruin my 666-day attendance streak.";
+                text = "Do you dare imply that the revolution is not worth your time. Why, as a youn-";
+                setNapoleonSprite("angry");
+                break;
+            case 17:
+                speaker = "Napoleon";
+                text = "Is that the bell? We must head to class. I will not let you ruin my 666-day attendance streak.";
                 setNapoleonSprite("default");
                 break;
-            case 14:
+            case 18:
                 speaker = "Yu";
                 text = "But you were only here for two days.";
                 break;
-            case 15:
+            case 19:
                 // Mr. Miller's classroom
                 switchBackground("classroom");
                 speaker = "Mr. Miller";
                 text = "Mr. Miller welcomes the class";
                 break;
-            case 16:
+            case 20:
                 text = "Today, we're gonna start working on our final project of the year!";
                 break;
-            case 17:
-                speaker = "Yu";
-                text = "Today's the last day of school... ";
-                break;
-            case 18:
-                text = "Oh, is that Napoleon? He looks angry...";
-                break;
-            case 19:
-                speaker = "Napoleon";
-                text = "Yu!";
-                break;
-            case 20:
-                text = "I can't believe that you gave your chocolate to Louis XVI instead of ME!!!";
-                break;
             case 21:
-                text = "I thought... I thought the two of us HAD something!!!";
+                speaker = "Yu";
+                text = "Tomorrow's the last day of school... ";
                 break;
             case 22:
-                speaker = "Yu";
-                text = "What? What chocolate???";
+                speaker = "Mr. Miller";
+                text = "And our first pair is Napoleon and Yu";
                 break;
-            case 23:
-                speaker = "Napoleon";
-                text = "Do not play coy with me, Yu!!! I know you think of me lower than that sunny speck of GAS!";
-                break;
-            case 24:
-                speaker = "Yu";
-                text = "What??? There must be a misunderstanding, Napoleon!";
-                setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
-                break;
-            case 40:
-                speaker = "Napoleon";
-                text = "Y-you... you WHAT. H-how dare you speak such blasphemy!!!";
-                break;
-            case 41:
-                speaker = "Yu";
-                text = "I'm not lying! I truly do like you, more than bros!";
-                break;
-            case 42:
-                speaker = "Napoleon";
-                text = "Well... I... I guess I like you a little bit as well, Yu...";
-                break;
-            case 43:
-                speaker = "Yu";
-                text = "aight, can we kiss now";
-                count = 48;
-                break;
-            case 48:
-                ending(1);
-                text = "";
-                break;
-            case 50:
-                speaker = "Napoleon";
-                text = "Stop that! Stop sneezing!!!";
-                break;
-            case 51:
-                text = "I've had enough with your rudeness! i'm gonna ghost you fr now";
-                break;
-            case 52:
-                speaker = "Yu";
-                text = "Napoleon!!! Please don't go!!! I'll stop sneezing...!";
-                ending(2);
-                break;
-            case 60:
-                speaker = "Napoleon";
-                text = "YOU'RE W H A T.";
-                break;
-            case 61:
-                text = "How dare you play my feelings like a fiddle you... you...!";
-                break;
-            case 62:
-                text = "My heart... oh, it aches...! Curse you, Yu!!!";
-                break;
-            case 63:
-                speaker = "Yu";
-                text = "Wait, Napoleon! I can explain-!";
-                break;
-            case 64:
-                speaker = "Napoleon";
-                text = "Save your explanation for my BLADE!!!";
-                ending(2);
-                break;
+//            case 21:
+//                text = "Oh, is that Napoleon? He looks angry...";
+//                break;
+//            case 19:
+//                speaker = "Napoleon";
+//                text = "Yu!";
+//                break;
+//            case 20:
+//                text = "I can't believe that you gave your chocolate to Louis XVI instead of ME!!!";
+//                break;
+//            case 21:
+//                text = "I thought... I thought the two of us HAD something!!!";
+//                break;
+//            case 22:
+//                speaker = "Yu";
+//                text = "What? What chocolate???";
+//                break;
+//            case 23:
+//                speaker = "Napoleon";
+//                text = "Do not play coy with me, Yu!!! I know you think of me lower than that sunny speck of GAS!";
+//                break;
+//            case 24:
+//                speaker = "Yu";
+//                text = "What??? There must be a misunderstanding, Napoleon!";
+//                setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
+//                break;
+//            case 40:
+//                speaker = "Napoleon";
+//                text = "Y-you... you WHAT. H-how dare you speak such blasphemy!!!";
+//                break;
+//            case 41:
+//                speaker = "Yu";
+//                text = "I'm not lying! I truly do like you, more than bros!";
+//                break;
+//            case 42:
+//                speaker = "Napoleon";
+//                text = "Well... I... I guess I like you a little bit as well, Yu...";
+//                break;
+//            case 43:
+//                speaker = "Yu";
+//                text = "aight, can we kiss now";
+//                count = 48;
+//                break;
+//            case 48:
+//                ending(1);
+//                text = "";
+//                break;
+//            case 50:
+//                speaker = "Napoleon";
+//                text = "Stop that! Stop sneezing!!!";
+//                break;
+//            case 51:
+//                text = "I've had enough with your rudeness! i'm gonna ghost you fr now";
+//                break;
+//            case 52:
+//                speaker = "Yu";
+//                text = "Napoleon!!! Please don't go!!! I'll stop sneezing...!";
+//                ending(2);
+//                break;
+//            case 60:
+//                speaker = "Napoleon";
+//                text = "YOU'RE W H A T.";
+//                break;
+//            case 61:
+//                text = "How dare you play my feelings like a fiddle you... you...!";
+//                break;
+//            case 62:
+//                text = "My heart... oh, it aches...! Curse you, Yu!!!";
+//                break;
+//            case 63:
+//                speaker = "Yu";
+//                text = "Wait, Napoleon! I can explain-!";
+//                break;
+//            case 64:
+//                speaker = "Napoleon";
+//                text = "Save your explanation for my BLADE!!!";
+//                ending(2);
+//                break;
+            
             default:
                 System.out.println("Oh no, a code problem");
         }
@@ -432,22 +490,31 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     public void ending(int ending) {
         switch (ending) {
+            // ending 1, good ending
             case 1:
                 ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
+
+                ImageIcon goodEndingIcon = new ImageIcon("goodEndingIcon.JPG");
+                visualNovelFrame.setIconImage(goodEndingIcon.getImage());
+                visualNovelFrame.setTitle("You won Napoleon's heart! You have no life purpose anymore.");
+                napoleonSprite.setVisible(false);
                 break;
+            // ending 2, death ending
             case 2:
                 ImageIcon death = new ImageIcon("DEATH.png");
                 backgroundPanel.setImage(death.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
+
+                ImageIcon deathIcon = new ImageIcon("deathIcon.png");
+                visualNovelFrame.setIconImage(deathIcon.getImage());
+                visualNovelFrame.setTitle("You won...death. But at least Napoleon gave you flowers.");
+                napoleonSprite.setVisible(false);
                 break;
             default:
                 break;
         }
-
-        // ending 1
-        // ending 2
     }
 }
 
