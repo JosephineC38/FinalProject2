@@ -22,8 +22,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JLabel napoleonSprite;
 
-    private JLabel louisSprite;
-
     /*
      * The optionLabel for each of the three choices.
      */
@@ -397,6 +395,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 23:
                 speaker = "Napoleon";
                 text = "\"See, I told you! Did you know that Robespierre created the guillotine?\"";
+                napoleonSprite.setVisible(false);
                 break;
             case 24:
                 speaker = playerName;
@@ -411,6 +410,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "I fall on top of a broad-chested, dignified and strong narcissist.";
                 break;
             case 27:
+                napoleonSprite.setVisible(true);
+                setNapoleonSprite("angry");
                 speaker = "Napoleon";
                 text = "\"Agh! You scoundrel! Do you wanna fight???\"";
                 break;
@@ -420,6 +421,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setUpOptions("Sneeze", "Apologize", "Sneeze thrice");
                 break;
             case 29:
+                setNapoleonSprite("default");
                 text = "Napoleon helps me out regardless... He's so charming..........";
                 break;
             case 30:
@@ -431,6 +433,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 32:
                 text = "\"Anyway, I'm gonna head home now. See you later, " + playerName + ".\"";
+                napoleonSprite.setVisible(false);
                 break;
             case 33:
                 speaker = playerName;
@@ -453,84 +456,209 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 speaker = "";
                 text = "(The next day...)";
                 break;
-//            case 23:
-//                text = "Oh, is that Napoleon? He looks angry...";
-//                break;
-//            case 24:
-//                speaker = "Napoleon";
-//                text = playerName";
-//                break;
-//            case 25:
-//                text = "I can't believe that you gave your chocolate to Louis XVI instead of ME!!!";
-//                break;
-//            case 26:
-//                text = "I thought... I thought the two of us HAD something!!!";
-//                break;
-//            case 27:
-//                speaker = playerName;
-//                text = "What? What chocolate???";
-//                break;
-//            case 28:
-//                speaker = "Napoleon";
-//                text = "Do not play coy with me,playerName!! I know you think of me lower than that sunny speck of GAS!";
-//                break;
-//            case 29:
-//                speaker = playerName;
-//                text = "What??? There must be a misunderstanding, Napoleon!";
-//                setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
-//                break;
-//            case 40:
-//                speaker = "Napoleon";
-//                text = "Y-you... you WHAT. H-how dare you speak such blasphemy!!!";
-//                break;
-//            case 41:
-//                speaker = playerName;
-//                text = "I'm not lying! I truly do like you, more than bros!";
-//                break;
-//            case 42:
-//                speaker = "Napoleon";
-//                text = "Well... I... I guess I like you a little as well,playerName..";
-//                break;
-//            case 43:
-//                speaker = playerName;
-//                text = "aight, can we kiss now";
-//                count = 48;
-//                break;
-//            case 48:
-//                ending(1);
-//                text = "";
-//                break;
-//            case 50:
-//                speaker = "Napoleon";
-//                text = "Stop that! Stop sneezing!!!";
-//                break;
-//            case 51:
-//                text = "I've had enough with your rudeness! i'm gonna ghost you fr now";
-//                break;
-//            case 52:
-//                speaker = playerName;
-//                text = "Napoleon!!! Please don't go!!! I'll stop sneezing...!";
-//                ending(2);
-//                break;
-//            case 60:
-//                speaker = "Napoleon";
-//                text = "YOU'RE W H A T.";
-//                break;
-//            case 61:
-//                text = "How dare you play my feelings like a fiddle you... you...!";
-//                break;
-//            case 62:
-//                text = "My heart... oh, it aches...! Curse you,playerName!!";
-//                break;
-//            case 63:
-//                speaker = playerName;
-//                text = "Wait, Napoleon! I can explain-!";
-//                break;
-//            case 64:
-//                speaker = "Napoleon";
-//                text = "Save your explanation for my BLADE!!!";
-//                ending(2);
-//                break;
+            case 39:
+                switchBackground("schoolgrounds");
+                napoleonSprite.setVisible(true);
+                setNapoleonSprite("default");
+                speaker = "Napoleon";
+                text = "What did you need me for, you plebeian?";
+                break;
+            case 40:
+                speaker = playerName;
+                text = "\"I wanted to thank you for being such a cool person, so here- a sword!\"";
+                break;
+            case 41:
+                setNapoleonSprite("happy");
+                speaker = "Napoleon";
+                text = "\"A sword... just what this era needs! Thank-you, dear " + playerName + ".\"";
+                break;
+            case 42:
+                speaker = playerName;
+                text = "He seems really happy with the present...!";
+                this.count = 50;
+                break;
+            case 43:
+                speaker = playerName;
+                text = "I wanted to thank you for being such a cool person, so here- a llama plushie!";
+                break;
+            case 44:
+                setNapoleonSprite("angry");
+                speaker = "Napoleon";
+                text = "You wretched beast! Have I not said that I despised llamas!?";
+                break;
+            case 45:
+                speaker = playerName;
+                text = "\"O-oh... I totally forgot...\"";
+                break;
+            case 46:
+                setNapoleonSprite("default");
+                speaker = "Napoleon";
+                text = "\"Whatever. I'm keeping it anyway. If there's nothing else, buh-bye!\"";
+                this.count = 51;
+                break;
+            case 47:
+                speaker = playerName;
+                text = "\"I wanted to thank you for being such a cool person, so here- a bottle of burgundy!\"";
+                break;
+            case 48:
+                setNapoleonSprite("happy");
+                speaker = "Napoleon";
+                text = "\"Ah, yes! Illegally-obtained alcohol is my favorite. Thank-you, " + playerName + ".\"";
+                break;
+            case 49:
+                speaker = playerName;
+                text = "He seems happy with the gift...!";
+                break;
+            case 50:
+                setNapoleonSprite("default");
+                speaker = "Napoleon";
+                text = "If there's nothing else, see you later (again), " + playerName + ".\"";
+                napoleonSprite.setVisible(false);
+                break;
+            case 51:
+                speaker = playerName;
+                text = "I wave good-bye to Napoleon and watch his broad figure fade into the sunset...";
+                break;
+            case 52:
+                switchBackground("schoolgrounds");
+                text = "The next day, my childhood friend, Louis XVI, asked me to help him propose to Marie Antoinette.";
+                break;
+            case 53:
+                switchBackground("classroom");
+                text = "\"Hey, Louis, isn't it too early for marriage?\"";
+                break;
+            case 54:
+                speaker = "Louis XVI";
+                text = "\"Miss Antoinette and I have been together for two months- that's more than enough!\"";
+                break;
+            case 55:
+                speaker = playerName;
+                text = "\"Okay... So, do I just stand here?\"";
+                break;
+            case 56:
+                speaker = "Louis XVI";
+                text = "\"Exactly. Ahem- oh, the love of my life, Juliet to my Romeo-!\"";
+                break;
+            case 57:
+                text = "\"Nothing would make me happier than spending the rest of my life with you!\"";
+                break;
+            case 58:
+                speaker = playerName;
+                text = "\"So, will you marry me?\"";
+                break;
+            case 59:
+                speaker = playerName;
+                text = "\"Louis hands me a seven-layered cake.\"";
+                break;
+            case 60:
+                speaker = playerName;
+                text = "\"It's a bit much.\"";
+                break;
+            case 61:
+                speaker = "Louis XVI";
+                text = "\"No, I probably need another layer.\"";
+                break;
+            case 62:
+                speaker = playerName;
+                text = "Strangely enough, I could hear footsteps running away outside the classroom.";
+                break;
+            case 63:
+                text = "\"Good luck with your proposal, Louis.\"";
+                break;
+            case 64:
+                speaker = "Louis XVI";
+                text = "Yes, thank you, friend. You'll be my first guest at the wedding!";
+                break;
+            case 65:
+                switchBackground("schoolgrounds");
+                speaker = playerName;
+                text = "I wave good-bye to Louis and head out of school. I smack into a wall of pure, unadulterated, broad muscle-";
+                break;
+            case 66:
+                napoleonSprite.setVisible(true);
+                setNapoleonSprite("angry");
+                text = "OOF- oh, is that Napoleon? He looks angry...";
+                break;
+            case 67:
+                speaker = "Napoleon";
+                text = "I can't believe that you gave your heart to Louis XVI instead of ME!!!";
+                break;
+            case 68:
+                text = "I thought... I thought the two of us HAD something!!!";
+                break;
+            case 69:
+                speaker = playerName;
+                text = "What? What???";
+                break;
+            case 70:
+                speaker = "Napoleon";
+                text = "Do not play coy with me, " + playerName + "! I know you think of me lower than that sunny speck of GAS!";
+                break;
+            case 71:
+                speaker = playerName;
+                text = "What??? There must be a misunderstanding, Napoleon!";
+                setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
+                break;
+            case 72:
+                setNapoleonSprite("happy");
+                speaker = "Napoleon";
+                text = "Y-you... you WHAT. H-how dare you speak such blasphemy!!!";
+                break;
+            case 73:
+                speaker = playerName;
+                text = "I'm not lying! I truly do like you, more than bros!";
+                break;
+            case 74:
+                speaker = "Napoleon";
+                text = "Well... I... I guess I like you a little as well,playerName..";
+                break;
+            case 75:
+                speaker = playerName;
+                text = "aight, can we kiss now";
+                break;
+            case 76:
+                ending(1);
+                speaker = "";
+                nextButton.setVisible(false);
+                dialoguePanel.setVisible(false);
+                break;
+            case 77:
+                speaker = "Napoleon";
+                text = "Stop that! Stop sneezing!!!";
+                break;
+            case 78:
+                text = "I've had enough with your rudeness! i'm gonna ghost you fr now";
+                break;
+            case 79:
+                speaker = playerName;
+                text = "Napoleon!!! Please don't go!!! I'll stop sneezing...!";
+                ending(2);
+                speaker = "";
+                nextButton.setVisible(false);
+                dialoguePanel.setVisible(false);
+                break;
+            case 80:
+                speaker = "Napoleon";
+                text = "YOU'RE W H A T.";
+                break;
+            case 81:
+                text = "How dare you play my feelings like a fiddle you... you...!";
+                break;
+            case 82:
+                text = "My heart... oh, it aches...! Curse you, " + playerName + "!!";
+                break;
+            case 83:
+                speaker = playerName;
+                text = "Wait, Napoleon! I can explain-!";
+                break;
+            case 84:
+                speaker = "Napoleon";
+                text = "Save your explanation for my BLADE!!!";
+                ending(2);
+                speaker = "";
+                nextButton.setVisible(false);
+                dialoguePanel.setVisible(false);
+                break;
             default:
                 System.out.println("Oh no, a code problem");
         }
@@ -591,30 +719,32 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         break;
                     case 2:
                         text = "I think he would appreciate a good llama plushie! Yes, that's a great idea, me.";
+                        this.count = 43;
                         break;
                     case 3:
                         text = "I think he would appreciate some good... burgundy drink...?";
+                        this.count = 47;
                         break;
                     default:
                         System.out.println("LOAD OPTION ERROR 2.");
                 }
                 break;
-            case 29:
+            case 71:
                 switch (choice) {
                     case 1:
                         speaker = playerName;
                         text = "Napoleon! The truth is... I... I like you!";
-                        this.count = 40;
+                        this.count = 72;
                         loadQuestion(count);
                         break;
                     case 2:
                         text = "A-ACHOO!!!";
-                        this.count = 50;
+                        this.count = 77;
                         loadQuestion(count);
                         break;
                     case 3:
                         text = "The truth is... I... I'm dating Louis XVI!!!";
-                        this.count = 60;
+                        this.count = 80;
                         loadQuestion(count);
                         break;
                     default:
@@ -652,7 +782,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
                 ImageIcon deathIcon = new ImageIcon("deathIcon.png");
                 visualNovelFrame.setIconImage(deathIcon.getImage());
-                visualNovelFrame.setTitle("You won...death. But at least Napoleon gave you flowers.");
+                visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers.");
                 napoleonSprite.setVisible(false);
                 break;
             default:
