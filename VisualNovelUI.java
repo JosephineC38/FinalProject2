@@ -599,6 +599,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "What??? There must be a misunderstanding, Napoleon!";
                 setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
                 break;
+            // confess
             case 72:
                 setNapoleonSprite("happy");
                 speaker = "Napoleon";
@@ -610,7 +611,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 74:
                 speaker = "Napoleon";
-                text = "Well... I... I guess I like you a little as well,playerName..";
+                if (napoleonAffectionPoints == 50) {
+                    text = "Well... I... I guess I like you a little as well, " + playerName + "...\"";
+                }
+                else {
+                    text = "I know you're PLAYING WITH ME!!! Meet your E N D!";
+                    ending(2);
+                    speaker = "";
+                    nextButton.setVisible(false);
+                    dialoguePanel.setVisible(false);
+                }
                 break;
             case 75:
                 speaker = playerName;
@@ -696,14 +706,17 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 28:
                 switch (choice) {
                     case 1:
+                        addPoints(5, true);
                         speaker = "Napoleon";
                         text = "\"How DARE you sneeze on me AGAIN!!!\"";
                         break;
                     case 2:
+                        addPoints(10, true);
                         speaker = "Napoleon";
                         text = "\"Hmph! Apology accepted. I shall help you carry these books.\"";
                         break;
                     case 3:
+                        addPoints(5, false);
                         speaker = "Napoleon";
                         text = "\"Jesus, do you have allergies or something??? Stop that!!!";
                         break;
@@ -715,13 +728,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 36:
                 switch (choice) {
                     case 1:
+                        addPoints(20, true);
                         text = "I think he would appreciate a good broadsword... Yes, I'll gift Napoleon a sword!";
                         break;
                     case 2:
+                        addPoints(10, false);
                         text = "I think he would appreciate a good llama plushie! Yes, that's a great idea, me.";
                         this.count = 43;
                         break;
                     case 3:
+                        addPoints(10, true);
                         text = "I think he would appreciate some good... burgundy drink...?";
                         this.count = 47;
                         break;
@@ -732,17 +748,20 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 71:
                 switch (choice) {
                     case 1:
+                        addPoints(20, true);
                         speaker = playerName;
                         text = "Napoleon! The truth is... I... I like you!";
                         this.count = 72;
                         loadQuestion(count);
                         break;
                     case 2:
+                        addPoints(5, false);
                         text = "A-ACHOO!!!";
                         this.count = 77;
                         loadQuestion(count);
                         break;
                     case 3:
+                        addPoints(20, false);
                         text = "The truth is... I... I'm dating Louis XVI!!!";
                         this.count = 80;
                         loadQuestion(count);
@@ -787,6 +806,24 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void addPoints (int points, boolean add) {
+        if (add) {
+            if (napoleonAffectionPoints + points > 50) {
+                napoleonAffectionPoints = 50;
+            } else {
+                napoleonAffectionPoints += points;
+            }
+        }
+        if (!add) {
+            if (napoleonAffectionPoints - points < 0) {
+                napoleonAffectionPoints = 0;
+            }
+            else {
+                napoleonAffectionPoints-= points;
+            }
         }
     }
 }
