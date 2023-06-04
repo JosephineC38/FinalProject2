@@ -68,33 +68,27 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     public VisualNovelUI() {
         visualNovelFrame = new JFrame();
-        try {
-           createUIComponents();
-        } catch (UnsupportedAudioFileException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (LineUnavailableException e) {
-            throw new RuntimeException(e);
-        }
+        createUIComponents();
     }
     /*
      * A private helper method that sets up and initializes the visualNovelFrame.
      * It is used in the constructor.
      */
-    private void createUIComponents() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    private void createUIComponents() {
         // variables set up
         napoleonAffectionPoints = 0;
         playerName = "";
         count = 0;
-        text = "Hi, I'm " + playerName + ", a normal high-school student. One day, I hope to fall in love.";
-        speaker = playerName;
+        text = "Hi, I'm just a normal high-school student. One day, I hope to fall in love.";
+        speaker = "playerName";
         changeText();
-//        File file = new File("schoolbellSound.wav");
-//        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-//        Clip clip = AudioSystem.getClip();
-//        clip.open(audioStream);
-//        clip.start(); //test it works
+
+        //cursor
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image cursorIcon = toolkit.getImage("cursor.png");
+        Point p = new Point(0,0);
+        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "cursor.png");
+        visualNovelFrame.setCursor(c); //https://www.youtube.com/watch?v=UnzpZj77hYE
 
         // backgroundPanel
         ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
@@ -125,7 +119,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
+        dialoguePanel.setBounds(0, 575, 1300, 235);
+//        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
         //dialoguePanel.setBounds(0, 575, 1300, 235);
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
@@ -167,7 +162,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         // enter name
         nameTextField = new JTextField();
         nameTextField.setText("Maximum 9 characters");
-        nameTextField.setBounds(100,150, 400, 135);
+        nameTextField.setBounds(400,150, 400, 135);
         nameTextField.setVisible(true);
         visualNovelFrame.add(nameTextField);
 
@@ -175,16 +170,18 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         enterButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         enterButton.addActionListener(this);
         enterButton.setText("Enter Name");
-        enterButton.setBounds(550,150, 150, 40);
+        enterButton.setBounds(950,150, 150, 40);
         visualNovelFrame.add(enterButton);
+        dialoguePanel.setVisible(false);
+        nextButton.setVisible(false);
 
         ImageIcon titleIcon = new ImageIcon("napoleonIcon.png");
         visualNovelFrame.setIconImage(titleIcon.getImage());
         visualNovelFrame.setTitle("Win Napoleon's Heart");
         visualNovelFrame.setSize(1000, 700);
         visualNovelFrame.setLocation(450, 100);
-        visualNovelFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visualNovelFrame.setLayout(null);
+        visualNovelFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         visualNovelFrame.setVisible(true);
     }
 
@@ -206,6 +203,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     g.drawString("Napoleon", 50, 37);
                 } else if (speaker.equals("Mr. Miller")) { // hi there Mr. Miller
                     g.drawString("Mr. Miller", 50, 37);
+                } else if (speaker.equals("Louis XVI")) {
+                    g.drawString("Louis XVI", 50, 37);
                 }
             }
         };
@@ -260,11 +259,27 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             JButton button = (JButton) actionSource;
             if (button.getText().equals("NEXT")) {
                 count++;
-                loadQuestion(count);
+                try {
+                    loadQuestion(count);
+                } catch (UnsupportedAudioFileException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (LineUnavailableException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else if (button.getText().equals("ENTER")) {
                 int option = Integer.parseInt(optionTextField.getText());
                 if (option == 1 || option == 2 || option == 3) {
-                    loadOption(count, option);
+                    try {
+                        loadOption(count, option);
+                    } catch (UnsupportedAudioFileException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (LineUnavailableException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     nextButton.setVisible(true);
                 } else {
                     optionTextField.setText("");
@@ -275,11 +290,27 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         }
     }
 
+    /*
+     * A private helper method that sets the inputted name of the player.
+     */
     private void checkName() {
         String enteredName = nameTextField.getText();
-        while(enteredName.length() <= 9) {
+        if(enteredName.length() > 9) {
             nameTextField.setText("");
+        } else {
+            if(enteredName.equals(" ")) {
+                enteredName = "Yu";
+            }
+
+            playerName = enteredName;
+            nameTextField.setVisible(false);
+            enterButton.setVisible(false);
+            dialoguePanel.setVisible(true);
+            nextButton.setVisible(true);
+            speaker = playerName;
         }
+
+
     }
 
     /*
@@ -299,9 +330,23 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
+     * A private helper method that plays sound once.
+     */
+    private void playSound(String sound) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        File file = new File("schoolbellSound.wav");
+        if(sound.equals("schoolbell")) { //I don't know
+            file = new File("schoolbellSound.wav");
+        }
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+    }
+
+    /*
      * A private helper method that displays the current text.
      */
-    public void loadQuestion(int questionNum) {
+    public void loadQuestion(int questionNum) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         switch(questionNum) {
             case 1:
                 speaker = playerName;
@@ -369,6 +414,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("angry");
                 break;
             case 17:
+//                playSound("schoolbell");
                 text = "\"Is that the bell? We must head to class. I will not let you ruin my 666-day attendance streak.\"";
                 setNapoleonSprite("default");
                 break;
@@ -678,7 +724,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     /*
      * A private helper method that changes the text based on the user's choice.
      */
-    private void loadOption(int count, int choice) {
+    private void loadOption(int count, int choice) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         optionTextField.setText("");
         setOptionsVisible(false);
         optionTextField.setVisible(false);
