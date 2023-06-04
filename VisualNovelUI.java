@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import javax.sound.sampled.*;
 
 
@@ -162,7 +163,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         // enter name
         nameTextField = new JTextField();
         nameTextField.setText("Maximum 9 characters");
-        nameTextField.setBounds(400,150, 400, 135);
+        nameTextField.setBounds(400,350, 400, 135);
         nameTextField.setVisible(true);
         visualNovelFrame.add(nameTextField);
 
@@ -170,7 +171,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         enterButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         enterButton.addActionListener(this);
         enterButton.setText("Enter Name");
-        enterButton.setBounds(950,150, 150, 40);
+        enterButton.setBounds(800,350, 300, 135);
         visualNovelFrame.add(enterButton);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);
@@ -197,15 +198,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 super.paintComponent(g);
                 dialogueText.setFont(new Font("Calibri", Font.BOLD, 30));
                 g.drawString(text, 30, 150);
-                if (speaker.equals(playerName)) {
-                    g.drawString(playerName, 50, 37);
-                } else if (speaker.equals("Napoleon")) {
-                    g.drawString("Napoleon", 50, 37);
-                } else if (speaker.equals("Mr. Miller")) { // hi there Mr. Miller
-                    g.drawString("Mr. Miller", 50, 37);
-                } else if (speaker.equals("Louis XVI")) {
-                    g.drawString("Louis XVI", 50, 37);
-                }
+                g.drawString(speaker, 50, 37);
             }
         };
     }
@@ -247,6 +240,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         } else if (background.equals("classroom")) {
             ImageIcon classroom = new ImageIcon("classroomBackground.JPG");
             backgroundPanel.setImage(classroom.getImage());
+        } else if (background.equals("cafeteria")) {
+            ImageIcon cafeteria = new ImageIcon("cafeteriaBackground.png");
+            backgroundPanel.setImage(cafeteria.getImage());
         }
         visualNovelFrame.setContentPane(backgroundPanel);
     }
@@ -259,15 +255,21 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             JButton button = (JButton) actionSource;
             if (button.getText().equals("NEXT")) {
                 count++;
-                try {
-                    loadQuestion(count);
-                } catch (UnsupportedAudioFileException ex) {
-                    throw new RuntimeException(ex);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (LineUnavailableException ex) {
-                    throw new RuntimeException(ex);
+                String playerNameLowerCase = playerName.toLowerCase();
+                if(playerNameLowerCase.equals("napoleon") || playerNameLowerCase.equals("louis")) {
+                    uniqueName();
+                } else {
+                    try {
+                        loadQuestion(count);
+                    } catch (UnsupportedAudioFileException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (LineUnavailableException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+
             } else if (button.getText().equals("ENTER")) {
                 int option = Integer.parseInt(optionTextField.getText());
                 if (option == 1 || option == 2 || option == 3) {
@@ -336,12 +338,132 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         File file = new File("schoolbellSound.wav");
         if(sound.equals("schoolbell")) { //I don't know
             file = new File("schoolbellSound.wav");
+        } else if (sound.equals("explosion")) {
+            file = new File("explosionByQueen.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip clip = AudioSystem.getClip();
         clip.open(audioStream);
         clip.start();
     }
+
+    /*
+     * Goes directly to the death ending if the user has a unique name.
+     */
+    private void uniqueName() {
+        String playerNameLowerCase = playerName.toLowerCase();
+        switch (playerNameLowerCase) {
+            case "napoleon":
+                switch (count) {
+                    case 1:
+                        text = "But right now, I'm running late to school.";
+                        break;
+                    case 2:
+                        text = "Wait, why is the new transfer student heading towards me?";
+                        break;
+                    case 3:
+                        speaker = "Napoleon Bonaparte";
+                        text = "\"You..\"";
+                        napoleonSprite.setVisible(true);
+                        setNapoleonSprite("angry");
+                        break;
+                    case 4:
+                        speaker = playerName;
+                        text = "\"What?\"";
+                        break;
+                    case 5:
+                        speaker = "Napoleon Bonaparte";
+                        text = "\"It's an insult for you to have my name.\"";
+                        break;
+                    case 6:
+                        text = "\"But to be partners for our project?\"";
+                        break;
+                    case 7:
+                        text = "\"You don't know what's its like to be a true French man.\"";
+                        break;
+                    case 8:
+                        text = "\"To live through the French Revolution and thrive.\"";
+                        break;
+                    case 9:
+                        speaker = playerName;
+                        text = "\"French Revolution? Wasn't that hundreds of years ago.\"";
+                        break;
+                    case 10:
+                        text = "\"How could you live through it?\"";
+                        break;
+                    case 11:
+                        text = "\"And what's wrong with working together?\"";
+                        break;
+                    case 12:
+                        speaker = "Napoleon Bonaparte";
+                        text = "\"Those are your final words? How pathetic.\"";
+                        break;
+                    case 13:
+                        ending(2);
+                    default:
+                        System.out.println("Napoleon name error");
+                        break;
+                }
+            case "louis":
+                switch (count) {
+                    case 1:
+                        text = "But right now, I'm running late to school.";
+                        break;
+                    case 2:
+                        text = "Wait, why is the new transfer student heading towards me?";
+                        break;
+                    case 3:
+                        speaker = "Napoleon Bonaparte";
+                        text = "\"Louis XVI...\"";
+                        napoleonSprite.setVisible(true);
+                        setNapoleonSprite("angry");
+                        break;
+                    case 4:
+                        speaker = playerName;
+                        text = "\"What? That isn't my na-\"";
+                        break;
+                    case 5:
+                        speaker = "Napoleon Bonaparte";
+                        text = "\"I could barely tolerate your existence.\"";
+                        break;
+                    case 6:
+                        text = "\"But to have to work together for our project?\"";
+                        break;
+                    case 7:
+                        text = "\"Your namesake was a disgraceful man who could never rule a country.\"";
+                        break;
+                    case 8:
+                        text = "\"Thus, your existence sickens me.\"";
+                        break;
+                    case 9:
+                        speaker = playerName;
+                        text = "\"Wait, I was named after my cousin, I'm only the second Louis.\"";
+                        break;
+                    case 10:
+                        text = "\"And why are you getting so upset over this?\"";
+                        break;
+                    case 11:
+                        speaker = "Napoleon Bonaparte";
+                        text = "\"I will not listen to your lies.\"";
+                        break;
+                    case 12:
+                        speaker = "Napoleon Bonaparte";
+                        text = "\"Now, let my beautiful face be the very last thing you see.\"";
+                        break;
+                    case 13:
+                        ending(2);
+                    default:
+                        System.out.println("Louis name error");
+                        break;
+                }
+            default:
+                System.out.println("Unique name error");
+                break;
+
+        }
+    }
+
+
 
     /*
      * A private helper method that displays the current text.
@@ -414,7 +536,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("angry");
                 break;
             case 17:
-//                playSound("schoolbell");
+                playSound("schoolbell");
                 text = "\"Is that the bell? We must head to class. I will not let you ruin my 666-day attendance streak.\"";
                 setNapoleonSprite("default");
                 break;
@@ -450,10 +572,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 25:
                 // cafeteria
                 text = "This stack of textbooks are so heavy... Why am I in the cafeteria- OOF";
+                switchBackground("cafeteria");
                 break;
             case 26:
                 // explosion sound <- queen's acid drink
                 text = "I fall on top of a broad-chested, dignified and strong narcissist.";
+                playSound("explosion"); // <- You Get Me Kris / You Do Not Do Crazy Things Like "Have Opinions"
                 break;
             case 27:
                 napoleonSprite.setVisible(true);
@@ -566,6 +690,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "I wave good-bye to Napoleon and watch his broad figure fade into the sunset...";
                 break;
             case 52:
+                speaker = playerName;
                 switchBackground("schoolgrounds");
                 text = "The next day, my childhood friend, Louis XVI, asked me to help him propose to Marie Antoinette.";
                 break;
@@ -594,7 +719,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 59:
                 speaker = playerName;
-                text = "\"Louis hands me a seven-layered cake.\"";
+                text = "Louis hands me a seven-layered cake.";
                 break;
             case 60:
                 speaker = playerName;
@@ -613,7 +738,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 64:
                 speaker = "Louis XVI";
-                text = "Yes, thank you, friend. You'll be my first guest at the wedding!";
+                text = "Yes, thank you, friend. You'll be my first guest at the wedding!\"";
                 break;
             case 65:
                 switchBackground("schoolgrounds");
@@ -627,14 +752,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 67:
                 speaker = "Napoleon";
-                text = "I can't believe that you gave your heart to Louis XVI instead of ME!!!";
+                text = "\"I can't believe that you gave your heart to Louis XVI instead of ME!!!\"";
                 break;
             case 68:
-                text = "I thought... I thought the two of us HAD something!!!";
+                text = "\"I thought... I thought the two of us HAD something!!!\"";
                 break;
             case 69:
                 speaker = playerName;
-                text = "What? What???";
+                text = "\"What? What???\"";
                 break;
             case 70:
                 speaker = "Napoleon";
@@ -844,6 +969,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 ImageIcon death = new ImageIcon("DEATH.png");
                 backgroundPanel.setImage(death.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
+                setOptionsVisible(false);
+                dialoguePanel.setVisible(false);
+                nextButton.setVisible(false);
 
                 ImageIcon deathIcon = new ImageIcon("deathIcon.png");
                 visualNovelFrame.setIconImage(deathIcon.getImage());
