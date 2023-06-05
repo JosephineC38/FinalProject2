@@ -373,7 +373,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * Goes directly to the death ending if the user has a unique name.
      */
     private void uniqueName() {
-        String playerNameLowerCase = playerName.toLowerCase();
+        String playerNameLowerCase = playerName.toLowerCase().strip();
         switch (playerNameLowerCase) {
             case "napoleon":
                 switch (count) {
@@ -851,11 +851,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "\"How dare you play my feelings like a fiddle you... you...!\"";
                 break;
             case 82:
-                text = "My heart... oh, it aches...! Curse you, " + playerName + "!!";
+                text = "\"My heart... oh, it aches...! Curse you, " + playerName + "!!\"";
                 break;
             case 83:
                 speaker = playerName;
-                text = "Wait, Napoleon! I can explain-!";
+                text = "\"Wait, Napoleon! I can explain-!\"";
                 break;
             case 84:
                 speaker = "Napoleon";
@@ -882,15 +882,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 switch (choice) {
                     case 1:
                         speaker = "Napoleon";
-                        text = "Of course your dreams have very high standards! Many men and women dream of me!";
+                        text = "\"Of course your dreams have very high standards! Many men and women dream of me!\"";
                         break;
                     case 2:
                         speaker = "Napoleon";
-                        text = "Birch tree? You couldn't think of any other insult?";
+                        text = "\"Birch tree? You couldn't think of any other insult?\"";
                         break;
                     case 3:
                         speaker = "Napoleon";
-                        text = "I see you are in awe of my omniscient knowledge. You are not the first.";
+                        text = "\"I see you are in awe of my omniscient knowledge. You are not the first.\"";
                         break;
                     default:
                         System.out.println("LOAD OPTION ERROR 2.");
@@ -912,7 +912,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     case 3:
                         addPoints(5, false);
                         speaker = "Napoleon";
-                        text = "\"Jesus, do you have allergies or something??? Stop that!!!";
+                        text = "\"Jesus, do you have allergies or something??? Stop that!!!\"";
                         break;
                     default:
                         System.out.println("LOAD OPTION ERROR 2.");
@@ -1004,7 +1004,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
                 ImageIcon deathIcon = new ImageIcon("deathIcon.png");
                 visualNovelFrame.setIconImage(deathIcon.getImage());
-                visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your graves.");
+                visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your grave.");
                 napoleonSprite.setVisible(false);
                 break;
             default:
