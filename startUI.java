@@ -7,13 +7,12 @@ import java.awt.event.ActionListener;
  */
 public class startUI extends JFrame implements ActionListener {
 
+    private JFrame startFrame;
+
     private JPanel startPanel;
     private JLabel visualNovelLabel;
     private JButton visualNovelButton;
-    private JButton quizButton;
-    private QuizUI quizGamePanel;
     private VisualNovelUI visualGamePanel;
-    private JLabel quizLabel;
 
 
     public startUI() {
@@ -21,16 +20,18 @@ public class startUI extends JFrame implements ActionListener {
     }
 
     private void createUIComponents() {
+//        startFrame = new JFrame();
+
         setSize(1000, 700);
-        setTitle("Mini-games");
+        setTitle("Win Napoleon's Heart! : Ready To Start");
         add(startPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startPanel.setBackground(Color.pink);
         setContentPane(startPanel);
         setLocation(450, 100);
         visualNovelButton.addActionListener(this);
-        quizButton.addActionListener(this);
         setVisible(true);
+//        startFrame.add(startPanel);
     }
 
     @Override
@@ -40,9 +41,6 @@ public class startUI extends JFrame implements ActionListener {
             JButton button = (JButton) actionSource;
             if (button.getText().equals("Visual Novel Start")) {
                 visualGamePanel = new VisualNovelUI();
-                this.dispose();
-            } else if (button.getText().equals("Quiz Start")) {
-                quizGamePanel = new QuizUI();
                 this.dispose();
             }
         }

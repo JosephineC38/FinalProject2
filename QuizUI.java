@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-
+//faulty project idea, works but the images don't
 public class QuizUI extends JFrame implements ActionListener  {
     /*
      * The main Panel.

@@ -106,7 +106,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon nextButtonIcon = new ImageIcon("nextButton.png");
         nextButton = new JButton(nextButtonIcon);
         nextButton.setText("NEXT");
-        nextButton.setBounds(1310, 750, 200, 134);
+        nextButton.setBounds(1310, 750, 380, 134);
         nextButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         nextButton.addActionListener(this);
         visualNovelFrame.add(nextButton);
@@ -115,7 +115,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialoguePanel = new JPanel();
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
         dialogueText = new JLabel(dialogueBoxIcon);
-        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1400, 235, Image.SCALE_DEFAULT); //change dialogue box here
+        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1500, 235, Image.SCALE_DEFAULT); //change dialogue box here
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
@@ -139,16 +139,24 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel1 = new JLabel();
         optionLabel2 = new JLabel();
         optionLabel3 = new JLabel();
-        optionButton = new JButton();
+        ImageIcon optionButtonIcon = new ImageIcon("optionButtonIcon.png");
+        optionButton = new JButton(optionButtonIcon);
+        Font font = new Font("Courier", Font.BOLD, 25);
+        optionLabel1.setFont(font);
+        optionLabel2.setFont(font);
+        optionLabel3.setFont(font);
+
         optionTextField = new JTextField();
+        optionTextField.setFont(font);
         optionButton.setText("ENTER");
+
+
         optionLabel1.setBounds(0, 50, 500, 100);
         optionLabel2.setBounds(0, 250, 500, 100);
         optionLabel3.setBounds(0, 300, 500, 100);
-
         optionButton.setBounds(1450, 460, 250, 100);
         optionButton.addActionListener(this);
-        optionTextField.setBounds(1200, 460, 100, 100);
+        optionTextField.setBounds(1200, 460, 250, 100);
         optionTextField.setVisible(false);
 
         // adding the option panel/button/text-field
@@ -162,7 +170,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         // enter name
         nameTextField = new JTextField();
         nameTextField.setText("Maximum 9 characters");
-        nameTextField.setBounds(400,350, 400, 135);
+        nameTextField.setBounds(600,350, 400, 135);
         nameTextField.setVisible(true);
         visualNovelFrame.add(nameTextField);
 
@@ -171,11 +179,10 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         enterButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         enterButton.addActionListener(this);
         enterButton.setText("Enter Name");
-        enterButton.setBounds(810,390, 258, 55);
+        enterButton.setBounds(1010,390, 258, 55);
         visualNovelFrame.add(enterButton);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);
-
         ImageIcon titleIcon = new ImageIcon("napoleonIcon.png");
         visualNovelFrame.setIconImage(titleIcon.getImage());
         visualNovelFrame.setTitle("Win Napoleon's Heart");
@@ -196,7 +203,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         dialogueText = new JLabel(dialogueBoxIconScaled) {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                dialogueText.setFont(new Font("Calibri", Font.BOLD, 30));
+                dialogueText.setFont(new Font("Courier", Font.BOLD, 25));
                 g.drawString(text, 30, 150);
                 g.drawString(speaker, 50, 37);
             }
@@ -419,6 +426,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         System.out.println("Napoleon name error");
                         break;
                 }
+                break;
             case "louis":
                 switch (count) {
                     case 1:
@@ -471,10 +479,10 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         System.out.println("Louis name error");
                         break;
                 }
+                break;
             default:
                 System.out.println("Unique name error");
                 break;
-
         }
     }
 
@@ -671,12 +679,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 43:
                 speaker = playerName;
-                text = "I wanted to thank you for being such a cool person, so here- a llama plushie!";
+                text = "\"I wanted to thank you for being such a cool person, so here- a llama plushie!\"";
                 break;
             case 44:
                 setNapoleonSprite("angry");
                 speaker = "Napoleon";
-                text = "You wretched beast! Have I not said that I despised llamas!?";
+                text = "\"You wretched beast! Have I not said that I despised llamas!?\"";
                 break;
             case 45:
                 speaker = playerName;
@@ -704,7 +712,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 50:
                 setNapoleonSprite("default");
                 speaker = "Napoleon";
-                text = "If there's nothing else, see you later (again), " + playerName + ".\"";
+                text = "\"If there's nothing else, see you later (again), " + playerName + ".\"";
                 napoleonSprite.setVisible(false);
                 break;
             case 51:
@@ -787,7 +795,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 70:
                 speaker = "Napoleon";
-                text = "Do not play coy with me, " + playerName + "! I know you think of me lower than that sunny speck of GAS!";
+                text = "\"Do not play coy with me, " + playerName + "! I know you think of me lower than that sunny speck of GAS!\"";
                 break;
             case 71:
                 speaker = playerName;
@@ -836,11 +844,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 80:
                 speaker = "Napoleon";
-                text = "YOU'RE W H A T.";
+                text = "\"YOU'RE W H A T.\"";
                 break;
             case 81:
                 speaker = "Napoleon";
-                text = "How dare you play my feelings like a fiddle you... you...!";
+                text = "\"How dare you play my feelings like a fiddle you... you...!\"";
                 break;
             case 82:
                 text = "My heart... oh, it aches...! Curse you, " + playerName + "!!";
@@ -851,11 +859,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 84:
                 speaker = "Napoleon";
-                text = "Save your explanation for my BLADE!!!";
+                text = "\"Save your explanation for my BLADE!!!\"";
                 count = -3;
                 break;
             default:
-                System.out.println("Oh no, a code problem");
+                System.out.println("Oh no, a dialogue problem");
 
         }
         repaint();
