@@ -1,14 +1,10 @@
-import java.awt.*;
-import java.awt.event.ActionListener;
+import javax.sound.sampled.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Locale;
-import javax.sound.sampled.*;
 
 
 public class VisualNovelUI extends JFrame implements ActionListener {
@@ -59,6 +55,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private String playerName;
 
+    private String gift;
+
     private int napoleonAffectionPoints;
 
     /*
@@ -82,6 +80,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         count = 0;
         text = "Hi, I'm just a normal high-school student. One day, I hope to fall in love.";
         speaker = "playerName";
+        gift = "";
         changeText();
 
         //cursor
@@ -120,8 +119,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-        dialoguePanel.setBounds(0, 575, 1300, 235);
-//        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
+//        dialoguePanel.setBounds(0, 575, 1300, 235);
+        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
         //dialoguePanel.setBounds(0, 575, 1300, 235);
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
@@ -167,11 +166,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         nameTextField.setVisible(true);
         visualNovelFrame.add(nameTextField);
 
-        enterButton = new JButton();
+        ImageIcon enterButtonIcon = new ImageIcon("enterButtonIcon.png");
+        enterButton = new JButton(enterButtonIcon);
         enterButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         enterButton.addActionListener(this);
         enterButton.setText("Enter Name");
-        enterButton.setBounds(800,350, 300, 135);
+        enterButton.setBounds(810,390, 258, 55);
         visualNovelFrame.add(enterButton);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);
@@ -300,7 +300,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         if(enteredName.length() > 9) {
             nameTextField.setText("");
         } else {
-            if(enteredName.equals(" ")) {
+            if(enteredName.equals("")) {
                 enteredName = "Yu";
             }
 
@@ -345,6 +345,21 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         Clip clip = AudioSystem.getClip();
         clip.open(audioStream);
         clip.start();
+    }
+
+    /*
+     * A private helper method that plays the background music.
+     */
+    private void playBackgroundMusic(String music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        File file = new File("schoolbellSound.wav");
+        if(music.equals("death")) {
+            file = new File("deathEndingBackgroundSound.wav");
+        }
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+//        clip.stop();
     }
 
     /*
@@ -470,6 +485,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     public void loadQuestion(int questionNum) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         switch(questionNum) {
+            case -2:
+                ending(2);
             case 1:
                 speaker = playerName;
                 text = "But right now, I'm running late to school.";
@@ -632,6 +649,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("default");
                 speaker = "Napoleon";
                 text = "What did you need me for, you plebeian?";
+                if(gift.equals("llama")) {
+                    this.count = 42;
+                } else if (gift.equals("burgundy")) {
+                    this.count = 46;
+                }
                 break;
             case 40:
                 speaker = playerName;
@@ -687,15 +709,17 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 51:
                 speaker = playerName;
+                napoleonSprite.setVisible(false);
                 text = "I wave good-bye to Napoleon and watch his broad figure fade into the sunset...";
                 break;
             case 52:
                 speaker = playerName;
                 switchBackground("schoolgrounds");
+                napoleonSprite.setVisible(false);
                 text = "The next day, my childhood friend, Louis XVI, asked me to help him propose to Marie Antoinette.";
                 break;
             case 53:
-                switchBackground("classroom");
+                switchBackground("hallway");
                 text = "\"Hey, Louis, isn't it too early for marriage?\"";
                 break;
             case 54:
@@ -743,7 +767,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 65:
                 switchBackground("schoolgrounds");
                 speaker = playerName;
-                text = "I wave good-bye to Louis and head out of school. I smack into a wall of pure, unadulterated, broad muscle-";
+                text = "I wave good-bye and head out of school. I smack into a wall of pure, unadulterated, broad muscle-";
                 break;
             case 66:
                 napoleonSprite.setVisible(true);
@@ -767,62 +791,55 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 71:
                 speaker = playerName;
-                text = "What??? There must be a misunderstanding, Napoleon!";
+                text = "\"What??? There must be a misunderstanding, Napoleon!\"";
                 setUpOptions("Confess your feelings", "Sneeze", "You're dating Louis");
                 break;
             // confess
             case 72:
                 setNapoleonSprite("happy");
                 speaker = "Napoleon";
-                text = "Y-you... you WHAT. H-how dare you speak such blasphemy!!!";
+                text = "\"Y-you... you WHAT. H-how dare you speak such blasphemy!!!\"";
                 break;
             case 73:
                 speaker = playerName;
-                text = "I'm not lying! I truly do like you, more than bros!";
+                text = "\"I'm not lying! I truly do like you, more than bros!\"";
                 break;
             case 74:
                 speaker = "Napoleon";
                 if (napoleonAffectionPoints == 50) {
-                    text = "Well... I... I guess I like you a little as well, " + playerName + "...\"";
+                    text = "\"Well... I... I guess I like you a little as well, " + playerName + "...\"";
                 }
                 else {
-                    text = "I know you're PLAYING WITH ME!!! Meet your E N D!";
-                    ending(2);
-                    speaker = "";
-                    nextButton.setVisible(false);
-                    dialoguePanel.setVisible(false);
+                    text = "\"I know you're PLAYING WITH ME!!! Meet your E N D!\"";
+                    count = -3;
                 }
                 break;
             case 75:
                 speaker = playerName;
-                text = "aight, can we kiss now";
+                text = "\"aight, can we kiss now\"";
                 break;
             case 76:
                 ending(1);
-                speaker = "";
-                nextButton.setVisible(false);
-                dialoguePanel.setVisible(false);
                 break;
             case 77:
                 speaker = "Napoleon";
-                text = "Stop that! Stop sneezing!!!";
+                text = "\"Stop that! Stop sneezing!!!\"";
                 break;
             case 78:
-                text = "I've had enough with your rudeness! i'm gonna ghost you fr now";
+                speaker = "Napoleon";
+                text = "\"I've had enough with your rudeness! i'm gonna ghost you fr now\"";
                 break;
             case 79:
                 speaker = playerName;
-                text = "Napoleon!!! Please don't go!!! I'll stop sneezing...!";
-                ending(2);
-                speaker = "";
-                nextButton.setVisible(false);
-                dialoguePanel.setVisible(false);
+                text = "\"Napoleon!!! Please don't go!!! I'll stop sneezing...!\"";
+                count = -3;
                 break;
             case 80:
                 speaker = "Napoleon";
                 text = "YOU'RE W H A T.";
                 break;
             case 81:
+                speaker = "Napoleon";
                 text = "How dare you play my feelings like a fiddle you... you...!";
                 break;
             case 82:
@@ -835,13 +852,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 84:
                 speaker = "Napoleon";
                 text = "Save your explanation for my BLADE!!!";
-                ending(2);
-                speaker = "";
-                nextButton.setVisible(false);
-                dialoguePanel.setVisible(false);
+                count = -3;
                 break;
             default:
                 System.out.println("Oh no, a code problem");
+
         }
         repaint();
     }
@@ -905,12 +920,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     case 2:
                         addPoints(10, false);
                         text = "I think he would appreciate a good llama plushie! Yes, that's a great idea, me.";
-                        this.count = 43;
+                        gift = "llama";
                         break;
                     case 3:
                         addPoints(10, true);
                         text = "I think he would appreciate some good... burgundy drink...?";
-                        this.count = 47;
+                        gift = "burgundy";
                         break;
                     default:
                         System.out.println("LOAD OPTION ERROR 2.");
@@ -921,21 +936,21 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     case 1:
                         addPoints(20, true);
                         speaker = playerName;
-                        text = "Napoleon! The truth is... I... I like you!";
-                        this.count = 72;
-                        loadQuestion(count);
+                        text = "\"Napoleon! The truth is... I... I like you!\"";
+                        repaint();
+                        this.count = 71;
                         break;
                     case 2:
                         addPoints(5, false);
-                        text = "A-ACHOO!!!";
+                        text = "\"A-ACHOO!!!\"";
+                        repaint();
                         this.count = 77;
-                        loadQuestion(count);
                         break;
                     case 3:
                         addPoints(20, false);
-                        text = "The truth is... I... I'm dating Louis XVI!!!";
+                        text = "\"The truth is... I... I'm dating Louis XVI!!!\"";
+                        repaint();
                         this.count = 80;
-                        loadQuestion(count);
                         break;
                     default:
                         System.out.println("LOAD OPTION ERROR 2.");
@@ -969,18 +984,27 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 ImageIcon death = new ImageIcon("DEATH.png");
                 backgroundPanel.setImage(death.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
-                setOptionsVisible(false);
-                dialoguePanel.setVisible(false);
-                nextButton.setVisible(false);
+                try {
+                    playBackgroundMusic("death");
+                } catch (UnsupportedAudioFileException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (LineUnavailableException e) {
+                    throw new RuntimeException(e);
+                }
 
                 ImageIcon deathIcon = new ImageIcon("deathIcon.png");
                 visualNovelFrame.setIconImage(deathIcon.getImage());
-                visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers.");
+                visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your graves.");
                 napoleonSprite.setVisible(false);
                 break;
             default:
                 break;
         }
+        setOptionsVisible(false);
+        dialoguePanel.setVisible(false);
+        nextButton.setVisible(false);
     }
 
     private void addPoints (int points, boolean add) {
