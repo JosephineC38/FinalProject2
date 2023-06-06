@@ -7,22 +7,32 @@ import java.io.File;
 import java.io.IOException;
 
 /*
- * Allows the user to change between the visual novel and quiz games.
+ * The start menu which allows the user to play the game or exit out.
  */
 public class startUI extends JFrame implements ActionListener {
 
     private JFrame startFrame;
 
-    private JLabel visualNovelLabel;
-
+    /*
+     * A BackgroundPanel used to start the panel.
+     */
     private BackgroundPanel backgroundPanel;
 
+    /*
+     * A JButton used to start the visual novel.
+     */
     private JButton startButton;
-
-    private JButton quitButton;
 
     private VisualNovelUI visualGamePanel;
 
+    /*
+     * A JButton used to quit the program.
+     */
+    private JButton quitButton;
+
+    /*
+     * A clip used to play background music.
+     */
     private Clip clip;
 
 
@@ -39,14 +49,19 @@ public class startUI extends JFrame implements ActionListener {
         }
     }
 
+    /*
+     * A private helper method to create the frame and its components.
+     */
     private void createUIComponents() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+
+        // background music
         File file = new File("startBackgroundMusic.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audioStream);
         // clip.loop(Clip.LOOP_CONTINUOUSLY); //Uncomment for music
 
-        //cursor
+        // cursor
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image cursorIcon = toolkit.getImage("cursor.png");
         Point p = new Point(0,0);
@@ -80,6 +95,8 @@ public class startUI extends JFrame implements ActionListener {
         ImageIcon titleIcon = new ImageIcon("goodEndingIcon.JPG");
         startFrame.setIconImage(titleIcon.getImage());
         startFrame.setTitle("Win Napoleon's Heart! : Ready To Start");
+
+        // startFrame set-up
         startFrame.setSize(1000, 700);
         startFrame.setLocation(450, 100);
         startFrame.setLayout(null);
@@ -87,19 +104,23 @@ public class startUI extends JFrame implements ActionListener {
         startFrame.setVisible(true);
     }
 
+    /*
+     * Used to listen for startButton and quitButton.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object actionSource = e.getSource();
         if (actionSource instanceof JButton) {
             JButton button = (JButton) actionSource;
+            // starts the game
             if (button.getText().equals("Visual Novel Start")) {
                 clip.stop();
                 visualGamePanel = new VisualNovelUI();
                 startFrame.dispose();
+                // exits from the program
             } else if (button.getText().equals("Quit")) {
                 System.exit(0);
             }
         }
     }
 }
-

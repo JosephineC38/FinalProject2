@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-
+/*
+ * Used to create the visual novel game.
+ */
 public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JFrame visualNovelFrame;
@@ -17,6 +19,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JLabel dialogueText;
 
+    /*
+     * Used to display the napoleon sprite. Can be changed in setNapoleonSprite().
+     */
     private JLabel napoleonSprite;
 
     /*
@@ -33,6 +38,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private JTextField optionTextField;
 
+    /*
+     * The user uses this to decide their name.
+     */
     private JTextField nameTextField;
 
     /*
@@ -44,29 +52,47 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JButton enterButton;
 
+    /*
+     * Used to reset the visual novel after an ending.
+     */
     private JButton resetButton;
+
+    /*
+     * Used to change the dialogue.
+     */
+    private String text;
+
+    /*
+     * Used to change the current speaker.
+     */
+    private String speaker;
+
+    /*
+     * The player's name and can be set at the beginning.
+     */
+    private String playerName;
+
+    private String gift;
+
+    /*
+     * To achieve the good ending, you must have enough affection points. Those points are gained from making the correct choices.
+     */
+    private int napoleonAffectionPoints;
 
     /*
      * Used to move the text forward.
      */
     private int count;
 
-    private String text;
-
-    private String speaker;
-
-    private String playerName;
-
-    private String gift;
-
-    private int napoleonAffectionPoints;
-
     /*
-     * Used to change the background of the frame and uses the BackgroundPanel class to do so.
+     * Used to change the background of the frame. Uses the BackgroundPanel class to do so.
      */
     private BackgroundPanel backgroundPanel;
 
-
+    /*
+     * Used to create the visualNovelFrame and to run createUIComponents().
+     * It is used in the startUI class.
+     */
     public VisualNovelUI() {
         visualNovelFrame = new JFrame();
         createUIComponents();
@@ -137,29 +163,39 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
 
         // optionPanel, optionLabels, optionButton, and optionTextField
+        Font font = new Font("Courier", Font.BOLD, 25);
         optionPanel.setBounds(1200, 60, 500, 400);
         optionLabel1 = new JLabel();
         optionLabel2 = new JLabel();
         optionLabel3 = new JLabel();
-        ImageIcon optionButtonIcon = new ImageIcon("optionButtonIcon.png");
-        optionButton = new JButton(optionButtonIcon);
-        Font font = new Font("Courier", Font.BOLD, 25);
         optionLabel1.setFont(font);
         optionLabel2.setFont(font);
         optionLabel3.setFont(font);
+
+        ImageIcon optionButtonIcon = new ImageIcon("optionButtonIcon.png");
+        optionButton = new JButton(optionButtonIcon);
+        optionButton.addActionListener(this);
+
 
         optionTextField = new JTextField();
         optionTextField.setFont(font);
         optionButton.setText("ENTER");
 
-
         optionLabel1.setBounds(0, 50, 500, 100);
         optionLabel2.setBounds(0, 250, 500, 100);
         optionLabel3.setBounds(0, 300, 500, 100);
         optionButton.setBounds(1450, 460, 250, 100);
-        optionButton.addActionListener(this);
+
         optionTextField.setBounds(1200, 460, 250, 100);
         optionTextField.setVisible(false);
+
+        // adding the option panel/button/text-field
+        optionPanel.add(optionLabel1);
+        optionPanel.add(optionLabel2);
+        optionPanel.add(optionLabel3);
+        visualNovelFrame.add(optionButton);
+        visualNovelFrame.add(optionTextField);
+        setOptionsVisible(false);
 
         // resetButton
         ImageIcon resetButtonIcon = new ImageIcon("resetButtonDeath.png");
@@ -170,14 +206,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         resetButton.addActionListener(this);
         visualNovelFrame.add(resetButton);
 
-
-        // adding the option panel/button/text-field
-        optionPanel.add(optionLabel1);
-        optionPanel.add(optionLabel2);
-        optionPanel.add(optionLabel3);
-        visualNovelFrame.add(optionButton);
-        visualNovelFrame.add(optionTextField);
-        setOptionsVisible(false);
 
         // enter name
         nameTextField = new JTextField();
@@ -195,9 +223,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.add(enterButton);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);
+
+        // icon
         ImageIcon titleIcon = new ImageIcon("napoleonIcon.png");
         visualNovelFrame.setIconImage(titleIcon.getImage());
         visualNovelFrame.setTitle("Win Napoleon's Heart");
+
+        // visualNovelFrame set-up
         visualNovelFrame.setSize(1000, 700);
         visualNovelFrame.setLocation(450, 100);
         visualNovelFrame.setLayout(null);
@@ -206,11 +238,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
-     * A private helper method that changes the dialogueText and the speaker
+     * A private helper method that changes the dialogueText and the speaker.
      */
     private void changeText() {
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
-        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1300, 235, Image.SCALE_DEFAULT); // change dialogue box here
+        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1300, 235, Image.SCALE_DEFAULT);
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled) {
             protected void paintComponent(Graphics g) {
@@ -272,6 +304,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         Object actionSource = e.getSource();
         if (actionSource instanceof JButton) {
             JButton button = (JButton) actionSource;
+
+            // resetButton
             if (button.getText().equals("Restart")) {
                 this.dispose();
                 visualNovelFrame.dispose();
@@ -279,6 +313,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 System.out.println("r");
             }
 
+            // nextButton
             if (button.getText().equals("NEXT")) {
                 count++;
                 String playerNameLowerCase = playerName.toLowerCase();
@@ -295,6 +330,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         throw new RuntimeException(ex);
                     }
                 }
+
+            // optionButton
             } else if (button.getText().equals("ENTER")) {
                 String optionStr = optionTextField.getText();
                 int option = 0;
@@ -318,6 +355,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 } else {
                     optionTextField.setText("");
                 }
+
+            // enterButton
             } else if (button.getText().equals("Enter Name")) {
                 checkName();
             }
@@ -326,6 +365,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     /*
      * A private helper method that sets the inputted name of the player.
+     * The name must be nine characters or fewer. If nothing is entered, a default name is used.
      */
     private void checkName() {
         String enteredName = nameTextField.getText();
@@ -343,8 +383,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             nextButton.setVisible(true);
             speaker = playerName;
         }
-
-
     }
 
     /*
@@ -380,7 +418,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
-     * A private helper method that plays the background music.
+     * A private helper method that loops the background music.
      */
     private void playBackgroundMusic(String music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File("schoolbellSound.wav");
@@ -395,7 +433,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     }
 
     /*
-     * Goes directly to the death ending if the user has a unique name.
+     * A private helper that goes directly to the death ending if the user's name is "napoleon" or "louis" (case-insensitive).
      */
     private void uniqueName() {
         String playerNameLowerCase = playerName.toLowerCase().strip();
@@ -452,6 +490,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         break;
                 }
                 break;
+
             case "louis":
                 switch (count) {
                     case 1:
@@ -505,6 +544,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         break;
                 }
                 break;
+
             default:
                 System.out.println("Unique name error");
                 break;
@@ -887,7 +927,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 count = -3;
                 break;
             default:
-                System.out.println("Oh no, a dialogue problem");
+                System.out.println("Load question error");
         }
         repaint();
     }
@@ -900,71 +940,87 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         setOptionsVisible(false);
         optionTextField.setVisible(false);
         switch (count) {
-            //Partners with Napoleon?
+            // Partners with Napoleon?
             case 9:
                 switch (choice) {
                     case 1:
+                        // Is this a dream come true?
                         speaker = "Napoleon";
                         text = "\"Of course your dreams have very high standards! Many men and women dream of me!\"";
                         break;
                     case 2:
+                        // You birch tree
                         speaker = "Napoleon";
                         text = "\"Birch tree? You couldn't think of any other insult?\"";
                         break;
                     case 3:
+                        // Wow, uh, cool...
                         speaker = "Napoleon";
                         text = "\"I see you are in awe of my omniscient knowledge. You are not the first.\"";
                         break;
                     default:
-                        System.out.println("LOAD OPTION ERROR 2.");
+                        System.out.println("Count 9 options error");
+                        break;
                 }
                 break;
-            //What??? There must be a misunderstanding, Napoleon!
+
+            // Oh, I didn't see you, Napoleon-
             case 28:
                 switch (choice) {
                     case 1:
+                        // Sneeze
                         addPoints(5, true);
                         speaker = "Napoleon";
                         text = "\"How DARE you sneeze on me AGAIN!!!\"";
                         break;
                     case 2:
+                        // Apologize
                         addPoints(10, true);
                         speaker = "Napoleon";
                         text = "\"Hmph! Apology accepted. I shall help you carry these books.\"";
                         break;
                     case 3:
+                        // Sneeze thrice"
                         addPoints(5, false);
                         speaker = "Napoleon";
                         text = "\"Jesus, do you have allergies or something??? Stop that!!!\"";
                         break;
                     default:
-                        System.out.println("LOAD OPTION ERROR 2.");
+                        System.out.println("Count 28 options error");
                         break;
                 }
                 break;
+
+            // What should I get him?
             case 36:
                 switch (choice) {
                     case 1:
+                        // A sword
                         addPoints(20, true);
                         text = "I think he would appreciate a good broadsword... Yes, I'll gift Napoleon a sword!";
                         break;
                     case 2:
+                        // A llama stuffie
                         addPoints(10, false);
                         text = "I think he would appreciate a good llama plushie! Yes, that's a great idea, me.";
                         gift = "llama";
                         break;
                     case 3:
+                        // A bottle of burgundy
                         addPoints(10, true);
                         text = "I think he would appreciate some good... burgundy drink...?";
                         gift = "burgundy";
                         break;
                     default:
-                        System.out.println("LOAD OPTION ERROR 2.");
+                        System.out.println("Count 36 options error");
                 }
                 break;
+
+            // What??? There must be a misunderstanding, Napoleon!
             case 71:
                 switch (choice) {
                     case 1:
+                        // Confess your feelings
                         addPoints(20, true);
                         speaker = playerName;
                         text = "\"Napoleon! The truth is... I... I like you!\"";
@@ -972,24 +1028,26 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         this.count = 71;
                         break;
                     case 2:
+                        // Sneeze
                         addPoints(5, false);
                         text = "\"A-ACHOO!!!\"";
                         repaint();
                         this.count = 77;
                         break;
                     case 3:
+                        // You're dating Louis
                         addPoints(20, false);
                         text = "\"The truth is... I... I'm dating Louis XVI!!!\"";
                         repaint();
                         this.count = 80;
                         break;
                     default:
-                        System.out.println("LOAD OPTION ERROR 2.");
+                        System.out.println("Count 71 options error");
                         break;
                 }
                 break;
             default:
-                System.out.println("LOAD OPTION ERROR 1.");
+                System.out.println("Options error.");
                 break;
         }
     }
@@ -1002,13 +1060,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         switch (ending) {
             // ending 1, good ending
             case 1:
-                // change reset button to happy color
                 ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
-                ImageIcon resetButtonGood = new ImageIcon("restartButtonGood.png");
-                resetButton.setIcon(resetButtonGood);
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
 
+                // change reset button to happy color
+                ImageIcon resetButtonGood = new ImageIcon("restartButtonGood.png");
+                resetButton.setIcon(resetButtonGood);
+
+                // icon change
                 ImageIcon goodEndingIcon = new ImageIcon("goodEndingIcon.JPG");
                 visualNovelFrame.setIconImage(goodEndingIcon.getImage());
                 visualNovelFrame.setTitle("You won Napoleon's heart! You have no life purpose anymore.");
@@ -1042,6 +1102,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         nextButton.setVisible(false);
     }
 
+    /*
+     * A private helper method used to update points.
+     */
     private void addPoints (int points, boolean add) {
         if (add) {
             if (napoleonAffectionPoints + points > 50) {
