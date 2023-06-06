@@ -64,7 +64,7 @@ public class startUI extends JFrame implements ActionListener {
         ImageIcon startButtonIcon = new ImageIcon("startButtonIcon.png");
         startButton = new JButton(startButtonIcon);
         startButton.setText("Visual Novel Start");
-        startButton.setBounds(1150,200,360,122);
+        startButton.setBounds(1500,200,360,122);
         startButton.addActionListener(this);
         startFrame.add(startButton);
 
@@ -72,7 +72,7 @@ public class startUI extends JFrame implements ActionListener {
         ImageIcon quitButtonIcon = new ImageIcon("quitButtonIcon.png");
         quitButton = new JButton(quitButtonIcon);
         quitButton.setText("Quit");
-        quitButton.setBounds(1175,400,295,122);
+        quitButton.setBounds(1525,400,295,122);
         quitButton.addActionListener(this);
         startFrame.add(quitButton);
 

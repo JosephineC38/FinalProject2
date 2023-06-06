@@ -44,6 +44,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JButton enterButton;
 
+    private JButton resetButton;
+
     /*
      * Used to move the text forward.
      */
@@ -159,6 +161,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionTextField.setBounds(1200, 460, 250, 100);
         optionTextField.setVisible(false);
 
+        // resetButton
+        ImageIcon resetButtonIcon = new ImageIcon("resetButtonDeath.png");
+        resetButton = new JButton(resetButtonIcon);
+        resetButton.setBounds(700, 810, 455, 119);
+        resetButton.setText("Restart");
+        resetButton.setVisible(false);
+        resetButton.addActionListener(this);
+        visualNovelFrame.add(resetButton);
+
+
         // adding the option panel/button/text-field
         optionPanel.add(optionLabel1);
         optionPanel.add(optionLabel2);
@@ -260,10 +272,17 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         Object actionSource = e.getSource();
         if (actionSource instanceof JButton) {
             JButton button = (JButton) actionSource;
+            if (button.getText().equals("Restart")) {
+                this.dispose();
+                visualNovelFrame.dispose();
+                visualNovelFrame = new VisualNovelUI();
+                System.out.println("r");
+            }
+
             if (button.getText().equals("NEXT")) {
                 count++;
                 String playerNameLowerCase = playerName.toLowerCase();
-                if(playerNameLowerCase.equals("napoleon") || playerNameLowerCase.equals("louis")) {
+                if (playerNameLowerCase.equals("napoleon") || playerNameLowerCase.equals("louis")) {
                     uniqueName();
                 } else {
                     try {
@@ -656,7 +675,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 napoleonSprite.setVisible(true);
                 setNapoleonSprite("default");
                 speaker = "Napoleon";
-                text = "What did you need me for, you plebeian?";
+                text = "\"What did you need me for, you plebeian?\"";
                 if(gift.equals("llama")) {
                     this.count = 42;
                 } else if (gift.equals("burgundy")) {
@@ -763,14 +782,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 62:
                 speaker = playerName;
-                text = "Strangely enough, I could hear footsteps running away outside the classroom.";
+                text = "Strangely enough, I could hear 12 inch stilettos running away outside the classroom.";
                 break;
             case 63:
                 text = "\"Good luck with your proposal, Louis.\"";
                 break;
             case 64:
+                //louis switch background music
                 speaker = "Louis XVI";
-                text = "Yes, thank you, friend. You'll be my first guest at the wedding!\"";
+                text = "\"Yes, thank you, friend. You'll be my first guest at the wedding!\"";
                 break;
             case 65:
                 switchBackground("schoolgrounds");
@@ -839,7 +859,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 79:
                 speaker = playerName;
-                text = "\"Napoleon!!! Please don't go!!! I'll stop sneezing...!\"";
+                text = "\"Napoleon, please don't go!!! I can feel my soul leaving my body, I'll stop sneezing...!\"";
                 count = -3;
                 break;
             case 80:
@@ -864,7 +884,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             default:
                 System.out.println("Oh no, a dialogue problem");
-
         }
         repaint();
     }
@@ -979,6 +998,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             // ending 1, good ending
             case 1:
                 ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
+                ImageIcon resetButtonGood = new ImageIcon("restartButtonGood.png");
+                resetButton.setIcon(resetButtonGood);
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
 
@@ -1001,7 +1022,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 } catch (LineUnavailableException e) {
                     throw new RuntimeException(e);
                 }
-
                 ImageIcon deathIcon = new ImageIcon("deathIcon.png");
                 visualNovelFrame.setIconImage(deathIcon.getImage());
                 visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your grave.");
@@ -1010,6 +1030,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             default:
                 break;
         }
+        resetButton.setVisible(true);
         setOptionsVisible(false);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);
