@@ -85,8 +85,6 @@ public class startUI extends JFrame implements ActionListener {
         startFrame.setLayout(null);
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startFrame.setVisible(true);
-
-
     }
 
     @Override

@@ -121,7 +121,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-//        dialoguePanel.setBounds(0, 575, 1300, 235);
+//      dialoguePanel.setBounds(0, 575, 1300, 235);
         dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
         //dialoguePanel.setBounds(0, 575, 1300, 235);
         dialoguePanel.setLayout(new BorderLayout());
@@ -210,7 +210,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private void changeText() {
         ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
-        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1300, 235, Image.SCALE_DEFAULT); //change dialouge box here
+        Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1300, 235, Image.SCALE_DEFAULT); // change dialogue box here
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled) {
             protected void paintComponent(Graphics g) {
@@ -295,9 +295,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         throw new RuntimeException(ex);
                     }
                 }
-
             } else if (button.getText().equals("ENTER")) {
-                int option = Integer.parseInt(optionTextField.getText());
+                String optionStr = optionTextField.getText();
+                int option = 0;
+                if (optionStr.equals("1") || optionStr.equals("2") || optionStr.equals("3")) {
+                    option = Integer.parseInt(optionStr);
+                }
+                else {
+                    optionTextField.setText("");
+                }
                 if (option == 1 || option == 2 || option == 3) {
                     try {
                         loadOption(count, option);
@@ -505,8 +511,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         }
     }
 
-
-
     /*
      * A private helper method that displays the current text.
      */
@@ -543,7 +547,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("default");
                 break;
             case 8:
-                text = "\"By the way, I heard we are partners for the history project in Mr. Miller's class.\"";
+                text = "\"By the way, I heard we are partners in history class.\"";
                 break;
             case 9:
                 speaker = playerName;
@@ -994,9 +998,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that sets up the endings.
      */
     private void ending(int ending) {
+
         switch (ending) {
             // ending 1, good ending
             case 1:
+                // change reset button to happy color
                 ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
                 ImageIcon resetButtonGood = new ImageIcon("restartButtonGood.png");
                 resetButton.setIcon(resetButtonGood);
