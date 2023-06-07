@@ -26,6 +26,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private JLabel louisSprite;
 
+    private JLabel giftLabel;
+
     /*
      * The optionLabel for each of the three choices.
      */
@@ -75,6 +77,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     private String playerName;
 
     private String gift;
+
 
     /*
      * To achieve the good ending, you must have enough affection points. Those points are gained from making the correct choices.
@@ -143,7 +146,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
         // napoleonSprite
         napoleonSprite = new JLabel();
-        napoleonSprite.setBounds(25,25,433, 577);
+        napoleonSprite.setBounds(25,125,433, 577);
         setNapoleonSprite("default");
         napoleonSprite.setVisible(false);
         visualNovelFrame.add(napoleonSprite);
@@ -151,7 +154,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         // louisSprite
         ImageIcon louisSpriteIcon = new ImageIcon("sprites/louisSpriteIcon.png");
         louisSprite = new JLabel(louisSpriteIcon);
-        louisSprite.setBounds(25,100,433, 577);
+        louisSprite.setBounds(25,150,433, 577);
         louisSprite.setVisible(false);
         visualNovelFrame.add(louisSprite);
 
@@ -200,7 +203,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionButton = new JButton(optionButtonIcon);
         optionButton.addActionListener(this);
 
-
         optionTextField = new JTextField();
         optionTextField.setFont(font);
         optionButton.setText("ENTER");
@@ -212,8 +214,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
         optionTextField.setBounds(1200, 460, 250, 100);
         optionTextField.setVisible(false);
-
-
 
         // adding the option panel/button/text-field
         optionPanel.add(optionLabel1);
@@ -230,6 +230,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         // enter name
         nameTextField = new JTextField();
         nameTextField.setText("Maximum 9 characters");
+        nameTextField.setFont(font);
+        nameTextField.setForeground(Color.PINK);
         nameTextField.setBounds(600,350, 400, 135);
         nameTextField.setVisible(true);
         visualNovelFrame.add(nameTextField);
@@ -245,13 +247,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         nextButton.setVisible(false);
 
         // resetButton
-        ImageIcon resetButtonIcon = new ImageIcon("resetButtonDeath.png");
+        ImageIcon resetButtonIcon = new ImageIcon("buttons/resetButtonDeath.png");
         resetButton = new JButton(resetButtonIcon);
         resetButton.setBounds(700, 810, 455, 119);
         resetButton.setText("Restart");
         resetButton.setVisible(false);
         resetButton.addActionListener(this);
         visualNovelFrame.add(resetButton);
+
 
         // icon
         ImageIcon titleIcon = new ImageIcon("titleIcons/napoleonIcon.png");
@@ -288,9 +291,30 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * optionLabels' 2 and 3 being switched is a feature not a bug.
      */
     private void setUpOptions(String o1, String o2, String o3) {
-        optionLabel1.setText("Option 1: " + o1);
-        optionLabel3.setText("Option 2: " + o2);
-        optionLabel2.setText("Option 3: " + o3);
+        if (o1.equals("A sword")) {
+            ImageIcon sword = new ImageIcon("gifts/swordTransparent.png");
+            Image newSword = sword.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+            sword = new ImageIcon(newSword);
+            optionLabel1.setIcon(sword);
+
+            ImageIcon llamaPlushie = new ImageIcon("gifts/llamaPlushieTransparent.png");
+            Image newLlamaPlushie = llamaPlushie.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+            llamaPlushie = new ImageIcon(newLlamaPlushie);
+            optionLabel3.setIcon(llamaPlushie);
+
+            ImageIcon burgundy = new ImageIcon("gifts/burgundyTransparent.png");
+            Image newBurgundy = burgundy.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+            burgundy = new ImageIcon(newBurgundy);
+            optionLabel2.setIcon(burgundy);
+        } else {
+            optionLabel1.setIcon(null);
+            optionLabel2.setIcon(null);
+            optionLabel3.setIcon(null);
+        }
+            optionLabel1.setText("Option 1: " + o1);
+            optionLabel3.setText("Option 2: " + o2);
+            optionLabel2.setText("Option 3: " + o3);
+
         setOptionsVisible(true);
         nextButton.setVisible(false);
     }
@@ -766,6 +790,10 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 if(gift.equals("llama")) {
                     this.count = 42;
                 } else if (gift.equals("burgundy")) {
+                    ImageIcon burgundy = new ImageIcon("gifts/burgundyGift.JPG");
+                    Image newBurgundy = burgundy.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT); //change dialogue box here
+                    burgundy = new ImageIcon(newBurgundy);
+                    giftLabel.setIcon(burgundy);
                     this.count = 46;
                 }
                 break;
@@ -777,6 +805,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("happy");
                 speaker = "Napoleon";
                 text = "\"A sword... just what this era needs! Thank-you, dear " + playerName + ".\"";
+                giftLabel.setVisible(true);
                 break;
             case 42:
                 speaker = playerName;
@@ -791,6 +820,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("angry");
                 speaker = "Napoleon";
                 text = "\"You wretched beast! Have I not said that I despised llamas!?\"";
+                giftLabel.setVisible(true);
                 break;
             case 45:
                 speaker = playerName;
@@ -810,6 +840,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("happy");
                 speaker = "Napoleon";
                 text = "\"Ah, yes! Illegally-obtained alcohol is my favorite. Thank-you, " + playerName + ".\"";
+                giftLabel.setVisible(true);
                 break;
             case 49:
                 speaker = playerName;
@@ -819,17 +850,19 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("default");
                 speaker = "Napoleon";
                 text = "\"If there's nothing else, see you later (again), " + playerName + ".\"";
-                napoleonSprite.setVisible(false);
+
                 break;
             case 51:
                 speaker = playerName;
                 napoleonSprite.setVisible(false);
+                giftLabel.setVisible(false);
                 text = "I wave good-bye to Napoleon and watch his broad figure fade into the sunset...";
                 break;
             case 52:
                 speaker = playerName;
                 switchBackground("schoolgrounds");
                 napoleonSprite.setVisible(false);
+                giftLabel.setVisible(false);
                 text = "The next day, my childhood friend, Louis XVI, asked me to help him propose to Marie Antoinette.";
                 break;
             case 53:
@@ -888,6 +921,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 66:
                 napoleonSprite.setVisible(true);
+                giftLabel.setVisible(true);
                 setNapoleonSprite("angry");
                 text = "OOF- oh, is that Napoleon? He looks angry...";
                 break;
@@ -900,7 +934,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 69:
                 speaker = playerName;
-                text = "\"What? What???\"";
+                text = "\"What? What??? And why do you still have my gift?\"";
                 break;
             case 70:
                 speaker = "Napoleon";
@@ -1025,6 +1059,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         // Apologize
                         addPoints(10, true);
                         speaker = "Napoleon";
+                        setNapoleonSprite("default");
                         text = "\"Hmph! Apology accepted. I shall help you carry these books.\"";
                         break;
                     case 3:
@@ -1109,8 +1144,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             // ending 1, good ending
             case 1:
                 ImageIcon goodEnding = new ImageIcon("backgrounds/goodEndingBackground.JPG");
-                ImageIcon resetButtonGood = new ImageIcon("restartButtonGood.png");
+                ImageIcon resetButtonGood = new ImageIcon("buttons/restartButtonGood.png");
                 resetButton.setIcon(resetButtonGood);
+                resetButton.setBounds(625, 820, 430,113);
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
 
@@ -1118,7 +1154,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 ImageIcon goodEndingIcon = new ImageIcon("titleIcons/goodEndingIcon.JPG");
                 visualNovelFrame.setIconImage(goodEndingIcon.getImage());
                 visualNovelFrame.setTitle("You won Napoleon's heart! You have no life purpose anymore.");
-                napoleonSprite.setVisible(false);
                 break;
             // ending 2, death ending
             case 2:
@@ -1138,11 +1173,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 ImageIcon deathIcon = new ImageIcon("titleIcons/deathIcon.png");
                 visualNovelFrame.setIconImage(deathIcon.getImage());
                 visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your grave.");
-                napoleonSprite.setVisible(false);
                 break;
             default:
                 break;
         }
+        napoleonSprite.setVisible(false);
+        giftLabel.setVisible(false);
         resetButton.setVisible(true);
         setOptionsVisible(false);
         dialoguePanel.setVisible(false);
