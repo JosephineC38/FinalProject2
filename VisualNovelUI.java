@@ -144,6 +144,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         backgroundPanel = new BackgroundPanel(schoolgrounds.getImage());
         visualNovelFrame.setContentPane(backgroundPanel);
 
+        // giftLabel
+        ImageIcon sword = new ImageIcon("gifts/swordGift.JPG");
+        Image newSword = sword.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT); //change dialogue box here
+        sword = new ImageIcon(newSword);
+        giftLabel = new JLabel(sword);
+        giftLabel.setBounds(25,600,100, 100);
+        giftLabel.setVisible(false);
+        visualNovelFrame.add(giftLabel);
+
         // napoleonSprite
         napoleonSprite = new JLabel();
         napoleonSprite.setBounds(25,125,433, 577);
@@ -196,8 +205,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel2 = new JLabel();
         optionLabel3 = new JLabel();
         optionLabel1.setFont(font);
+        optionLabel1.setForeground(Color.WHITE);
+
         optionLabel2.setFont(font);
+        optionLabel2.setForeground(Color.WHITE);
+
         optionLabel3.setFont(font);
+        optionLabel3.setForeground(Color.WHITE);
+
 
         ImageIcon optionButtonIcon = new ImageIcon("buttons/optionButtonIcon.png");
         optionButton = new JButton(optionButtonIcon);
@@ -205,6 +220,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
         optionTextField = new JTextField();
         optionTextField.setFont(font);
+        optionTextField.setForeground(Color.PINK);
         optionButton.setText("ENTER");
 
         optionLabel1.setBounds(0, 50, 500, 100);
@@ -222,10 +238,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.add(optionButton);
         visualNovelFrame.add(optionTextField);
         setOptionsVisible(false);
-
-
-
-
 
         // enter name
         nameTextField = new JTextField();
@@ -787,7 +799,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 setNapoleonSprite("default");
                 speaker = "Napoleon";
                 text = "\"What did you need me for, you plebeian?\"";
-                if(gift.equals("llama")) {
+                if (gift.equals("llama")) {
+                    ImageIcon llama = new ImageIcon("gifts/llamaPlushieGift.JPG");
+                    Image newLlama = llama.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT); //change dialogue box here
+                    llama = new ImageIcon(newLlama);
+                    giftLabel.setIcon(llama);
                     this.count = 42;
                 } else if (gift.equals("burgundy")) {
                     ImageIcon burgundy = new ImageIcon("gifts/burgundyGift.JPG");
@@ -948,6 +964,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             // confess
             case 72:
                 setNapoleonSprite("happy");
+                giftLabel.setVisible(true);
                 speaker = "Napoleon";
                 text = "\"Y-you... you WHAT. H-how dare you speak such blasphemy!!!\"";
                 break;
@@ -993,6 +1010,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 81:
                 speaker = "Napoleon";
                 setNapoleonSprite("furiousJojo");
+                giftLabel.setVisible(true);
                 playBackgroundMusic("napoleonFurious");
                 text = "\"How dare you play my feelings like a fiddle you... you...!\"";
                 break;
