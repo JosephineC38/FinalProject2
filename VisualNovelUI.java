@@ -24,6 +24,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private JLabel napoleonSprite;
 
+    private JLabel louisSprite;
+
     /*
      * The optionLabel for each of the three choices.
      */
@@ -89,19 +91,30 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private BackgroundPanel backgroundPanel;
 
+    private Clip soundClip;
+    private Clip backgroundClip;
+
     /*
      * Used to create the visualNovelFrame and to run createUIComponents().
      * It is used in the startUI class.
      */
     public VisualNovelUI() {
         visualNovelFrame = new JFrame();
-        createUIComponents();
+        try {
+            createUIComponents();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
     }
     /*
      * A private helper method that sets up and initializes the visualNovelFrame.
      * It is used in the constructor.
      */
-    private void createUIComponents() {
+    private void createUIComponents() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // variables set up
         napoleonAffectionPoints = 0;
         playerName = "";
@@ -110,6 +123,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         speaker = "playerName";
         gift = "";
         changeText();
+
+        File file = new File("sounds/schoolbellSound.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        soundClip = AudioSystem.getClip();
+        backgroundClip = AudioSystem.getClip();
 
         //cursor
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -125,12 +143,17 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
         // napoleonSprite
         napoleonSprite = new JLabel();
-        napoleonSprite.setBounds(0,0,720, 960);
+        napoleonSprite.setBounds(25,25,433, 577);
         setNapoleonSprite("default");
         napoleonSprite.setVisible(false);
         visualNovelFrame.add(napoleonSprite);
 
-
+        // louisSprite
+        ImageIcon louisSpriteIcon = new ImageIcon("sprites/louisSpriteIcon.png");
+        louisSprite = new JLabel(louisSpriteIcon);
+        louisSprite.setBounds(25,100,433, 577);
+        louisSprite.setVisible(false);
+        visualNovelFrame.add(louisSprite);
 
         // nextButton
         ImageIcon nextButtonIcon = new ImageIcon("buttons/nextButton.png");
@@ -149,8 +172,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-         dialoguePanel.setBounds(0, 575, 1300, 235);
-//        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
+         //dialoguePanel.setBounds(0, 575, 1300, 235);
+        dialoguePanel.setBounds(0, 700, 1300, 235); // for school computers
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
         dialoguePanel.add(dialogueText);
@@ -190,13 +213,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionTextField.setBounds(1200, 460, 250, 100);
         optionTextField.setVisible(false);
 
-        // resetButton
-        ImageIcon resetButtonIcon = new ImageIcon("buttons/resetButtonDeath.png");
-        resetButton = new JButton(resetButtonIcon);
-        resetButton.setBounds(700, 810, 455, 119);
-        resetButton.setText("Restart");
-        resetButton.addActionListener(this);
-        visualNovelFrame.add(resetButton);
+
 
         // adding the option panel/button/text-field
         optionPanel.add(optionLabel1);
@@ -226,6 +243,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.add(enterButton);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);
+
+        // resetButton
+        ImageIcon resetButtonIcon = new ImageIcon("resetButtonDeath.png");
+        resetButton = new JButton(resetButtonIcon);
+        resetButton.setBounds(700, 810, 455, 119);
+        resetButton.setText("Restart");
+        resetButton.setVisible(false);
+        resetButton.addActionListener(this);
+        visualNovelFrame.add(resetButton);
 
         // icon
         ImageIcon titleIcon = new ImageIcon("titleIcons/napoleonIcon.png");
@@ -297,6 +323,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         } else if (background.equals("cafeteria")) {
             ImageIcon cafeteria = new ImageIcon("backgrounds/cafeteriaBackground.png");
             backgroundPanel.setImage(cafeteria.getImage());
+        } else if (background.equals("black")) {
+            ImageIcon black = new ImageIcon("backgrounds/blackBackground.jfif");
+            backgroundPanel.setImage(black.getImage());
         }
         visualNovelFrame.setContentPane(backgroundPanel);
     }
@@ -392,14 +421,17 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private void setNapoleonSprite(String emotion) {
         if (emotion.equals("default")) {
-            ImageIcon napoleonDefaultSprite = new ImageIcon("sprites/napoleonDefaultSprite.JPG");
+            ImageIcon napoleonDefaultSprite = new ImageIcon("sprites/napoleonDefaultSprite.png");
             napoleonSprite.setIcon(napoleonDefaultSprite);
         } else if (emotion.equals("happy")) {
-            ImageIcon napoleonHappySprite = new ImageIcon("sprites/napoleonHappySprite.JPG");
+            ImageIcon napoleonHappySprite = new ImageIcon("sprites/napoleonHappySprite.png");
             napoleonSprite.setIcon(napoleonHappySprite);
         } else if (emotion.equals("angry")) {
-            ImageIcon napoleonAngrySprite = new ImageIcon("sprites/napoleonAngrySprite.JPG");
+            ImageIcon napoleonAngrySprite = new ImageIcon("sprites/napoleonAngrySprite.png");
             napoleonSprite.setIcon(napoleonAngrySprite);
+        } else if (emotion.equals("furiousJojo")) {
+            ImageIcon napoleonFuriousJojoSprite = new ImageIcon("sprites/napoleonFuriousJojoSprite.png");
+            napoleonSprite.setIcon(napoleonFuriousJojoSprite);
         }
     }
 
@@ -407,6 +439,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that plays sound once.
      */
     private void playSound(String sound) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        soundClip.stop();
         File file = new File("sounds/schoolbellSound.wav");
         if(sound.equals("schoolbell")) { //I don't know
             file = new File("sounds/schoolbellSound.wav");
@@ -414,23 +447,28 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             file = new File("sounds/explosionByQueen.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioStream);
-        clip.start();
+        soundClip = AudioSystem.getClip();
+        soundClip.open(audioStream);
+        soundClip.start();
     }
 
     /*
      * A private helper method that loops the background music.
      */
     private void playBackgroundMusic(String music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        backgroundClip.stop();
         File file = new File("sounds/schoolbellSound.wav");
-        if(music.equals("death")) {
+        if (music.equals("death")) {
             file = new File("backgroundMusic/deathEndingBackgroundSound.wav");
+        } else if (music.equals("napoleonFurious")) {
+            file = new File("backgroundMusic/napoleonFuriousMusic.wav");
+        } else if (music.equals("confession")) {
+            file = new File("backgroundMusic/confessionMusic.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioStream);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        backgroundClip = AudioSystem.getClip();
+        backgroundClip.open(audioStream);
+        backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
 //        clip.stop();
     }
 
@@ -658,6 +696,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 24:
                 speaker = playerName;
                 text = "For the next two weeks, we somehow finished the history project with full marks...";
+                switchBackground("black");
                 break;
             case 25:
                 // cafeteria
@@ -689,6 +728,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 31:
                 speaker = "Napoleon";
+                setNapoleonSprite("angry");
                 text = "\"... and I absolutely loathe llamas!\"";
                 break;
             case 32:
@@ -715,6 +755,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             case 38:
                 speaker = "";
                 text = "(The next day...)";
+                switchBackground("black");
                 break;
             case 39:
                 switchBackground("schoolgrounds");
@@ -796,6 +837,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "\"Hey, Louis, isn't it too early for marriage?\"";
                 break;
             case 54:
+                louisSprite.setVisible(true);
                 speaker = "Louis XVI";
                 text = "\"Miss Antoinette and I have been together for two months- that's more than enough!\"";
                 break;
@@ -811,7 +853,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "\"Nothing would make me happier than spending the rest of my life with you!\"";
                 break;
             case 58:
-                speaker = playerName;
+                speaker = "Louis XVI";
                 text = "\"So, will you marry me?\"";
                 break;
             case 59:
@@ -839,6 +881,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "\"Yes, thank you, friend. You'll be my first guest at the wedding!\"";
                 break;
             case 65:
+                louisSprite.setVisible(false);
                 switchBackground("schoolgrounds");
                 speaker = playerName;
                 text = "I wave good-bye and head out of school. I smack into a wall of pure, unadulterated, broad muscle-";
@@ -884,6 +927,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     text = "\"Well... I... I guess I like you a little as well, " + playerName + "...\"";
                 }
                 else {
+                    backgroundClip.stop();
                     text = "\"I know you're PLAYING WITH ME!!! Meet your E N D!\"";
                     count = -3;
                 }
@@ -914,6 +958,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 81:
                 speaker = "Napoleon";
+                setNapoleonSprite("furiousJojo");
+                playBackgroundMusic("napoleonFurious");
                 text = "\"How dare you play my feelings like a fiddle you... you...!\"";
                 break;
             case 82:
@@ -1026,6 +1072,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         addPoints(20, true);
                         speaker = playerName;
                         text = "\"Napoleon! The truth is... I... I like you!\"";
+                        playBackgroundMusic("confession");
                         repaint();
                         this.count = 71;
                         break;
@@ -1058,18 +1105,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that sets up the endings.
      */
     private void ending(int ending) {
-        resetButton.setVisible(true);
         switch (ending) {
             // ending 1, good ending
             case 1:
-                resetButton.setVisible(true);
                 ImageIcon goodEnding = new ImageIcon("backgrounds/goodEndingBackground.JPG");
+                ImageIcon resetButtonGood = new ImageIcon("restartButtonGood.png");
+                resetButton.setIcon(resetButtonGood);
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
-
-                // change reset button to happy color
-                ImageIcon resetButtonGood = new ImageIcon("backgrounds/restartButtonGood.png");
-                resetButton.setIcon(resetButtonGood);
 
                 // icon change
                 ImageIcon goodEndingIcon = new ImageIcon("titleIcons/goodEndingIcon.JPG");
@@ -1096,11 +1139,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 visualNovelFrame.setIconImage(deathIcon.getImage());
                 visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your grave.");
                 napoleonSprite.setVisible(false);
-                resetButton.setVisible(true);
                 break;
             default:
                 break;
         }
+        resetButton.setVisible(true);
         setOptionsVisible(false);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);
