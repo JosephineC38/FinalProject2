@@ -1,3 +1,5 @@
+package QuizFolder;
+
 /*
  * This class is used in QuizUI.
  */

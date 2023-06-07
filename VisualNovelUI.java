@@ -113,13 +113,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
         //cursor
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image cursorIcon = toolkit.getImage("cursor.png");
+        Image cursorIcon = toolkit.getImage("miscellaneous/cursor.png");
         Point p = new Point(0,0);
-        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "cursor.png");
+        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/cursor.png");
         visualNovelFrame.setCursor(c); //https://www.youtube.com/watch?v=UnzpZj77hYE
 
         // backgroundPanel
-        ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
+        ImageIcon schoolgrounds = new ImageIcon("backgrounds/schoolgroundsBackground.png");
         backgroundPanel = new BackgroundPanel(schoolgrounds.getImage());
         visualNovelFrame.setContentPane(backgroundPanel);
 
@@ -130,8 +130,10 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         napoleonSprite.setVisible(false);
         visualNovelFrame.add(napoleonSprite);
 
+
+
         // nextButton
-        ImageIcon nextButtonIcon = new ImageIcon("nextButton.png");
+        ImageIcon nextButtonIcon = new ImageIcon("buttons/nextButton.png");
         nextButton = new JButton(nextButtonIcon);
         nextButton.setText("NEXT");
         nextButton.setBounds(1310, 750, 380, 134);
@@ -141,15 +143,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
         // dialoguePanel and dialogueText
         dialoguePanel = new JPanel();
-        ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
+        ImageIcon dialogueBoxIcon = new ImageIcon("miscellaneous/dialogueTextBox.png");
         dialogueText = new JLabel(dialogueBoxIcon);
         Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1500, 235, Image.SCALE_DEFAULT); //change dialogue box here
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-//      dialoguePanel.setBounds(0, 575, 1300, 235);
-        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
-        //dialoguePanel.setBounds(0, 575, 1300, 235);
+         dialoguePanel.setBounds(0, 575, 1300, 235);
+//        dialoguePanel.setBounds(0, 700, 1300, 235); // for school coumpters
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
         dialoguePanel.add(dialogueText);
@@ -172,7 +173,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel2.setFont(font);
         optionLabel3.setFont(font);
 
-        ImageIcon optionButtonIcon = new ImageIcon("optionButtonIcon.png");
+        ImageIcon optionButtonIcon = new ImageIcon("buttons/optionButtonIcon.png");
         optionButton = new JButton(optionButtonIcon);
         optionButton.addActionListener(this);
 
@@ -189,6 +190,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionTextField.setBounds(1200, 460, 250, 100);
         optionTextField.setVisible(false);
 
+        // resetButton
+        ImageIcon resetButtonIcon = new ImageIcon("buttons/resetButtonDeath.png");
+        resetButton = new JButton(resetButtonIcon);
+        resetButton.setBounds(700, 810, 455, 119);
+        resetButton.setText("Restart");
+        resetButton.addActionListener(this);
+        visualNovelFrame.add(resetButton);
+
         // adding the option panel/button/text-field
         optionPanel.add(optionLabel1);
         optionPanel.add(optionLabel2);
@@ -197,14 +206,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         visualNovelFrame.add(optionTextField);
         setOptionsVisible(false);
 
-        // resetButton
-        ImageIcon resetButtonIcon = new ImageIcon("resetButtonDeath.png");
-        resetButton = new JButton(resetButtonIcon);
-        resetButton.setBounds(700, 810, 455, 119);
-        resetButton.setText("Restart");
-        resetButton.setVisible(false);
-        resetButton.addActionListener(this);
-        visualNovelFrame.add(resetButton);
+
+
 
 
         // enter name
@@ -214,7 +217,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         nameTextField.setVisible(true);
         visualNovelFrame.add(nameTextField);
 
-        ImageIcon enterButtonIcon = new ImageIcon("enterButtonIcon.png");
+        ImageIcon enterButtonIcon = new ImageIcon("buttons/enterButtonIcon.png");
         enterButton = new JButton(enterButtonIcon);
         enterButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         enterButton.addActionListener(this);
@@ -225,7 +228,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         nextButton.setVisible(false);
 
         // icon
-        ImageIcon titleIcon = new ImageIcon("napoleonIcon.png");
+        ImageIcon titleIcon = new ImageIcon("titleIcons/napoleonIcon.png");
         visualNovelFrame.setIconImage(titleIcon.getImage());
         visualNovelFrame.setTitle("Win Napoleon's Heart");
 
@@ -241,7 +244,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that changes the dialogueText and the speaker.
      */
     private void changeText() {
-        ImageIcon dialogueBoxIcon = new ImageIcon("dialogueTextBox.png");
+        ImageIcon dialogueBoxIcon = new ImageIcon("miscellaneous/dialogueTextBox.png");
         Image newImage = dialogueBoxIcon.getImage().getScaledInstance(1300, 235, Image.SCALE_DEFAULT);
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled) {
@@ -283,16 +286,16 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private void switchBackground(String background) {
         if(background.equals("schoolgrounds")) {
-            ImageIcon schoolgrounds = new ImageIcon("schoolgroundsBackground.png");
+            ImageIcon schoolgrounds = new ImageIcon("backgrounds/schoolgroundsBackground.png");
             backgroundPanel.setImage(schoolgrounds.getImage());
         } else if (background.equals("hallway")) {
-            ImageIcon hallway = new ImageIcon("hallwayBackground.png");
+            ImageIcon hallway = new ImageIcon("backgrounds/hallwayBackground.png");
             backgroundPanel.setImage(hallway.getImage());
         } else if (background.equals("classroom")) {
-            ImageIcon classroom = new ImageIcon("classroomBackground.JPG");
+            ImageIcon classroom = new ImageIcon("backgrounds/classroomBackground.JPG");
             backgroundPanel.setImage(classroom.getImage());
         } else if (background.equals("cafeteria")) {
-            ImageIcon cafeteria = new ImageIcon("cafeteriaBackground.png");
+            ImageIcon cafeteria = new ImageIcon("backgrounds/cafeteriaBackground.png");
             backgroundPanel.setImage(cafeteria.getImage());
         }
         visualNovelFrame.setContentPane(backgroundPanel);
@@ -304,14 +307,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         Object actionSource = e.getSource();
         if (actionSource instanceof JButton) {
             JButton button = (JButton) actionSource;
-
-            // resetButton
-            if (button.getText().equals("Restart")) {
-                this.dispose();
-                visualNovelFrame.dispose();
-                visualNovelFrame = new VisualNovelUI();
-                System.out.println("r");
-            }
 
             // nextButton
             if (button.getText().equals("NEXT")) {
@@ -359,6 +354,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             // enterButton
             } else if (button.getText().equals("Enter Name")) {
                 checkName();
+
+            // resetButton
+            } else if (button.getText().equals("Restart")) {
+                this.dispose();
+                visualNovelFrame.dispose();
+                visualNovelFrame = new VisualNovelUI();
+                System.out.println("r");
             }
         }
     }
@@ -390,13 +392,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private void setNapoleonSprite(String emotion) {
         if (emotion.equals("default")) {
-            ImageIcon napoleonDefaultSprite = new ImageIcon("napoleonDefaultSprite.JPG");
+            ImageIcon napoleonDefaultSprite = new ImageIcon("sprites/napoleonDefaultSprite.JPG");
             napoleonSprite.setIcon(napoleonDefaultSprite);
         } else if (emotion.equals("happy")) {
-            ImageIcon napoleonHappySprite = new ImageIcon("napoleonHappySprite.JPG");
+            ImageIcon napoleonHappySprite = new ImageIcon("sprites/napoleonHappySprite.JPG");
             napoleonSprite.setIcon(napoleonHappySprite);
         } else if (emotion.equals("angry")) {
-            ImageIcon napoleonAngrySprite = new ImageIcon("napoleonAngrySprite.JPG");
+            ImageIcon napoleonAngrySprite = new ImageIcon("sprites/napoleonAngrySprite.JPG");
             napoleonSprite.setIcon(napoleonAngrySprite);
         }
     }
@@ -405,11 +407,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that plays sound once.
      */
     private void playSound(String sound) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File file = new File("schoolbellSound.wav");
+        File file = new File("sounds/schoolbellSound.wav");
         if(sound.equals("schoolbell")) { //I don't know
-            file = new File("schoolbellSound.wav");
+            file = new File("sounds/schoolbellSound.wav");
         } else if (sound.equals("explosion")) {
-            file = new File("explosionByQueen.wav");
+            file = new File("sounds/explosionByQueen.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip clip = AudioSystem.getClip();
@@ -421,9 +423,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that loops the background music.
      */
     private void playBackgroundMusic(String music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File file = new File("schoolbellSound.wav");
+        File file = new File("sounds/schoolbellSound.wav");
         if(music.equals("death")) {
-            file = new File("deathEndingBackgroundSound.wav");
+            file = new File("backgroundMusic/deathEndingBackgroundSound.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip clip = AudioSystem.getClip();
@@ -1056,27 +1058,29 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      * A private helper method that sets up the endings.
      */
     private void ending(int ending) {
-
+        resetButton.setVisible(true);
         switch (ending) {
             // ending 1, good ending
             case 1:
-                ImageIcon goodEnding = new ImageIcon("goodEndingBackground.JPG");
+                resetButton.setVisible(true);
+                ImageIcon goodEnding = new ImageIcon("backgrounds/goodEndingBackground.JPG");
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
 
                 // change reset button to happy color
-                ImageIcon resetButtonGood = new ImageIcon("restartButtonGood.png");
+                ImageIcon resetButtonGood = new ImageIcon("backgrounds/restartButtonGood.png");
                 resetButton.setIcon(resetButtonGood);
 
                 // icon change
-                ImageIcon goodEndingIcon = new ImageIcon("goodEndingIcon.JPG");
+                ImageIcon goodEndingIcon = new ImageIcon("titleIcons/goodEndingIcon.JPG");
                 visualNovelFrame.setIconImage(goodEndingIcon.getImage());
                 visualNovelFrame.setTitle("You won Napoleon's heart! You have no life purpose anymore.");
                 napoleonSprite.setVisible(false);
                 break;
             // ending 2, death ending
             case 2:
-                ImageIcon death = new ImageIcon("DEATH.png");
+                resetButton.setVisible(true);
+                ImageIcon death = new ImageIcon("backgrounds/deathEndingBackground.png");
                 backgroundPanel.setImage(death.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
                 try {
@@ -1088,15 +1092,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 } catch (LineUnavailableException e) {
                     throw new RuntimeException(e);
                 }
-                ImageIcon deathIcon = new ImageIcon("deathIcon.png");
+                ImageIcon deathIcon = new ImageIcon("titleIcons/deathIcon.png");
                 visualNovelFrame.setIconImage(deathIcon.getImage());
                 visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your grave.");
                 napoleonSprite.setVisible(false);
+                resetButton.setVisible(true);
                 break;
             default:
                 break;
         }
-        resetButton.setVisible(true);
         setOptionsVisible(false);
         dialoguePanel.setVisible(false);
         nextButton.setVisible(false);

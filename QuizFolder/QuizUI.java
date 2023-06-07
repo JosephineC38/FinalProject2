@@ -1,10 +1,12 @@
+package QuizFolder;
+
+import QuizFolder.Character;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -98,7 +100,7 @@ public class QuizUI extends JFrame implements ActionListener  {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         enterButton.addActionListener(this);
         setVisible(true);
-        ImageIcon titleIcon = new ImageIcon("piegonIcon.png");
+        ImageIcon titleIcon = new ImageIcon("QuizFolder/piegonIcon.png");
         setIconImage(titleIcon.getImage());
     }
 

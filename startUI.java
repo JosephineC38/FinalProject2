@@ -55,28 +55,28 @@ public class startUI extends JFrame implements ActionListener {
     private void createUIComponents() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 
         // background music
-        File file = new File("startBackgroundMusic.wav");
+        File file = new File("startUIResources/startBackgroundMusic.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audioStream);
-        // clip.loop(Clip.LOOP_CONTINUOUSLY); //Uncomment for music
+        clip.loop(Clip.LOOP_CONTINUOUSLY); //Uncomment for music
 
         // cursor
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image cursorIcon = toolkit.getImage("cursor.png");
+        Image cursorIcon = toolkit.getImage("miscellaneous/cursor.png");
         Point p = new Point(0,0);
-        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "cursor.png");
+        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/cursor.png");
         startFrame.setCursor(c); //https://www.youtube.com/watch?v=UnzpZj77hYE
 
 
         // background
-        ImageIcon startBackground = new ImageIcon("startBackground.JPG");
+        ImageIcon startBackground = new ImageIcon("startUIResources/startBackground.JPG");
         backgroundPanel = new BackgroundPanel(startBackground.getImage());
         startFrame.setContentPane(backgroundPanel);
 
 
         // startButton
-        ImageIcon startButtonIcon = new ImageIcon("startButtonIcon.png");
+        ImageIcon startButtonIcon = new ImageIcon("startUIResources/startButtonIcon.png");
         startButton = new JButton(startButtonIcon);
         startButton.setText("Visual Novel Start");
         startButton.setBounds(1500,200,360,122);
@@ -84,7 +84,7 @@ public class startUI extends JFrame implements ActionListener {
         startFrame.add(startButton);
 
         // quitButton
-        ImageIcon quitButtonIcon = new ImageIcon("quitButtonIcon.png");
+        ImageIcon quitButtonIcon = new ImageIcon("startUIResources/quitButtonIcon.png");
         quitButton = new JButton(quitButtonIcon);
         quitButton.setText("Quit");
         quitButton.setBounds(1525,400,295,122);
@@ -92,7 +92,7 @@ public class startUI extends JFrame implements ActionListener {
         startFrame.add(quitButton);
 
         // icon
-        ImageIcon titleIcon = new ImageIcon("goodEndingIcon.JPG");
+        ImageIcon titleIcon = new ImageIcon("titleIcons/goodEndingIcon.JPG");
         startFrame.setIconImage(titleIcon.getImage());
         startFrame.setTitle("Win Napoleon's Heart! : Ready To Start");
 
