@@ -70,7 +70,7 @@ public class startUI extends JFrame implements ActionListener {
 
 
         // background
-        ImageIcon startBackground = new ImageIcon("startUIResources/startBackground.JPG");
+        ImageIcon startBackground = new ImageIcon("startUIResources/startBackground.png");
         backgroundPanel = new BackgroundPanel(startBackground.getImage());
         startFrame.setContentPane(backgroundPanel);
 
@@ -80,6 +80,7 @@ public class startUI extends JFrame implements ActionListener {
         startButton = new JButton(startButtonIcon);
         startButton.setText("Visual Novel Start");
         startButton.setBounds(1500,200,360,122);
+
         startButton.addActionListener(this);
         startFrame.add(startButton);
 

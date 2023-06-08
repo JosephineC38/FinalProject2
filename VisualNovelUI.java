@@ -229,6 +229,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel3.setBounds(0, 300, 500, 100);
         optionButton.setBounds(1450, 460, 250, 100);
 
+
         optionTextField.setBounds(1200, 460, 250, 100);
         optionTextField.setVisible(false);
 
@@ -295,6 +296,23 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 dialogueText.setFont(new Font("Courier", Font.BOLD, 25));
                 g.drawString(text, 30, 150);
                 g.drawString(speaker, 50, 37);
+                switch (speaker) {
+                    case "Napoleon":
+                        dialogueText.setForeground(Color.BLUE);
+                        break;
+                    case "Napoleon Bonaparte":
+                        dialogueText.setForeground(Color.BLUE);
+                        break;
+                    case "Louis XVI":
+                        dialogueText.setForeground(Color.WHITE);
+                        break;
+                    case "Mr. Miller":
+                        dialogueText.setForeground(Color.CYAN);
+                        break;
+                    default:
+                        dialogueText.setForeground(Color.black);
+                        break;
+                }
             }
         };
     }
