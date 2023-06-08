@@ -131,8 +131,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         soundClip = AudioSystem.getClip();
         backgroundClip = AudioSystem.getClip();
+        playBackgroundMusic("default");
 
-        //cursor
+        // cursor
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image cursorIcon = toolkit.getImage("miscellaneous/cursor.png");
         Point p = new Point(0,0);
@@ -184,8 +185,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-         //dialoguePanel.setBounds(0, 575, 1300, 235);
-        dialoguePanel.setBounds(0, 700, 1300, 235); // for school computers
+        dialoguePanel.setBounds(0, 575, 1300, 235);
+        //dialoguePanel.setBounds(0, 700, 1300, 235); // for school computers
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
         dialoguePanel.add(dialogueText);
@@ -378,7 +379,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 count++;
                 String playerNameLowerCase = playerName.toLowerCase();
                 if (playerNameLowerCase.equals("napoleon") || playerNameLowerCase.equals("louis")) {
-                    uniqueName();
+                    try {
+                        uniqueName();
+                    } catch (UnsupportedAudioFileException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (LineUnavailableException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 } else {
                     try {
                         loadQuestion(count);
@@ -422,6 +431,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
             // resetButton
             } else if (button.getText().equals("Restart")) {
+                backgroundClip.stop();
+                soundClip.stop();
                 this.dispose();
                 visualNovelFrame.dispose();
                 visualNovelFrame = new VisualNovelUI();
@@ -481,6 +492,12 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             file = new File("sounds/schoolbellSound.wav");
         } else if (sound.equals("explosion")) {
             file = new File("sounds/explosionByQueen.wav");
+        } else if (sound.equals("trip")) {
+            file = new File("sounds/trip.wav");
+        } else if (sound.equals("napoleonWalking")) {
+            file = new File("sounds/napoleonWalking.wav");
+        } else if (sound.equals("sneeze")) {
+            file = new File("sounds/sneeze.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         soundClip = AudioSystem.getClip();
@@ -500,6 +517,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             file = new File("backgroundMusic/napoleonFuriousMusic.wav");
         } else if (music.equals("confession")) {
             file = new File("backgroundMusic/confessionMusic.wav");
+        } else if (music.equals("louisxvi")) {
+            file = new File("backgroundMusic/louisxviTheme.wav");
+        } else if (music.equals("goodEnding")) {
+            file = new File("backgroundMusic/goodEndingMusic.wav");
+        } else if (music.equals("default")) {
+            file = new File("backgroundMusic/fallenDown.wav");
+            //file = new File("backgroundMusic/clouds.wav");
+        } else if (music.equals("misunderstanding")) {
+            file = new File("backgroundMusic/misunderstanding.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         backgroundClip = AudioSystem.getClip();
@@ -511,7 +537,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     /*
      * A private helper that goes directly to the death ending if the user's name is "napoleon" or "louis" (case-insensitive).
      */
-    private void uniqueName() {
+    private void uniqueName() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         String playerNameLowerCase = playerName.toLowerCase().strip();
         switch (playerNameLowerCase) {
             case "napoleon":
@@ -525,8 +551,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     case 3:
                         speaker = "Napoleon Bonaparte";
                         text = "\"You..\"";
+                        playBackgroundMusic("napoleonFurious");
+                        setNapoleonSprite("furiousJojo");
                         napoleonSprite.setVisible(true);
-                        setNapoleonSprite("angry");
                         break;
                     case 4:
                         speaker = playerName;
@@ -578,8 +605,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                     case 3:
                         speaker = "Napoleon Bonaparte";
                         text = "\"Louis XVI...\"";
+                        playBackgroundMusic("napoleonFurious");
+                        setNapoleonSprite("furiousJojo");
                         napoleonSprite.setVisible(true);
-                        setNapoleonSprite("angry");
                         break;
                     case 4:
                         speaker = playerName;
@@ -640,6 +668,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 2:
                 text = "I wonder who will be my partner for my history project- OOF";
+                playSound("trip");
                 break;
             case 3:
                 speaker = "Napoleon";
@@ -706,6 +735,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 18:
                 speaker = playerName;
+                soundClip.stop();
                 text = "\"But you were only here for two days...?\"";
                 break;
             case 19:
@@ -777,8 +807,10 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 34:
                 text = "I watch Napoleon strut away in his 12-inch high-heels...";
+                playSound("napoleonWalking");
                 break;
             case 35:
+                soundClip.stop();
                 text = "Hmm... Maybe I should get him something as a thank-you for being so... Napoleon.";
                 break;
             case 36:
@@ -886,6 +918,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 text = "\"Hey, Louis, isn't it too early for marriage?\"";
                 break;
             case 54:
+                playBackgroundMusic("louisxvi");
                 louisSprite.setVisible(true);
                 speaker = "Louis XVI";
                 text = "\"Miss Antoinette and I have been together for two months- that's more than enough!\"";
@@ -919,9 +952,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 62:
                 speaker = playerName;
+                playSound("napoleonWalking");
                 text = "Strangely enough, I could hear 12 inch stilettos running away outside the classroom.";
                 break;
             case 63:
+                soundClip.stop();
                 text = "\"Good luck with your proposal, Louis.\"";
                 break;
             case 64:
@@ -933,6 +968,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 louisSprite.setVisible(false);
                 switchBackground("schoolgrounds");
                 speaker = playerName;
+                playBackgroundMusic("default");
+                playSound("trip");
                 text = "I wave good-bye and head out of school. I smack into a wall of pure, unadulterated, broad muscle-";
                 break;
             case 66:
@@ -943,6 +980,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             case 67:
                 speaker = "Napoleon";
+                playBackgroundMusic("misunderstanding");
                 text = "\"I can't believe that you gave your heart to Louis XVI instead of ME!!!\"";
                 break;
             case 68:
@@ -1071,6 +1109,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         // Sneeze
                         addPoints(5, true);
                         speaker = "Napoleon";
+                        playSound("sneeze");
                         text = "\"How DARE you sneeze on me AGAIN!!!\"";
                         break;
                     case 2:
@@ -1084,6 +1123,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         // Sneeze thrice"
                         addPoints(5, false);
                         speaker = "Napoleon";
+                        playSound("sneeze");
                         text = "\"Jesus, do you have allergies or something??? Stop that!!!\"";
                         break;
                     default:
@@ -1133,6 +1173,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         // Sneeze
                         addPoints(5, false);
                         text = "\"A-ACHOO!!!\"";
+                        playSound("sneeze");
                         repaint();
                         this.count = 77;
                         break;
@@ -1167,6 +1208,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 resetButton.setBounds(625, 820, 430,113);
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
+                try {
+                    playBackgroundMusic("goodEnding");
+                } catch (UnsupportedAudioFileException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (LineUnavailableException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // icon change
                 ImageIcon goodEndingIcon = new ImageIcon("titleIcons/goodEndingIcon.JPG");
