@@ -3,13 +3,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
 /*
  * The start menu which allows the user to play the game or exit out.
  */
-public class startUI extends JFrame implements ActionListener {
+public class startUI extends JFrame implements ActionListener, MouseListener {
 
     private JFrame startFrame;
 
@@ -34,6 +36,8 @@ public class startUI extends JFrame implements ActionListener {
      * A clip used to play background music.
      */
     private Clip clip;
+
+    private Cursor defaultCursor;
 
 
     public startUI() {
@@ -65,8 +69,8 @@ public class startUI extends JFrame implements ActionListener {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image cursorIcon = toolkit.getImage("miscellaneous/cursor.png");
         Point p = new Point(0,0);
-        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/cursor.png");
-        startFrame.setCursor(c); //https://www.youtube.com/watch?v=UnzpZj77hYE
+        defaultCursor = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/cursor.png");
+        startFrame.setCursor(defaultCursor); //https://www.youtube.com/watch?v=UnzpZj77hYE
 
 
         // background
@@ -79,17 +83,19 @@ public class startUI extends JFrame implements ActionListener {
         ImageIcon startButtonIcon = new ImageIcon("startUIResources/startButtonIcon.png");
         startButton = new JButton(startButtonIcon);
         startButton.setText("Visual Novel Start");
-        startButton.setBounds(1500,200,360,122);
+        startButton.setBounds(1500,200,360,122); //school computer
 
         startButton.addActionListener(this);
+        startButton.addMouseListener(this);
         startFrame.add(startButton);
 
         // quitButton
         ImageIcon quitButtonIcon = new ImageIcon("startUIResources/quitButtonIcon.png");
         quitButton = new JButton(quitButtonIcon);
         quitButton.setText("Quit");
-        quitButton.setBounds(1525,400,295,122);
+        quitButton.setBounds(1525,400,295,122); //school computer
         quitButton.addActionListener(this);
+        quitButton.addMouseListener(this);
         startFrame.add(quitButton);
 
         // icon
@@ -123,5 +129,36 @@ public class startUI extends JFrame implements ActionListener {
                 System.exit(0);
             }
         }
+    }
+
+
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image cursorIcon = toolkit.getImage("miscellaneous/mouseClickedIcon.png");
+        Point p = new Point(0,0);
+        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/mouseClickedIcon.png");
+        startFrame.setCursor(c);
+    }
+
+    //In order for mouseListener to work, I have to add these methods here, but I don't have a use for them.
+    @Override
+    public void mouseExited(MouseEvent e) {
+        startFrame.setCursor(defaultCursor);
+    }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
     }
 }

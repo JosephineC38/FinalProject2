@@ -3,29 +3,50 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+
+import static javax.sound.sampled.FloatControl.Type.MASTER_GAIN;
 
 /*
  * Used to create the visual novel game.
  */
-public class VisualNovelUI extends JFrame implements ActionListener {
-
+public class VisualNovelUI extends JFrame implements ActionListener, MouseListener {
+    /*
+     * The main frame.
+     */
     private JFrame visualNovelFrame;
 
+    /*
+     * Used to display dialogueText.
+     */
     private JPanel dialoguePanel;
 
+    /*
+     * Used to display the optionLabels.
+     */
     private JPanel optionPanel;
 
+    /*
+     * Used to display the text and textbox.
+     */
     private JLabel dialogueText;
 
     /*
-     * Used to display the napoleon sprite. Can be changed in setNapoleonSprite().
+     * Used to display the Napoleon sprite. Can be changed in setNapoleonSprite().
      */
     private JLabel napoleonSprite;
 
+    /*
+     * Used to display the Louis sprite. Can not be changed because Louis is perfect.
+     */
     private JLabel louisSprite;
 
+    /*
+     * Used to display the gift.
+     */
     private JLabel giftLabel;
 
     /*
@@ -52,8 +73,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private JButton optionButton;
 
+    /*
+     * Used to advance the dialogue.
+     */
     private JButton nextButton;
 
+    /*
+     * Used to enter the player's name.
+     */
     private JButton enterButton;
 
     /*
@@ -76,6 +103,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
      */
     private String playerName;
 
+    /*
+     * Used to store your gift choice for Napoleon.
+     */
     private String gift;
 
 
@@ -96,6 +126,8 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
     private Clip soundClip;
     private Clip backgroundClip;
+
+    private Cursor defaultCursor;
 
     /*
      * Used to create the visualNovelFrame and to run createUIComponents().
@@ -137,8 +169,9 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image cursorIcon = toolkit.getImage("miscellaneous/cursor.png");
         Point p = new Point(0,0);
-        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/cursor.png");
-        visualNovelFrame.setCursor(c); //https://www.youtube.com/watch?v=UnzpZj77hYE
+        defaultCursor = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/cursor.png");
+        visualNovelFrame.setCursor(defaultCursor); //https://www.youtube.com/watch?v=UnzpZj77hYE
+
 
         // backgroundPanel
         ImageIcon schoolgrounds = new ImageIcon("backgrounds/schoolgroundsBackground.png");
@@ -150,13 +183,13 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         Image newSword = sword.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT); //change dialogue box here
         sword = new ImageIcon(newSword);
         giftLabel = new JLabel(sword);
-        giftLabel.setBounds(25,600,100, 100);
+        giftLabel.setBounds(10,450,100, 100);
         giftLabel.setVisible(false);
         visualNovelFrame.add(giftLabel);
 
         // napoleonSprite
         napoleonSprite = new JLabel();
-        napoleonSprite.setBounds(25,125,433, 577);
+        napoleonSprite.setBounds(25,125,433, 577); // for school computers
         setNapoleonSprite("default");
         napoleonSprite.setVisible(false);
         visualNovelFrame.add(napoleonSprite);
@@ -164,7 +197,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         // louisSprite
         ImageIcon louisSpriteIcon = new ImageIcon("sprites/louisSpriteIcon.png");
         louisSprite = new JLabel(louisSpriteIcon);
-        louisSprite.setBounds(25,150,433, 577);
+        louisSprite.setBounds(25,150,433, 577); // for school computers
         louisSprite.setVisible(false);
         visualNovelFrame.add(louisSprite);
 
@@ -172,9 +205,10 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon nextButtonIcon = new ImageIcon("buttons/nextButton.png");
         nextButton = new JButton(nextButtonIcon);
         nextButton.setText("NEXT");
-        nextButton.setBounds(1310, 750, 380, 134);
+        nextButton.setBounds(1310, 750, 380, 134); // for school computers
         nextButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         nextButton.addActionListener(this);
+        nextButton.addMouseListener(this);
         visualNovelFrame.add(nextButton);
 
         // dialoguePanel and dialogueText
@@ -185,8 +219,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         ImageIcon dialogueBoxIconScaled = new ImageIcon(newImage);
         dialogueText = new JLabel(dialogueBoxIconScaled);
         dialoguePanel.setBackground(Color.PINK);
-        dialoguePanel.setBounds(0, 575, 1300, 235);
-        //dialoguePanel.setBounds(0, 700, 1300, 235); // for school computers
+        dialoguePanel.setBounds(0, 700, 1300, 235); // for school computers
         dialoguePanel.setLayout(new BorderLayout());
         changeText();
         dialoguePanel.add(dialogueText);
@@ -201,7 +234,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
 
         // optionPanel, optionLabels, optionButton, and optionTextField
         Font font = new Font("Courier", Font.BOLD, 25);
-        optionPanel.setBounds(1200, 60, 500, 400);
+        optionPanel.setBounds(1200, 60, 500, 400); // for school computers
         optionLabel1 = new JLabel();
         optionLabel2 = new JLabel();
         optionLabel3 = new JLabel();
@@ -214,23 +247,27 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         optionLabel3.setFont(font);
         optionLabel3.setForeground(Color.WHITE);
 
-
         ImageIcon optionButtonIcon = new ImageIcon("buttons/optionButtonIcon.png");
         optionButton = new JButton(optionButtonIcon);
         optionButton.addActionListener(this);
+        optionButton.addMouseListener(this);
 
         optionTextField = new JTextField();
         optionTextField.setFont(font);
         optionTextField.setForeground(Color.PINK);
         optionButton.setText("ENTER");
+        Cursor textCursor = toolkit.createCustomCursor(toolkit.getImage("miscellaneous/pinkTextSelect.png"), p, "miscellaneous/pinkTextSelect.png");
+        optionTextField.setCursor(textCursor);
 
         optionLabel1.setBounds(0, 50, 500, 100);
         optionLabel2.setBounds(0, 250, 500, 100);
         optionLabel3.setBounds(0, 300, 500, 100);
-        optionButton.setBounds(1450, 460, 250, 100);
+        optionButton.setBounds(1250, 460, 250, 100); // Josephine's computer
+//        optionButton.setBounds(1450, 460, 250, 100); // for school computers
 
-
-        optionTextField.setBounds(1200, 460, 250, 100);
+        optionPanel.setBounds(1000, 60, 500, 400);
+        optionTextField.setBounds(1000, 460, 250, 100); // Josephine's computer
+//        optionTextField.setBounds(1200, 460, 250, 100); // for school computers
         optionTextField.setVisible(false);
 
         // adding the option panel/button/text-field
@@ -248,12 +285,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         nameTextField.setForeground(Color.PINK);
         nameTextField.setBounds(600,350, 400, 135);
         nameTextField.setVisible(true);
+        nameTextField.setCursor(textCursor);
         visualNovelFrame.add(nameTextField);
 
         ImageIcon enterButtonIcon = new ImageIcon("buttons/enterButtonIcon.png");
         enterButton = new JButton(enterButtonIcon);
         enterButton.setFont(new Font("Calibri", Font.PLAIN, 24));
         enterButton.addActionListener(this);
+        enterButton.addMouseListener(this);
         enterButton.setText("Enter Name");
         enterButton.setBounds(1010,390, 258, 55);
         visualNovelFrame.add(enterButton);
@@ -263,9 +302,11 @@ public class VisualNovelUI extends JFrame implements ActionListener {
         // resetButton
         ImageIcon resetButtonIcon = new ImageIcon("buttons/resetButtonDeath.png");
         resetButton = new JButton(resetButtonIcon);
-        resetButton.setBounds(700, 810, 455, 119);
+        resetButton.setBounds(530, 623, 455, 119);
+//        resetButton.setBounds(700, 810, 455, 119); // for school computers
         resetButton.setText("Restart");
         resetButton.setVisible(false);
+        resetButton.addMouseListener(this);
         resetButton.addActionListener(this);
         visualNovelFrame.add(resetButton);
 
@@ -516,10 +557,14 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             file = new File("sounds/napoleonWalking.wav");
         } else if (sound.equals("sneeze")) {
             file = new File("sounds/sneeze.wav");
+        } else if (sound.equals("stab")) {
+            file = new File("sounds/stab.wav");
         }
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         soundClip = AudioSystem.getClip();
         soundClip.open(audioStream);
+        FloatControl volume = (FloatControl) soundClip.getControl(MASTER_GAIN);
+        volume.setValue(6.0f); //The max increase is 6.2026 for me, I am not certain if it is different in other devices.
         soundClip.start();
     }
 
@@ -605,6 +650,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                         text = "\"Those are your final words? How pathetic.\"";
                         break;
                     case 13:
+                        playSound("stab");
                         ending(2);
                     default:
                         System.out.println("Napoleon name error");
@@ -1035,6 +1081,7 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 }
                 else {
                     backgroundClip.stop();
+                    setNapoleonSprite("furiousJojo");
                     text = "\"I know you're PLAYING WITH ME!!! Meet your E N D!\"";
                     count = -3;
                 }
@@ -1216,14 +1263,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
     /*
      * A private helper method that sets up the endings.
      */
-    private void ending(int ending) {
+    private void ending(int ending) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         switch (ending) {
             // ending 1, good ending
             case 1:
                 ImageIcon goodEnding = new ImageIcon("backgrounds/goodEndingBackground.JPG");
                 ImageIcon resetButtonGood = new ImageIcon("buttons/restartButtonGood.png");
                 resetButton.setIcon(resetButtonGood);
-                resetButton.setBounds(625, 820, 430,113);
+                resetButton.setBounds(470, 623, 430, 113);
+//                resetButton.setBounds(625, 820, 430,113); // school computers
                 backgroundPanel.setImage(goodEnding.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
                 try {
@@ -1243,10 +1291,15 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 break;
             // ending 2, death ending
             case 2:
+                backgroundClip.stop();
+                playSound("stab");
                 resetButton.setVisible(true);
                 ImageIcon death = new ImageIcon("backgrounds/deathEndingBackground.png");
                 backgroundPanel.setImage(death.getImage());
                 visualNovelFrame.setContentPane(backgroundPanel);
+                ImageIcon deathIcon = new ImageIcon("titleIcons/deathIcon.png");
+                visualNovelFrame.setIconImage(deathIcon.getImage());
+                visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your grave.");
                 try {
                     playBackgroundMusic("death");
                 } catch (UnsupportedAudioFileException e) {
@@ -1256,9 +1309,6 @@ public class VisualNovelUI extends JFrame implements ActionListener {
                 } catch (LineUnavailableException e) {
                     throw new RuntimeException(e);
                 }
-                ImageIcon deathIcon = new ImageIcon("titleIcons/deathIcon.png");
-                visualNovelFrame.setIconImage(deathIcon.getImage());
-                visualNovelFrame.setTitle("You won... death. But at least Napoleon gave you flowers for your grave.");
                 break;
             default:
                 break;
@@ -1291,6 +1341,39 @@ public class VisualNovelUI extends JFrame implements ActionListener {
             }
         }
     }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image cursorIcon = toolkit.getImage("miscellaneous/mouseClickedIcon.png");
+        Point p = new Point(0,0);
+        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/mouseClickedIcon.png");
+        visualNovelFrame.setCursor(c);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        visualNovelFrame.setCursor(defaultCursor);
+
+    }
+
+    //In order for mouseListener to work, I have to add these methods here, but I don't have a use for them.
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+
 }
 
 
