@@ -1,0 +1,17 @@
+Update Log
+ - I may have missed some changes
+
+
+- Set screen to default size of 1500 by 800, reformatted everything based off it.
+- Disabled full screen mode
+- Original cursor and text select icons (I don't think the previous ones were free to use)
+- Added assets screen
+
+VisualNovelUI
+    - Simplified switchBackground(), setNapoleonSprite(), playSound(), and playBackgroundMusic() in VisualNovelUI
+    - In VisualNovelUI, you can now use space instead of the next button
+    - Changed cafeteria to library because I don't think we can use the cafeteria image and I couldn't find a suitable replacement
+    - Changed classroom background
+
+
+
