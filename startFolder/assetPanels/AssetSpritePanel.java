@@ -42,14 +42,14 @@ public class AssetSpritePanel extends JPanel implements ActionListener {
         add(title);
 
         // exitButton
-        ImageIcon exitIcon = new ImageIcon("buttons/exitButton.png");
+        ImageIcon exitIcon = new ImageIcon("Assets/buttons/exitButton.png");
         exitButton = new JButton("Exit", exitIcon);
         exitButton.setBounds(1350,30,100,100);
         exitButton.addActionListener(this);
         add(exitButton);
 
         // switchButton
-        ImageIcon nextIcon = new ImageIcon("buttons/nextAssetButton.png");
+        ImageIcon nextIcon = new ImageIcon("Assets/buttons/nextAssetButton.png");
         switchButton = new JButton("Next", nextIcon);
         switchButton.setBounds(1275, 600, 185, 90);
         switchButton.addActionListener(this);
@@ -94,7 +94,7 @@ public class AssetSpritePanel extends JPanel implements ActionListener {
      * A private helper method used to create labels
      */
     private void setLabel(JLabel label, String iconString) {
-        ImageIcon icon = new ImageIcon("sprites/" + iconString + ".png");
+        ImageIcon icon = new ImageIcon("Assets/sprites/" + iconString + ".png");
         label.setIcon(icon);
         label.setHorizontalTextPosition(JLabel.CENTER);
         label.setVerticalTextPosition(JLabel.BOTTOM);
@@ -144,7 +144,7 @@ public class AssetSpritePanel extends JPanel implements ActionListener {
 
             // switch to switchTwo
             } else if (button.getText().equals("Next")) {
-                ImageIcon backIcon = new ImageIcon("buttons/backAssetButton.png");
+                ImageIcon backIcon = new ImageIcon("Assets/buttons/backAssetButton.png");
                 switchButton.setText("Back");
                 switchButton.setIcon(backIcon);
                 switchButton.setBounds(35, 600, 185, 90);
@@ -153,7 +153,7 @@ public class AssetSpritePanel extends JPanel implements ActionListener {
 
             // switch to switchOne
             } else if (button.getText().equals("Back")) {
-                ImageIcon nextIcon = new ImageIcon("buttons/nextAssetButton.png");
+                ImageIcon nextIcon = new ImageIcon("Assets/buttons/nextAssetButton.png");
                 switchButton.setText("Back");
                 switchButton.setIcon(nextIcon);
                 switchButton.setText("Next");

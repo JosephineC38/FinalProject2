@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+
+
 public class StartPanel extends JPanel implements ActionListener {
     private StartController controller;
     private VisualNovelUI visualGamePanel;
@@ -28,21 +31,21 @@ public class StartPanel extends JPanel implements ActionListener {
      */
     private void setup() {
         //assetButton
-        ImageIcon assetButtonIcon = new ImageIcon("buttons/assetButton.png");
+        ImageIcon assetButtonIcon = new ImageIcon("Assets/buttons/assetButton.png");
         assetButton = new JButton("ASSET", assetButtonIcon);
         assetButton.setBounds(1050,460,390,122);
         assetButton.addActionListener(this);
         add(assetButton);
 
         // startButton
-        ImageIcon startButtonIcon = new ImageIcon("buttons/startButtonIcon.png");
+        ImageIcon startButtonIcon = new ImageIcon("Assets/buttons/startButtonIcon.png");
         startButton = new JButton("Visual Novel Start", startButtonIcon);
         startButton.setBounds(1070,310,350,122);
         startButton.addActionListener(this);
         add(startButton);
 
         // quitButton
-        ImageIcon quitButtonIcon = new ImageIcon("buttons/quitButtonIcon.png");
+        ImageIcon quitButtonIcon = new ImageIcon("Assets/buttons/quitButtonIcon.png");
         quitButton = new JButton("Quit", quitButtonIcon);
         quitButton.setBounds(1100,610,285,122);
         quitButton.addActionListener(this);
@@ -57,7 +60,7 @@ public class StartPanel extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g)
     {
-        ImageIcon startBackground = new ImageIcon("backgrounds/startBackground.png");
+        ImageIcon startBackground = new ImageIcon("Assets/backgrounds/startBackground.png");
         Image img = startBackground.getImage();
         super.paintComponent(g);
         g.drawImage(img, 0, 0, getWidth(), getHeight(), null);

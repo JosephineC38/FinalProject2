@@ -76,7 +76,7 @@ public class AssetPanel extends JPanel implements ActionListener {
         createButton(miscButton, 335, 160);
 
         // napLabel
-        ImageIcon napIcon = new ImageIcon("sprites/napoleonDefaultSprite.png");
+        ImageIcon napIcon = new ImageIcon("Assets/sprites/napoleonDefaultSprite.png");
         Image iconImg = napIcon.getImage().getScaledInstance(549, 750, Image.SCALE_DEFAULT);
         napIcon = new ImageIcon(iconImg);
         JLabel napLabel = new JLabel(napIcon);
@@ -107,7 +107,7 @@ public class AssetPanel extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g)
     {
-        ImageIcon startBackground = new ImageIcon("backgrounds/schoolgroundsBackground.png");
+        ImageIcon startBackground = new ImageIcon("Assets/backgrounds/schoolgroundsBackground.png");
         Image img = startBackground.getImage();
         super.paintComponent(g);
         g.drawImage(img, 0, 0, getWidth(), getHeight(), null);

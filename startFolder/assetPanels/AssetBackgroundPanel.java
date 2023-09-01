@@ -39,21 +39,21 @@ public class AssetBackgroundPanel extends JPanel implements ActionListener {
         setLayout(null);
 
         // exitButton
-        ImageIcon exitIcon = new ImageIcon("buttons/exitButton.png");
+        ImageIcon exitIcon = new ImageIcon("assets/buttons/exitButton.png");
         exitButton = new JButton("Exit", exitIcon);
         exitButton.setBounds(1350, 30, 100, 100);
         exitButton.addActionListener(this);
         add(exitButton);
 
         // nextButton
-        ImageIcon nextIcon = new ImageIcon("buttons/nextAssetButton.png");
+        ImageIcon nextIcon = new ImageIcon("assets/buttons/nextAssetButton.png");
         nextButton = new JButton("Next", nextIcon);
         nextButton.setBounds(1265, 605, 185, 90);
         nextButton.addActionListener(this);
         add(nextButton);
 
         // backButton
-        ImageIcon backIcon = new ImageIcon("buttons/backAssetButton.png");
+        ImageIcon backIcon = new ImageIcon("assets/buttons/backAssetButton.png");
         backButton = new JButton("Back", backIcon);
         backButton.setBounds(50, 605, 185, 90);
         backButton.addActionListener(this);
@@ -118,54 +118,54 @@ public class AssetBackgroundPanel extends JPanel implements ActionListener {
                 creditText = "Credit: Fatallium";
                 creditXPos = 600;
                 titleXText = 637;
-                backgroundStr = "backgrounds/startBackground.png";
+                backgroundStr = "assets/backgrounds/startBackground.png";
                 break;
             case 2:
                 titleText = "Schoolgrounds";
                 creditText = "Credit: Kimagure After";
                 creditXPos = 585;
                 titleXText = 637;
-                backgroundStr = "backgrounds/schoolgroundsBackground.png";
+                backgroundStr = "assets/backgrounds/schoolgroundsBackground.png";
                 break;
             case 3:
                 titleText = "Classroom";
                 creditText = "Credit: Kimagure After";
                 creditXPos = 580;
                 titleXText = 665;
-                backgroundStr = "backgrounds/classroomBackground.png";
+                backgroundStr = "assets/backgrounds/classroomBackground.png";
                 break;
             case 4:
                 titleText = "Fade to Black";
                 creditText = "Credit: fg-a.com";
                 creditXPos = 615;
-                backgroundStr = "backgrounds/blackBackground.jfif";
+                backgroundStr = "assets/backgrounds/blackBackground.jfif";
                 break;
             case 5:
                 titleText = "Library";
                 creditText = "Credit: Kimagure After";
                 titleXText = 695;
                 creditXPos = 577;
-                backgroundStr = "backgrounds/libraryBackground.png";
+                backgroundStr = "assets/backgrounds/libraryBackground.png";
                 break;
             case 6:
                 titleText = "Hallway";
                 creditText = "Credit: Kimagure After";
                 titleXText = 695;
                 creditXPos = 577;
-                backgroundStr = "backgrounds/hallwayBackground.png";
+                backgroundStr = "Assets/backgrounds/hallwayBackground.png";
                 break;
             case 7:
                 titleText = "Good Ending";
                 creditText = "Credit: Fatallium";
                 creditXPos = 610;
-                backgroundStr = "backgrounds/goodEndingBackground.JPG"; //Now with Napoleon's uncensored face
+                backgroundStr = "assets/backgrounds/goodEndingBackground.JPG"; //Now with Napoleon's uncensored face
                 break;
             case 8:
                 titleText = "Death Ending";
                 creditText = "Credit: Fatallium";
                 creditXPos = 610;
                 nextButton.setVisible(false);
-                backgroundStr = "backgrounds/deathEndingBackground.png";
+                backgroundStr = "assets/backgrounds/deathEndingBackground.png";
                 break;
             default:
                 System.out.println("Unknown Background");

@@ -94,7 +94,7 @@ public class StartController {
      */
     private void startBackgroundMusic(String music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         clip.stop();
-        File file = new File(new String("backgroundMusic/" + music + "Music.wav"));
+        File file = new File(new String("Assets/backgroundMusic/" + music + "Music.wav"));
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audioStream);

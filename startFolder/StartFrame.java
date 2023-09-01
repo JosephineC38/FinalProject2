@@ -61,13 +61,13 @@ public class StartFrame extends JFrame implements MouseListener {
 
         // cursor
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image cursorIcon = toolkit.getImage("miscellaneous/mouseClickedIcon.png");
+        Image cursorIcon = toolkit.getImage("Assets/miscellaneous/mouseClickedIcon.png");
         Point p = new Point(0,0);
-        defaultCursor = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/mouseClickedIcon.png");
+        defaultCursor = toolkit.createCustomCursor(cursorIcon, p, "Assets/miscellaneous/mouseClickedIcon.png");
         setCursor(defaultCursor); //https://www.youtube.com/watch?v=UnzpZj77hYE
 
         // icon
-        ImageIcon titleIcon = new ImageIcon("titleIcons/goodEndingIcon.JPG");
+        ImageIcon titleIcon = new ImageIcon("Assets/titleIcons/goodEndingIcon.JPG");
         setIconImage(titleIcon.getImage());
 
         setTitle("Win Napoleon's Heart! : Ready To Start");
@@ -89,9 +89,9 @@ public class StartFrame extends JFrame implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image cursorIcon = toolkit.getImage("miscellaneous/cursor.png");
+        Image cursorIcon = toolkit.getImage("Assets/miscellaneous/cursor.png");
         Point p = new Point(0,0);
-        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "miscellaneous/cursor.png");
+        Cursor c = toolkit.createCustomCursor(cursorIcon, p, "Assets/miscellaneous/cursor.png");
         setCursor(c);
     }
 

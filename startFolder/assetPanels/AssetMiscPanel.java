@@ -42,7 +42,7 @@ public class AssetMiscPanel extends JPanel implements ActionListener  {
         add(title);
 
         // exitButton
-        ImageIcon exitIcon = new ImageIcon("buttons/exitButton.png");
+        ImageIcon exitIcon = new ImageIcon("Assets/buttons/exitButton.png");
         exitButton = new JButton("Exit", exitIcon);
         exitButton.setBounds(1350,30,100,100);
         exitButton.addActionListener(this);
@@ -80,7 +80,7 @@ public class AssetMiscPanel extends JPanel implements ActionListener  {
 
         // textLabel
         Font font = new Font("Courier", Font.BOLD, 20);
-        ImageIcon textIcon = new ImageIcon("miscellaneous/dialogueTextBox.png");
+        ImageIcon textIcon = new ImageIcon("Assets/miscellaneous/dialogueTextBox.png");
         textLabel = new JLabel(textIcon);
         textLabel.setFont(font);
         textLabel.setText("<html> Dialogue Text Box <br/> Credit: Cloud Novel </html>");
@@ -99,9 +99,9 @@ public class AssetMiscPanel extends JPanel implements ActionListener  {
         Font font = new Font("Courier", Font.BOLD, 20);
         String imgStr = "";
         if(image.equals("sword") || image.equals("llamaPlushie") || image.equals("burgundy")) {
-            imgStr = "gifts/" + image + "Transparent.png";
+            imgStr = "Assets/gifts/" + image + "Transparent.png";
         } else {
-            imgStr = "miscellaneous/" + image + ".png";
+            imgStr = "Assets/miscellaneous/" + image + ".png";
         }
         ImageIcon icon = new ImageIcon(imgStr);
         Image iconImg = icon.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);

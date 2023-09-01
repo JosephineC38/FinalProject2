@@ -62,7 +62,7 @@ public class AssetSoundPanel extends JPanel implements ActionListener {
      * A private helper method used to set the swing components
      */
     private void setup() throws LineUnavailableException {
-        ImageIcon speakerIcon = new ImageIcon("miscellaneous/speakerIcon.png");
+        ImageIcon speakerIcon = new ImageIcon("Assets/miscellaneous/speakerIcon.png");
         clip = AudioSystem.getClip();
         setLayout(null);
 
@@ -74,7 +74,7 @@ public class AssetSoundPanel extends JPanel implements ActionListener {
         add(title);
 
         // exitButton
-        ImageIcon exitIcon = new ImageIcon("buttons/exitButton.png");
+        ImageIcon exitIcon = new ImageIcon("Assets/buttons/exitButton.png");
         exitButton = new JButton("Exit", exitIcon);
         exitButton.setBounds(1350, 30, 100, 100);
         exitButton.addActionListener(this);
@@ -83,7 +83,7 @@ public class AssetSoundPanel extends JPanel implements ActionListener {
         // trip
         tripButton = new JButton("Trip", speakerIcon);
         tripLabel = new JLabel("<html> Tripping " +
-        "<br/> Credit: [To Be Found] </html>");
+        "<br/> Credit: Unknown </html>");
         createButton(tripButton, tripLabel, 0, 0);
 
         // schoolbell
@@ -157,7 +157,7 @@ public class AssetSoundPanel extends JPanel implements ActionListener {
                 clip.stop();
             } else {
                 isPlaying = true;
-                File file = new File(new String("Sounds/" + music + ".wav"));
+                File file = new File(new String("Assets/Sounds/" + music + ".wav"));
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
                 clip = AudioSystem.getClip();
                 clip.open(audioStream);
@@ -168,7 +168,7 @@ public class AssetSoundPanel extends JPanel implements ActionListener {
 
         } else {
             isPlaying = true;
-            File file = new File(new String("Sounds/" + music + ".wav"));
+            File file = new File(new String("Assets/Sounds/" + music + ".wav"));
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
             clip = AudioSystem.getClip();
             clip.open(audioStream);

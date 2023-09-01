@@ -76,7 +76,7 @@ public class AssetMusicPanel extends JPanel implements ActionListener  {
         name = "";
         clip = AudioSystem.getClip();
         setLayout(null);
-        ImageIcon speakerIcon = new ImageIcon("miscellaneous/speakerIcon.png");
+        ImageIcon speakerIcon = new ImageIcon("Assets/miscellaneous/speakerIcon.png");
 
         // title
         title = new JLabel("BACKGROUND MUSIC");
@@ -86,7 +86,7 @@ public class AssetMusicPanel extends JPanel implements ActionListener  {
         add(title);
 
         // exitButton
-        ImageIcon exitIcon = new ImageIcon("buttons/exitButton.png");
+        ImageIcon exitIcon = new ImageIcon("Assets/buttons/exitButton.png");
         exitButton = new JButton("Exit", exitIcon);
         exitButton.setBounds(1350,30,100,100);
         exitButton.addActionListener(this);
@@ -181,7 +181,7 @@ public class AssetMusicPanel extends JPanel implements ActionListener  {
             } else {
                 isPlaying = true;
                 File file;
-                file = new File(new String("backgroundMusic/" + music + "Music.wav"));
+                file = new File(new String("Assets/backgroundMusic/" + music + "Music.wav"));
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
                 clip = AudioSystem.getClip();
                 clip.open(audioStream);
@@ -190,7 +190,7 @@ public class AssetMusicPanel extends JPanel implements ActionListener  {
         } else {
             isPlaying = true;
             File file;
-            file = new File(new String("backgroundMusic/" + music + "Music.wav"));
+            file = new File(new String("Assets/backgroundMusic/" + music + "Music.wav"));
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
             clip = AudioSystem.getClip();
             clip.open(audioStream);
